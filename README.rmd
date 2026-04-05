@@ -458,7 +458,6 @@ sim <- create_system() |>
            vz = speed_moon * sin(5 * pi / 180)) |>
   simulate(time_step = 3600, duration = 86400 * 28)
 
-# Compute speed for color mapping
 sim <- sim |>
   dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2))
 
@@ -474,17 +473,19 @@ plot_ly() |>
       showscale = TRUE,
       colorbar = list(title = "Speed (m/s)")
     ),
-    name = "Moon"
+    name = "Moon",
+    showlegend = FALSE
   ) |>
   add_trace(
     data = dplyr::filter(sim, id == "Earth"),
     x = ~x, y = ~y, z = ~z,
     type = 'scatter3d', mode = 'lines',
     line = list(width = 3, color = 'gray'),
-    name = "Earth"
+    name = "Earth",
+    showlegend = FALSE
   ) |>
   layout(
-    title = "Lunar Orbit — Colored by Speed",
+    title = "Lunar Orbit Around Earth",
     scene = list(
       xaxis = list(title = 'X (m)'),
       yaxis = list(title = 'Y (m)'),
@@ -546,4 +547,4 @@ create_system() |>
 
 Orbital distances are not truly constant — every orbit is an ellipse, so the separation between two bodies changes continuously throughout each revolution. The values provided here are **semi-major axes**: the average of the closest approach (periapsis) and the farthest point (apoapsis).
 
-The semi-major axis is the single most characteristic length scale of an elliptical orbit. It determi
+The semi-major axis is the single most characteristic length scale of an elliptical

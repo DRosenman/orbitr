@@ -755,7 +755,6 @@ and add markers at the start and end of each orbit:
                vz = speed_moon * sin(5 * pi / 180)) |>
       simulate(time_step = 3600, duration = 86400 * 28)
 
-    # Compute speed for color mapping
     sim <- sim |>
       dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2))
 
@@ -771,17 +770,19 @@ and add markers at the start and end of each orbit:
           showscale = TRUE,
           colorbar = list(title = "Speed (m/s)")
         ),
-        name = "Moon"
+        name = "Moon",
+        showlegend = FALSE
       ) |>
       add_trace(
         data = dplyr::filter(sim, id == "Earth"),
         x = ~x, y = ~y, z = ~z,
         type = 'scatter3d', mode = 'lines',
         line = list(width = 3, color = 'gray'),
-        name = "Earth"
+        name = "Earth",
+        showlegend = FALSE
       ) |>
       layout(
-        title = "Lunar Orbit — Colored by Speed",
+        title = "Lunar Orbit Around Earth",
         scene = list(
           xaxis = list(title = 'X (m)'),
           yaxis = list(title = 'Y (m)'),
@@ -849,4 +850,4 @@ average of the closest approach (periapsis) and the farthest point
 (apoapsis).
 
 The semi-major axis is the single most characteristic length scale of an
-elliptical orbit. It determi
+elliptical
