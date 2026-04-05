@@ -68,9 +68,9 @@ $$
 \vec{a}_j = \sum_{k \neq j} \frac{G \, m_k}{r_{jk}^2} \, \hat{r}_{jk}
 $$
 
-where $r_{jk} = |\vec{r}_k - \vec{r}_j|$ is the distance between the two
-bodies and $\hat{r}_{jk}$ is the unit vector pointing from $j$ toward
-$k$.
+where $r_{jk} = \lvert\vec{r}_k - \vec{r}_j\rvert$ is the distance
+between the two bodies and $\hat{r}_{jk}$ is the unit vector pointing
+from $j$ toward $k$.
 
 ### Why Initial Velocity Matters
 
