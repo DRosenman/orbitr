@@ -1,0 +1,38 @@
+url: https://daverosenman.github.io/orbitr/
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+
+navbar:
+  structure:
+    left:  [intro, reference, articles]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/daverosenman/orbitr
+
+reference:
+  - title: "System Setup"
+    desc: "Create a simulation and add bodies"
+    contents:
+      - create_system
+      - add_body
+
+  - title: "Simulation"
+    desc: "Run the N-body simulation"
+    contents:
+      - simulate
+
+  - title: "Analysis & Visualization"
+    desc: "Transform and plot results"
+    contents:
+      - shift_reference_frame
+      - plot_orbits
+      - plot_orbits_3d
+
+  - title: "Physical Constants"
+    desc: "Built-in masses, distances, and orbital speeds"
+    contents:
+      - physical_constants

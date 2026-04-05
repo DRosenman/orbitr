@@ -473,19 +473,18 @@ plot_ly() |>
       showscale = TRUE,
       colorbar = list(title = "Speed (m/s)")
     ),
-    name = "Moon",
-    showlegend = FALSE
+    name = "Moon"
   ) |>
   add_trace(
     data = dplyr::filter(sim, id == "Earth"),
     x = ~x, y = ~y, z = ~z,
     type = 'scatter3d', mode = 'lines',
     line = list(width = 3, color = 'gray'),
-    name = "Earth",
-    showlegend = FALSE
+    name = "Earth"
   ) |>
   layout(
     title = "Lunar Orbit Around Earth",
+    showlegend = FALSE,
     scene = list(
       xaxis = list(title = 'X (m)'),
       yaxis = list(title = 'Y (m)'),
