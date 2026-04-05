@@ -1,5 +1,5 @@
 
-# orbitr <img src="man/figures/logo.png" align="right" height="139" />
+# orbitr
 
 **A tidy physics engine for building and visualizing orbital simulations.**
 
@@ -18,6 +18,8 @@ create_system() |>
   shift_reference_frame("Earth") |>
   plot_orbits()
 ```
+
+![](man/figures/README-unnamed-chunk-2-1.png)
 
 ## Installation
 
