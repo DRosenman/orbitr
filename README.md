@@ -167,17 +167,17 @@ You can control this with the `use_cpp` argument:
 
 ## API Reference
 
-### `create_system(G = 6.6743e-11)`
+### `create_system()`
 
 Initializes an empty orbital simulation. The gravitational constant `G`
 is set here and applies to all bodies added later. Set `G = 0` for a
 zero-gravity (inertia-only) environment.
 
-    # Standard gravity
+    # Standard gravity (G = 6.6743e-11)
     universe <- create_system()
 
     # Stronger gravity (10x)
-    universe <- create_system(G = 6.6743e-10)
+    universe <- create_system(G = 6.6743e-10) 
 
     # Zero gravity sandbox
     universe <- create_system(G = 0)
@@ -791,41 +791,6 @@ and add markers at the start and end of each orbit:
       )
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-13-1.png)
-
-Or an animated time-slider view of the three-body system:
-
-    sim_3body <- create_system() |>
-      add_body("Sun",   mass = mass_sun) |>
-      add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-      add_body("Moon",  mass = mass_moon,
-               x = distance_earth_sun + distance_earth_moon,
-               vy = speed_earth + speed_moon * cos(5 * pi / 180),
-               vz = speed_moon * sin(5 * pi / 180)) |>
-      simulate(time_step = 86400, duration = 86400 * 365) |>
-      shift_reference_frame("Earth", keep_center = FALSE)
-
-    # Plot trails + current position markers using frame for animation
-    sim_3body |>
-      dplyr::mutate(day = round(time / 86400)) |>
-      plot_ly(
-        x = ~x, y = ~y, z = ~z,
-        color = ~id,
-        frame = ~day,
-        type = 'scatter3d',
-        mode = 'markers',
-        marker = list(size = 4)
-      ) |>
-      layout(
-        title = "Earth-Centered View (Animated)",
-        scene = list(
-          xaxis = list(title = 'X (m)'),
-          yaxis = list(title = 'Y (m)'),
-          zaxis = list(title = 'Z (m)'),
-          aspectmode = "data"
-        )
-      )
-
-![](README_files/figure-markdown_strict/unnamed-chunk-14-1.png)
 
 The point is the same as with `ggplot2`: `simulate()` returns a standard
 tibble, so you have full access to `plotly`’s API for anything the

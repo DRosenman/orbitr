@@ -121,16 +121,16 @@ simulate(system, use_cpp = FALSE)
 
 ## API Reference
 
-### `create_system(G = 6.6743e-11)`
+### `create_system()`
 
 Initializes an empty orbital simulation. The gravitational constant `G` is set here and applies to all bodies added later. Set `G = 0` for a zero-gravity (inertia-only) environment.
 
 ```r
-# Standard gravity
+# Standard gravity (G = 6.6743e-11)
 universe <- create_system()
 
 # Stronger gravity (10x)
-universe <- create_system(G = 6.6743e-10)
+universe <- create_system(G = 6.6743e-10) 
 
 # Zero gravity sandbox
 universe <- create_system(G = 0)
@@ -485,41 +485,6 @@ plot_ly() |>
   ) |>
   layout(
     title = "Lunar Orbit — Colored by Speed",
-    scene = list(
-      xaxis = list(title = 'X (m)'),
-      yaxis = list(title = 'Y (m)'),
-      zaxis = list(title = 'Z (m)'),
-      aspectmode = "data"
-    )
-  )
-```
-
-Or an animated time-slider view of the three-body system:
-
-```{r}
-sim_3body <- create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
-  add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  add_body("Moon",  mass = mass_moon,
-           x = distance_earth_sun + distance_earth_moon,
-           vy = speed_earth + speed_moon * cos(5 * pi / 180),
-           vz = speed_moon * sin(5 * pi / 180)) |>
-  simulate(time_step = 86400, duration = 86400 * 365) |>
-  shift_reference_frame("Earth", keep_center = FALSE)
-
-# Plot trails + current position markers using frame for animation
-sim_3body |>
-  dplyr::mutate(day = round(time / 86400)) |>
-  plot_ly(
-    x = ~x, y = ~y, z = ~z,
-    color = ~id,
-    frame = ~day,
-    type = 'scatter3d',
-    mode = 'markers',
-    marker = list(size = 4)
-  ) |>
-  layout(
-    title = "Earth-Centered View (Animated)",
     scene = list(
       xaxis = list(title = 'X (m)'),
       yaxis = list(title = 'Y (m)'),
