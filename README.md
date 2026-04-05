@@ -849,4 +849,19 @@ average of the closest approach (periapsis) and the farthest point
 (apoapsis).
 
 The semi-major axis is the single most characteristic length scale of an
-elliptical
+elliptical orbit. It determines the orbital period via Kepler’s Third
+Law, and when paired with the mean orbital speed, it produces a
+near-circular trajectory that closely approximates the real orbit. For
+example, the Earth-Sun distance varies from about 147.1 million km in
+January (perihelion) to 152.1 million km in July (aphelion). The
+semi-major axis of 149.6 million km sits right in the middle and gives
+the correct one-year orbital period.
+
+If you want an elliptical orbit instead, start the body at periapsis
+with a faster-than-mean velocity, or at apoapsis with a slower one.
+
+------------------------------------------------------------------------
+
+## License
+
+MIT
