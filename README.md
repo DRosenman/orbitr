@@ -8,6 +8,8 @@
 -   [The Physics](#the-physics)
 -   [API Reference](#api-reference)
 -   [Examples](#examples)
+-   [Unstable Orbits and the Three-Body
+    Problem](#unstable-orbits-and-the-three-body-problem)
 -   [3D Plotting](#3d-plotting)
 -   [Custom Visualization with
     ggplot2](#custom-visualization-with-ggplot2)
@@ -549,6 +551,63 @@ least 3–4 times the star separation.
 
 ------------------------------------------------------------------------
 
+## Unstable Orbits and the Three-Body Problem
+
+If you start plugging in random masses and velocities, you’ll quickly
+discover that most configurations are wildly unstable. This isn’t a bug
+— it’s physics. Stable orbits are the exception, not the rule.
+
+In a two-body system, stability is relatively easy to achieve: give the
+smaller body the right velocity at the right distance and it traces a
+clean ellipse forever. But the moment you add a third body, things get
+chaotic. The three-body problem has no general closed-form solution —
+small differences in initial conditions lead to dramatically different
+outcomes, including bodies being flung out of the system entirely.
+
+Here’s an example: three equal-mass stars arranged in a triangle with
+slightly asymmetric velocities. It starts off looking like an
+interesting dance, but the asymmetry compounds and eventually one or
+more stars get ejected:
+
+    create_system() |>
+      add_body("Star A", mass = 1e30, x = 1e11, y = 0, vx = 0, vy = 15000) |>
+      add_body("Star B", mass = 1e30, x = -5e10, y = 8.66e10, vx = -12990, vy = -7500) |>
+      add_body("Star C", mass = 1e30, x = -5e10, y = -8.66e10, vx = 14000, vy = -8000) |>
+      simulate(time_step = 3600, duration = 86400 * 365 * 10) |>
+      plot_orbits()
+
+![](README_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+
+This is actually what happens in real stellar dynamics — close
+three-body encounters in star clusters frequently eject one star at high
+velocity while the remaining two settle into a tighter binary. The
+process is called gravitational slingshot ejection.
+
+If your simulations are producing messy, diverging trajectories, here
+are a few things to check before assuming something is wrong:
+
+-   **Velocity too high or too low.** At a given distance *r* from a
+    central mass *M*, the circular orbit speed is $v = \sqrt{GM/r}$.
+    Deviating significantly from this produces eccentric orbits or
+    escape trajectories.
+-   **Bodies too close together.** Close encounters produce extreme
+    accelerations that can blow up numerically. Try increasing
+    `softening` or using a smaller `time_step`.
+-   **Three or more bodies.** Chaos is the natural state of N-body
+    systems. The stable examples in this README are carefully tuned —
+    don’t expect random configurations to behave.
+-   **Time step too large.** If bodies move a significant fraction of
+    their orbital radius in a single step, the integrator can’t track
+    the orbit accurately. Try halving `time_step` and see if the result
+    changes.
+
+The built-in constants and examples in `orbitr` are designed to give you
+stable starting points. From there you can tweak parameters and watch
+how the system responds — that’s where the real intuition for orbital
+mechanics comes from.
+
+------------------------------------------------------------------------
+
 ## 3D Plotting
 
 All simulations in `orbitr` run in full 3D — every body always has `x`,
@@ -576,46 +635,11 @@ approximate this by giving the Moon a small `vz` component:
       simulate(time_step = 3600, duration = 86400 * 28) |>
       plot_orbits()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-9-1.png)
 
 Because `vz` is non-zero, `plot_orbits()` detects 3D motion and returns
 an interactive plotly widget. You can drag to rotate, scroll to zoom,
 and hover to see timestamps.
-
-### Sun-Earth-Moon in 3D
-
-The same three-body system from earlier, but with the Moon’s orbital
-inclination included. Note the use of `keep_center = FALSE` to remove
-Earth from the plot and `dplyr::filter()` to drop the Sun — without
-this, the Sun’s enormous apparent orbit (~150 billion m) dwarfs the
-Moon’s trajectory (~384 million m) and you can’t see anything useful:
-
-    create_system() |>
-      add_body("Sun",   mass = mass_sun) |>
-      add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-      add_body("Moon",  mass = mass_moon,
-               x = distance_earth_sun + distance_earth_moon,
-               vy = speed_earth + speed_moon * cos(5 * pi / 180),
-               vz = speed_moon * sin(5 * pi / 180)) |>
-      simulate(time_step = 3600, duration = 86400 * 365) |>
-      shift_reference_frame("Earth", keep_center = FALSE) |>
-      dplyr::filter(id == "Moon") |>
-      plot_orbits()
-
-![](README_files/figure-markdown_strict/unnamed-chunk-9-1.png)
-
-### Forcing 3D for Flat Data
-
-Even if your system is entirely planar, you can opt into the interactive
-3D viewer:
-
-    create_system() |>
-      add_body("Earth", mass = mass_earth) |>
-      add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-      simulate(time_step = 3600, duration = 86400 * 28) |>
-      plot_orbits(three_d = TRUE)
-
-![](README_files/figure-markdown_strict/unnamed-chunk-10-1.png)
 
 ------------------------------------------------------------------------
 
@@ -675,7 +699,7 @@ from the barycenter over time:
       ) +
       theme_minimal()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-12-1.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-11-1.png)
 
 Or plot the Moon’s path relative to Earth with a color gradient showing
 the passage of time:
@@ -689,7 +713,7 @@ the passage of time:
       labs(title = "Lunar Orbit (Earth-Centered)", x = "X (m)", y = "Y (m)") +
       theme_minimal()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-13-1.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-12-1.png)
 
 ------------------------------------------------------------------------
 
@@ -745,7 +769,7 @@ and add markers at the start and end of each orbit:
           color = ~speed,
           colorscale = 'Viridis',
           showscale = TRUE,
-          colorbar = list(title = "Speed (m/s)", y = 0.3, len = 0.5)
+          colorbar = list(title = "Speed (m/s)")
         ),
         name = "Moon"
       ) |>
@@ -758,7 +782,41 @@ and add markers at the start and end of each orbit:
       ) |>
       layout(
         title = "Lunar Orbit — Colored by Speed",
-        legend = list(y = 0.9),
+        scene = list(
+          xaxis = list(title = 'X (m)'),
+          yaxis = list(title = 'Y (m)'),
+          zaxis = list(title = 'Z (m)'),
+          aspectmode = "data"
+        )
+      )
+
+![](README_files/figure-markdown_strict/unnamed-chunk-13-1.png)
+
+Or an animated time-slider view of the three-body system:
+
+    sim_3body <- create_system() |>
+      add_body("Sun",   mass = mass_sun) |>
+      add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+      add_body("Moon",  mass = mass_moon,
+               x = distance_earth_sun + distance_earth_moon,
+               vy = speed_earth + speed_moon * cos(5 * pi / 180),
+               vz = speed_moon * sin(5 * pi / 180)) |>
+      simulate(time_step = 86400, duration = 86400 * 365) |>
+      shift_reference_frame("Earth", keep_center = FALSE)
+
+    # Plot trails + current position markers using frame for animation
+    sim_3body |>
+      dplyr::mutate(day = round(time / 86400)) |>
+      plot_ly(
+        x = ~x, y = ~y, z = ~z,
+        color = ~id,
+        frame = ~day,
+        type = 'scatter3d',
+        mode = 'markers',
+        marker = list(size = 4)
+      ) |>
+      layout(
+        title = "Earth-Centered View (Animated)",
         scene = list(
           xaxis = list(title = 'X (m)'),
           yaxis = list(title = 'Y (m)'),
@@ -826,19 +884,4 @@ average of the closest approach (periapsis) and the farthest point
 (apoapsis).
 
 The semi-major axis is the single most characteristic length scale of an
-elliptical orbit. It determines the orbital period via Kepler’s Third
-Law, and when paired with the mean orbital speed, it produces a
-near-circular trajectory that closely approximates the real orbit. For
-example, the Earth-Sun distance varies from about 147.1 million km in
-January (perihelion) to 152.1 million km in July (aphelion). The
-semi-major axis of 149.6 million km sits right in the middle and gives
-the correct one-year orbital period.
-
-If you want an elliptical orbit instead, start the body at periapsis
-with a faster-than-mean velocity, or at apoapsis with a slower one.
-
-------------------------------------------------------------------------
-
-## License
-
-MIT
+elliptical orbit. It determi
