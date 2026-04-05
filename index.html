@@ -873,8 +873,15 @@ Force 3D rendering even for planar data
 <h3 id="why-distance-constants-are-semi-major-axes">Why “Distance” Constants Are Semi-Major Axes<a class="anchor" aria-label="anchor" href="#why-distance-constants-are-semi-major-axes"></a>
 </h3>
 <p>Orbital distances are not truly constant — every orbit is an ellipse, so the separation between two bodies changes continuously throughout each revolution. The values provided here are <strong>semi-major axes</strong>: the average of the closest approach (periapsis) and the farthest point (apoapsis).</p>
-<p>The semi-major axis is the single most characteristic length scale of an elliptical</p>
+<p>The semi-major axis is the single most characteristic length scale of an elliptical orbit. It determines the orbital period via Kepler’s Third Law, and when paired with the mean orbital speed, it produces a near-circular trajectory that closely approximates the real orbit. For example, the Earth-Sun distance varies from about 147.1 million km in January (perihelion) to 152.1 million km in July (aphelion). The semi-major axis of 149.6 million km sits right in the middle and gives the correct one-year orbital period.</p>
+<p>If you want an elliptical orbit instead, start the body at periapsis with a faster-than-mean velocity, or at apoapsis with a slower one.</p>
+<hr>
 </div>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>MIT</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
