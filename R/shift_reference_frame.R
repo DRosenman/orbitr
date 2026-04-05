@@ -1,0 +1,65 @@
+#' Shift the coordinate reference frame of the simulation
+#'
+#' Recalculates the positions and velocities of all bodies relative to a specific
+#' target body. This effectively "anchors the camera" to the chosen body, placing
+#' it at the origin (0, 0, 0) for all time steps.
+#'
+#' @param sim_data A tidy `tibble` containing the output from `simulate()`.
+#' @param center_id The character string ID of the body to use as the new origin.
+#' @param keep_center Logical. Should the central body remain in the dataset
+#'   (it will have 0 for all coordinates) or be removed? Default is `TRUE`.
+#'
+#' @return A tidy `tibble` with updated `x`, `y`, `z`, `vx`, `vy`, and `vz` columns.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Simulate Sun-Earth-Moon
+#' orbit_data <- create_system() |>
+#'   add_body("Sun", mass = 1.989e30) |>
+#'   add_body("Earth", mass = 5.97e24, x = 1.496e11, vy = 29780) |>
+#'   add_body("Moon", mass = 7.34e22, x = 1.496e11 + 3.84e8, vy = 29780 + 1022) |>
+#'   simulate(time_step = 3600, duration = 86400 * 365)
+#'
+#' # Shift view to Earth and plot
+#' orbit_data |>
+#'   shift_reference_frame(center_id = "Earth") |>
+#'   plot_orbits()
+#' }
+shift_reference_frame <- function(sim_data, center_id, keep_center = TRUE) {
+
+  if (!center_id %in% sim_data$id) {
+    stop(sprintf("Body '%s' not found in the simulation data.", center_id))
+  }
+
+  shifted_data <- sim_data |>
+    dplyr::group_by(time) |>
+    # Capture the exact position and velocity of the target body at this millisecond
+    dplyr::mutate(
+      ref_x = x[id == center_id],
+      ref_y = y[id == center_id],
+      ref_z = z[id == center_id],
+      ref_vx = vx[id == center_id],
+      ref_vy = vy[id == center_id],
+      ref_vz = vz[id == center_id]
+    ) |>
+    dplyr::ungroup() |>
+    # Subtract those reference values from every single body
+    dplyr::mutate(
+      x = x - ref_x,
+      y = y - ref_y,
+      z = z - ref_z,
+      vx = vx - ref_vx,
+      vy = vy - ref_vy,
+      vz = vz - ref_vz
+    ) |>
+    # Clean up the temporary columns
+    dplyr::select(-ref_x, -ref_y, -ref_z, -ref_vx, -ref_vy, -ref_vz)
+
+  # Remove the central body if requested
+  if (!keep_center) {
+    shifted_data <- dplyr::filter(shifted_data, id != center_id)
+  }
+
+  return(shifted_data)
+}
