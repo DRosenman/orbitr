@@ -1,5 +1,5 @@
 ---
-output: md_document
+output: github_document
 always_allow_html: true
 ---
 
@@ -312,26 +312,35 @@ bind_rows(verlet, euler_cromer, euler) |>
 
 You'll see that Verlet traces a clean closed ellipse, Euler-Cromer stays close but drifts slightly, and standard Euler spirals outward as it pumps energy into the orbit.
 
-### A Stable Binary Star System with a Circumbinary Planet
+### The Kepler-16 System: A Real Circumbinary Planet
 
-Two equal-mass stars orbit their common center of mass while a planet orbits the pair from far away. The key to stability is placing the planet well outside the binary orbit — a general rule of thumb is at least 3–4 times the star separation.
+Kepler-16b was the first confirmed planet orbiting two stars — a real-life Tatooine. The system has a K-type star (0.68 solar masses) and an M-type star (0.20 solar masses) orbiting each other every ~41 days, with a Saturn-sized planet orbiting the pair at about 0.7 AU.
 
 ```{r}
-# Two stars, each 1 solar mass, separated by 0.5 AU
-# They orbit their barycenter (the origin) in a circle
-star_sep   <- 0.5 * distance_earth_sun   # 0.5 AU apart
-star_r     <- star_sep / 2               # each is 0.25 AU from center
-star_v     <- sqrt(mass_sun * 6.6743e-11 / (4 * star_r))  # circular binary velocity
+G <- 6.6743e-11
+AU <- distance_earth_sun
 
-# Planet at 3 AU from the barycenter — well outside the binary
-planet_r   <- 3 * distance_earth_sun
-planet_v   <- sqrt(2 * mass_sun * 6.6743e-11 / planet_r)  # circular velocity around total mass
+# Star masses
+m_A <- 0.68 * mass_sun
+m_B <- 0.20 * mass_sun
+m_planet <- 0.333 * mass_jupiter
+
+# Binary star orbit (~0.22 AU separation)
+a_bin <- 0.22 * AU
+r_A <- a_bin * m_B / (m_A + m_B)
+r_B <- a_bin * m_A / (m_A + m_B)
+v_A <- sqrt(G * m_B^2 / ((m_A + m_B) * a_bin))
+v_B <- sqrt(G * m_A^2 / ((m_A + m_B) * a_bin))
+
+# Planet orbit (0.7048 AU from barycenter)
+r_planet <- 0.7048 * AU
+v_planet <- sqrt(G * (m_A + m_B) / r_planet)
 
 create_system() |>
-  add_body("Star A", mass = mass_sun,   x =  star_r, vy =  star_v) |>
-  add_body("Star B", mass = mass_sun,   x = -star_r, vy = -star_v) |>
-  add_body("Planet", mass = mass_earth, x = planet_r, vy = planet_v) |>
-  simulate(time_step = 3600, duration = 86400 * 365 * 3) |>
+  add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
+  add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
+  add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
+  simulate(time_step = 3600, duration = 86400 * 228.8 * 3) |>
   plot_orbits()
 ```
 

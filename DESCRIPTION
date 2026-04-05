@@ -1,6 +1,6 @@
 Package: orbitr
 Type: Package
-Title: Tidy Orbital Mechanics and N-Body Physics Simulation
+Title: A Tidy Physics Engine for Building and Visualizing Orbital Simulations
 Version: 0.1.0
 Authors@R: c(
     person(
@@ -28,6 +28,4 @@ Imports:
     tibble
 Suggests:
     plotly,
-    pkgdown
-LinkingTo:
-    Rcpp
+  
