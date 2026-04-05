@@ -23,16 +23,20 @@ chaotic three-body problems in a few lines of pipe-friendly code. Under
 the hood it ships a compiled C++ acceleration engine via `Rcpp` and
 falls back gracefully to a fully vectorized pure-R implementation.
 
-``` R
+``` r
 library(orbitr)
+```
 
+``` R
 ## 
 ## Attaching package: 'orbitr'
 
 ## The following object is masked from 'package:stats':
 ## 
 ##     simulate
+```
 
+``` r
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -44,11 +48,11 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
+![](README_files/figure-gfm/unnamed-chunk-1-1.png)
 
 ## Installation
 
-``` R
+``` r
 # install.packages("devtools")
 devtools::install_github("daverosenman/orbitr")
 ```
@@ -58,14 +62,15 @@ devtools::install_github("daverosenman/orbitr")
 ### Gravitational Acceleration
 
 Every body in the system attracts every other body according to Newton’s
-Law of Universal Gravitation. For body *j*, the net acceleration due to
-all other bodies *k* is:
+Law of Universal Gravitation. For body $j$, the net acceleration due to
+all other bodies $k$ is:
 
-\$\$\vec{a}\\j = \sum\\{k \neq j} \frac{G \\ m\\k}{r\\{jk}^2} \\
-\hat{r}\\{jk}\$\$
+$${\overset{\rightarrow}{a}}_{j} = \sum\limits_{k \neq j}\frac{G\, m_{k}}{r_{jk}^{2}}\,{\widehat{r}}_{jk}$$
 
-where *r*_(*j**k***) = \|r⃗**k* − *r⃗**j*\| is the distance between the
-two bodies and* r̂**jk is the unit vector pointing from *j* toward *k*.
+where
+$r_{jk} = \left| {\overset{\rightarrow}{r}}_{k} - {\overset{\rightarrow}{r}}_{j} \right|$
+is the distance between the two bodies and ${\widehat{r}}_{jk}$ is the
+unit vector pointing from $j$ toward $k$.
 
 ### Why Initial Velocity Matters
 
@@ -80,25 +85,25 @@ When you call
 [`add_body()`](https://daverosenman.github.io/orbitr/reference/add_body.md),
 the `vx`, `vy`, `vz` parameters set this initial velocity. The balance
 between speed and distance determines the shape of the orbit. At a given
-distance *r* from a central mass *M*, the **circular orbit velocity**
+distance $r$ from a central mass $M$, the **circular orbit velocity**
 is:
 
-\$\$v\\{\text{circ}} = \sqrt{\frac{G \\ M}{r}}\$\$
+$$v_{\text{circ}} = \sqrt{\frac{G\, M}{r}}$$
 
 If the body’s speed exactly matches this, it traces a perfect circle.
 Faster and the orbit stretches into an ellipse (or escapes entirely if
-$v \geq v\_\text{circ}\sqrt{2}$). Slower and the orbit drops into a
+$v \geq v_{\text{circ}}\sqrt{2}$). Slower and the orbit drops into a
 tighter ellipse that dips closer to the central body. With zero
 velocity, the body falls straight in — no orbit at all.
 
 ### Gravitational Softening
 
-When two bodies pass very close, *r* → 0 and the acceleration diverges
-toward infinity. This is a well-known numerical problem in N-body codes.
-`orbitr` offers an optional **softening length** *ε* that regularizes
-the potential:
+When two bodies pass very close, $\left. r\rightarrow 0 \right.$ and the
+acceleration diverges toward infinity. This is a well-known numerical
+problem in N-body codes. `orbitr` offers an optional **softening
+length** $\varepsilon$ that regularizes the potential:
 
-$$r\_\text{soft} = \sqrt{r^{2} + \varepsilon^{2}}$$
+$$r_{\text{soft}} = \sqrt{r^{2} + \varepsilon^{2}}$$
 
 With softening enabled, close encounters produce large but finite forces
 instead of blowing up to `NaN`. Set `softening = 0` (the default) for
@@ -117,10 +122,9 @@ A second-order symplectic integrator. It conserves energy over long
 timescales, making it the gold standard for orbital mechanics. Orbits
 stay closed and stable indefinitely.
 
-\$\$\vec{x}\\{t+\Delta t} = \vec{x}\\t + \vec{v}\\t \\ \Delta t +
-\tfrac{1}{2} \vec{a}\\t \\ \Delta t^2\$\$
+$${\overset{\rightarrow}{x}}_{t + \Delta t} = {\overset{\rightarrow}{x}}_{t} + {\overset{\rightarrow}{v}}_{t}\,\Delta t + \frac{1}{2}{\overset{\rightarrow}{a}}_{t}\,\Delta t^{2}$$
 
-$$\overset{\rightarrow}{v}\_{t + \Delta t} = \overset{\rightarrow}{v}\_ t + \frac{1}{2}\left( \overset{\rightarrow}{a}\_ t + \overset{\rightarrow}{a}\_{t + \Delta t} \right)\Delta t$$
+$${\overset{\rightarrow}{v}}_{t + \Delta t} = {\overset{\rightarrow}{v}}_{t} + \frac{1}{2}\left( {\overset{\rightarrow}{a}}_{t} + {\overset{\rightarrow}{a}}_{t + \Delta t} \right)\Delta t$$
 
 The position is advanced first, then the acceleration is recalculated at
 the new position, and finally the velocity is updated using the average
@@ -134,9 +138,9 @@ A first-order symplectic method. It updates velocity first, then uses
 the *new* velocity to update position. This small reordering prevents
 the systematic energy drift that plagues standard Euler:
 
-*v⃗*_(*t* + *Δ**t***) = v⃗**t* + *a⃗**t* *Δt
+$${\overset{\rightarrow}{v}}_{t + \Delta t} = {\overset{\rightarrow}{v}}_{t} + {\overset{\rightarrow}{a}}_{t}\,\Delta t$$
 
-*x⃗*_(*t* + *Δ**t***) = x⃗**t* + *v⃗**t* + *Δt \*Δ\*\*t\*
+$${\overset{\rightarrow}{x}}_{t + \Delta t} = {\overset{\rightarrow}{x}}_{t} + {\overset{\rightarrow}{v}}_{t + \Delta t}\,\Delta t$$
 
 Faster than Verlet (one acceleration evaluation per step) but less
 accurate. Good for quick previews.
@@ -146,9 +150,9 @@ accurate. Good for quick previews.
 The classical textbook method. Position and velocity are both updated
 using values from the *current* time step:
 
-*x⃗*_(*t* + *Δ**t***) = x⃗**t* + *v⃗**t* *Δt
+$${\overset{\rightarrow}{x}}_{t + \Delta t} = {\overset{\rightarrow}{x}}_{t} + {\overset{\rightarrow}{v}}_{t}\,\Delta t$$
 
-*v⃗*_(*t* + *Δ**t***) = v⃗**t* + *a⃗**t* *Δt
+$${\overset{\rightarrow}{v}}_{t + \Delta t} = {\overset{\rightarrow}{v}}_{t} + {\overset{\rightarrow}{a}}_{t}\,\Delta t$$
 
 This artificially pumps energy into the system, causing orbits to spiral
 outward over time. Included primarily for educational comparison — use
@@ -158,9 +162,9 @@ Verlet for real work.
 
 The inner acceleration loop is the computational bottleneck of any
 N-body simulation. `orbitr` ships a compiled C++ kernel (via `Rcpp`)
-that computes the *O*(*n*²) pairwise interactions in a tight nested
-loop. When the package is installed from source with a working C++
-toolchain,
+that computes the $O\left( n^{2} \right)$ pairwise interactions in a
+tight nested loop. When the package is installed from source with a
+working C++ toolchain,
 [`simulate()`](https://daverosenman.github.io/orbitr/reference/simulate.md)
 automatically dispatches to this engine. If the compiled code isn’t
 available, it falls back to a vectorized R implementation that uses
@@ -169,7 +173,7 @@ faster for systems with many bodies.
 
 You can control this with the `use_cpp` argument:
 
-``` R
+``` r
 # Force the pure-R engine (useful for debugging or benchmarking)
 simulate(system, use_cpp = FALSE)
 ```
@@ -184,7 +188,7 @@ Initializes an empty orbital simulation. The gravitational constant `G`
 is set here and applies to all bodies added later. Set `G = 0` for a
 zero-gravity (inertia-only) environment.
 
-``` R
+``` r
 # Standard gravity (G = 6.6743e-11)
 universe <- create_system()
 
@@ -213,7 +217,7 @@ meters, velocity (`vx`, `vy`, `vz`) in meters per second. All default to
 | `x, y, z`    | `numeric`      | `0`     | Initial position in meters               |
 | `vx, vy, vz` | `numeric`      | `0`     | Initial velocity in m/s                  |
 
-``` R
+``` r
 create_system() |>
   add_body("Earth", mass = 5.97e24) |>
   add_body("Moon", mass = 7.34e22, x = 3.84e8, vy = 1022)
@@ -233,7 +237,7 @@ the full trajectory as a tidy tibble.
 | `system`    | `orbit_system` | —          | The configured system                      |
 | `time_step` | `numeric`      | `60`       | Seconds per integration step               |
 | `duration`  | `numeric`      | `86400`    | Total simulation time in seconds           |
-| `method`    | `character`    | `“verlet”` | `“verlet”`, `“euler_cromer”`, or `“euler”` |
+| `method`    | `character`    | `"verlet"` | `"verlet"`, `"euler_cromer"`, or `"euler"` |
 | `softening` | `numeric`      | `0`        | Softening length in meters                 |
 | `use_cpp`   | `logical`      | `TRUE`     | Use the C++ engine when available          |
 
@@ -254,7 +258,7 @@ view to a geocentric one, for example.
 | `center_id`   | `character` | —       | ID of the body to place at (0, 0, 0)                                                    |
 | `keep_center` | `logical`   | `TRUE`  | Keep the center body in the output?                                                     |
 
-``` R
+``` r
 # View the Moon's orbit from Earth's perspective
 sim |>
   shift_reference_frame("Earth") |>
@@ -274,7 +278,7 @@ A smart plotting dispatcher that automatically chooses between 2D and 3D
 visualization. If any body has non-zero Z positions (or if
 `three_d = TRUE`), it renders an interactive 3D plot using `plotly`.
 Otherwise it produces a 2D trajectory map (x vs y) using `ggplot2` with
-`coord_equal()`.
+[`coord_equal()`](https://ggplot2.tidyverse.org/reference/coord_fixed.html).
 
 | Parameter  | Type      | Default | Description                                                                             |
 |------------|-----------|---------|-----------------------------------------------------------------------------------------|
@@ -300,7 +304,7 @@ Requires the `plotly` package. Returns a `plotly` HTML widget.
 
 A standard 28-day lunar orbit. One-hour time steps.
 
-``` R
+``` r
 library(orbitr)
 
 create_system() |>
@@ -310,13 +314,13 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)
 
 ### The Sun-Earth System
 
 A full year with daily time steps.
 
-``` R
+``` r
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -324,15 +328,19 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-3-1.png)
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)
 
 ### The Three-Body Problem (Sun-Earth-Moon)
 
 Because `orbitr` uses N-body gravity, nested hierarchies require no
 special setup. Piggyback the Moon’s initial conditions onto Earth’s
-using simple vector addition:
+using simple vector addition. Note that at this scale, the Earth and
+Moon orbits overlap — the Earth-Moon distance (~384,000 km) is tiny
+compared to the Earth-Sun distance (~150 million km). Use
+`shift_reference_frame("Earth")` (shown in the next example) to zoom
+into the Earth-Moon subsystem:
 
-``` R
+``` r
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -343,7 +351,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-4-1.png)
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)
 
 ### Shifting Your Point of View
 
@@ -351,7 +359,7 @@ The three-body plot above is heliocentric (Sun at center). To see the
 Moon’s path *from Earth’s perspective*, pipe the results through
 [`shift_reference_frame()`](https://daverosenman.github.io/orbitr/reference/shift_reference_frame.md):
 
-``` R
+``` r
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -363,16 +371,18 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-5-1.png)
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)
 
 ### Comparing Integration Methods
 
 Use the `method` argument to see how different integrators behave over
 long simulations:
 
-``` R
+``` r
 library(dplyr)
+```
 
+``` R
 ## 
 ## Attaching package: 'dplyr'
 
@@ -383,7 +393,9 @@ library(dplyr)
 ## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union
+```
 
+``` r
 system <- create_system() |>
   add_body("Star", mass = 1e30) |>
   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000)
@@ -405,39 +417,48 @@ bind_rows(verlet, euler_cromer, euler) |>
   ggplot2::theme_minimal()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-6-1.png)
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)
 
 You’ll see that Verlet traces a clean closed ellipse, Euler-Cromer stays
 close but drifts slightly, and standard Euler spirals outward as it
 pumps energy into the orbit.
 
-### A Stable Binary Star System with a Circumbinary Planet
+### The Kepler-16 System: A Real Circumbinary Planet
 
-Two equal-mass stars orbit their common center of mass while a planet
-orbits the pair from far away. The key to stability is placing the
-planet well outside the binary orbit — a general rule of thumb is at
-least 3–4 times the star separation.
+Kepler-16b was the first confirmed planet orbiting two stars — a
+real-life Tatooine. The system has a K-type star (0.68 solar masses) and
+an M-type star (0.20 solar masses) orbiting each other every ~41 days,
+with a Saturn-sized planet orbiting the pair at about 0.7 AU.
 
-``` R
-# Two stars, each 1 solar mass, separated by 0.5 AU
-# They orbit their barycenter (the origin) in a circle
-star_sep   <- 0.5 * distance_earth_sun   # 0.5 AU apart
-star_r     <- star_sep / 2               # each is 0.25 AU from center
-star_v     <- sqrt(mass_sun * 6.6743e-11 / (4 * star_r))  # circular binary velocity
+``` r
+G <- 6.6743e-11
+AU <- distance_earth_sun
 
-# Planet at 3 AU from the barycenter — well outside the binary
-planet_r   <- 3 * distance_earth_sun
-planet_v   <- sqrt(2 * mass_sun * 6.6743e-11 / planet_r)  # circular velocity around total mass
+# Star masses
+m_A <- 0.68 * mass_sun
+m_B <- 0.20 * mass_sun
+m_planet <- 0.333 * mass_jupiter
+
+# Binary star orbit (~0.22 AU separation)
+a_bin <- 0.22 * AU
+r_A <- a_bin * m_B / (m_A + m_B)
+r_B <- a_bin * m_A / (m_A + m_B)
+v_A <- sqrt(G * m_B^2 / ((m_A + m_B) * a_bin))
+v_B <- sqrt(G * m_A^2 / ((m_A + m_B) * a_bin))
+
+# Planet orbit (0.7048 AU from barycenter)
+r_planet <- 0.7048 * AU
+v_planet <- sqrt(G * (m_A + m_B) / r_planet)
 
 create_system() |>
-  add_body("Star A", mass = mass_sun,   x =  star_r, vy =  star_v) |>
-  add_body("Star B", mass = mass_sun,   x = -star_r, vy = -star_v) |>
-  add_body("Planet", mass = mass_earth, x = planet_r, vy = planet_v) |>
-  simulate(time_step = 3600, duration = 86400 * 365 * 3) |>
+  add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
+  add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
+  add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
+  simulate(time_step = 3600, duration = 86400 * 228.8 * 3) |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-7-1.png)
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)
 
 ------------------------------------------------------------------------
 
@@ -459,7 +480,7 @@ slightly asymmetric velocities. It starts off looking like an
 interesting dance, but the asymmetry compounds and eventually one or
 more stars get ejected:
 
-``` R
+``` r
 create_system() |>
   add_body("Star A", mass = 1e30, x = 1e11, y = 0, vx = 0, vy = 15000) |>
   add_body("Star B", mass = 1e30, x = -5e10, y = 8.66e10, vx = -12990, vy = -7500) |>
@@ -468,7 +489,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)
 
 This is actually what happens in real stellar dynamics — close
 three-body encounters in star clusters frequently eject one star at high
@@ -478,8 +499,8 @@ process is called gravitational slingshot ejection.
 If your simulations are producing messy, diverging trajectories, here
 are a few things to check before assuming something is wrong:
 
-- **Velocity too high or too low.** At a given distance *r* from a
-  central mass *M*, the circular orbit speed is $v = \sqrt{GM/r}$.
+- **Velocity too high or too low.** At a given distance $r$ from a
+  central mass $M$, the circular orbit speed is $v = \sqrt{GM/r}$.
   Deviating significantly from this produces eccentric orbits or escape
   trajectories.
 - **Bodies too close together.** Close encounters produce extreme
@@ -521,7 +542,7 @@ capabilities even for a flat system.
 The Moon’s real orbit is inclined about 5° to the ecliptic. You can
 approximate this by giving the Moon a small `vz` component:
 
-``` R
+``` r
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon,
@@ -532,7 +553,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-9-1.png)
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)
 
 Because `vz` is non-zero,
 [`plot_orbits()`](https://daverosenman.github.io/orbitr/reference/plot_orbits.md)
@@ -555,14 +576,16 @@ other visualization tool directly on the output.
 
 Here’s what the raw output looks like:
 
-``` R
+``` r
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
   simulate(time_step = 3600, duration = 86400 * 28)
 
 sim
+```
 
+``` R
 ## # A tibble: 1,346 × 9
 ##    id       mass          x           y     z      vx          vy    vz  time
 ##    <chr>   <dbl>      <dbl>       <dbl> <dbl>   <dbl>       <dbl> <dbl> <dbl>
@@ -589,7 +612,7 @@ shows overlapping circles because both bodies orbit their shared
 barycenter at roughly the same scale. A more useful visualization might
 plot each body’s distance from the barycenter over time:
 
-``` R
+``` r
 library(ggplot2)
 
 sim |>
@@ -605,12 +628,12 @@ sim |>
   theme_minimal()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-11-1.png)
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)
 
 Or plot the Moon’s path relative to Earth with a color gradient showing
 the passage of time:
 
-``` R
+``` r
 sim |>
   shift_reference_frame("Earth", keep_center = FALSE) |>
   ggplot(aes(x = x, y = y, color = time / 86400)) +
@@ -621,7 +644,7 @@ sim |>
   theme_minimal()
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-12-1.png)
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)
 
 ------------------------------------------------------------------------
 
@@ -639,9 +662,11 @@ as well with `plotly` as it does with `ggplot2`.
 For example, you could color trajectories by speed rather than by body,
 and add markers at the start and end of each orbit:
 
-``` R
+``` r
 library(plotly)
+```
 
+``` R
 ## Warning: package 'plotly' was built under R version 4.5.3
 
 ## 
@@ -658,7 +683,9 @@ library(plotly)
 ## The following object is masked from 'package:graphics':
 ## 
 ##     layout
+```
 
+``` r
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon,
@@ -703,7 +730,7 @@ plot_ly() |>
   )
 ```
 
-![](README_files/figure-markdown_strict/unnamed-chunk-13-1.png)
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)
 
 The point is the same as with `ggplot2`:
 [`simulate()`](https://daverosenman.github.io/orbitr/reference/simulate.md)
@@ -718,7 +745,7 @@ anything the built-in plotting functions don’t cover.
 so you don’t have to Google them every time. All values are in SI units
 (kg, meters, m/s).
 
-``` R
+``` r
 library(orbitr)
 
 # Masses
@@ -750,7 +777,7 @@ speed_mercury     # 47,360 m/s
 
 This means the Earth-Moon example can be written as:
 
-``` R
+``` r
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>

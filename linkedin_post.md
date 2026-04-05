@@ -1,35 +1,30 @@
 # NA
 
-I built an R package for N-body orbital mechanics simulation called
-orbitr, and I just pushed it to GitHub.
+I just published a beta version of orbitr — an R package for N-body
+orbital mechanics simulation that I’ve been working on for a while. It’s
+aimed mainly at physics students who want to simulate planetary orbits,
+binary stars, or chaotic three-body problems in a few lines of R code.
 
-It lets you set up gravitational systems — planets, moons, binary stars,
-chaotic three-body problems — in a few lines of pipe-friendly R code and
-simulate them forward in time. Under the hood there’s a C++ engine (via
-Rcpp) for speed, with a pure-R fallback so it works everywhere.
+This project is personal for me. When I was at The College of New
+Jersey, I took an upper-level classical mechanics course that had a
+computational project on simple orbits. That was the assignment that got
+me hooked on programming. There was something about watching a physics
+equation turn into an actual moving system on screen — seeing the math
+come alive — that made everything click. I went from someone who had
+never really coded to someone who couldn’t stop. That project is
+basically the reason I ended up in tech.
 
-A few things it does:
+orbitr is my attempt to make that experience as frictionless as possible
+for the next student. You set up a system with real physical constants
+(built in — no Googling “mass of Jupiter in kg”), pick an integrator,
+and simulate. The output is a tidy tibble you can pipe straight into
+ggplot2 or plotly. It auto-detects 3D motion and switches to interactive
+plotly visualizations, has a C++ engine under the hood for speed, and
+includes examples showing why symplectic integrators matter and what
+happens when orbits go unstable.
 
-- Three numerical integrators (Velocity Verlet, Euler-Cromer, standard
-  Euler) so you can see firsthand why symplectic methods matter for
-  orbital stability
-- Built-in physical constants (masses, distances, orbital speeds) for
-  the Sun, Earth, Moon, Mars, Jupiter, Venus, Mercury, and Saturn — no
-  more Googling “mass of Jupiter in kg”
-- Reference frame shifting — switch from a heliocentric to geocentric
-  view in one line
-- Smart 2D/3D plotting — flat orbits get a clean ggplot2 chart, and the
-  moment you add motion in the Z direction it automatically switches to
-  an interactive 3D plotly visualization
-- The output is just a tidy tibble, so you can plug it straight into
-  ggplot2, plotly, dplyr, or whatever you normally use
+It’s still a beta — I need to do more testing before I’d call it
+production-ready, but it’s functional and I’d love feedback:
+github.com/daverosenman/orbitr
 
-This is still a beta release. If you’re into physics, R, or
-computational science and want to try it out:
-
-devtools::install_github(“daverosenman/orbitr”)
-
-I’d love feedback — especially on the API design and what features would
-make this more useful. Link to the repo in the comments.
-
-\#RStats \#OpenSource \#Physics \#DataScience \#Simulation
+\#RStats \#OpenSource \#Physics \#DataScience \#ComputationalPhysics
