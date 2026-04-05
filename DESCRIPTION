@@ -9,23 +9,22 @@ Authors@R: c(
       role = c("aut", "cre")
     )
   )
-Description: A lightweight, fully vectorized N-body physics engine built for 
-    the R ecosystem. Simulate and visualize complex orbital mechanics, 
-    celestial trajectories, and gravitational interactions using modern 
-    tidyverse principles. Features multiple numerical integration methods, 
-    including the energy-conserving Velocity Verlet algorithm, to ensure 
+Description: A lightweight, fully vectorized N-body physics engine built for
+    the R ecosystem. Simulate and visualize complex orbital mechanics,
+    celestial trajectories, and gravitational interactions using modern
+    tidyverse principles. Features multiple numerical integration methods,
+    including the energy-conserving Velocity Verlet algorithm, to ensure
     highly stable orbital propagation.
-URL: https://daverosenman.github.io/orbitr/, https://github.com/daverosenman/orbitr
-BugReports: https://github.com/daverosenman/orbitr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.3
-Imports: 
+Imports:
     dplyr,
     ggplot2,
     Rcpp,
     tibble
 Suggests:
-    plotly,
-  
+    plotly
+LinkingTo:
+    Rcpp

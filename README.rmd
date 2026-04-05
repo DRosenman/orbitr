@@ -51,7 +51,9 @@ devtools::install_github("daverosenman/orbitr")
 
 Every body in the system attracts every other body according to Newton's Law of Universal Gravitation. For body $j$, the net acceleration due to all other bodies $k$ is:
 
-$$\vec{a}_j = \sum_{k \neq j} \frac{G \, m_k}{r_{jk}^2} \, \hat{r}_{jk}$$
+$$
+\vec{a}_j = \sum_{k \neq j} \frac{G \, m_k}{r_{jk}^2} \, \hat{r}_{jk}
+$$
 
 where $r_{jk} = |\vec{r}_k - \vec{r}_j|$ is the distance between the two bodies and $\hat{r}_{jk}$ is the unit vector pointing from $j$ toward $k$.
 
@@ -61,7 +63,9 @@ Gravity alone will pull every body straight toward every other body. What *preve
 
 When you call `add_body()`, the `vx`, `vy`, `vz` parameters set this initial velocity. The balance between speed and distance determines the shape of the orbit. At a given distance $r$ from a central mass $M$, the **circular orbit velocity** is:
 
-$$v_{\text{circ}} = \sqrt{\frac{G \, M}{r}}$$
+$$
+v_{\text{circ}} = \sqrt{\frac{G \, M}{r}}
+$$
 
 If the body's speed exactly matches this, it traces a perfect circle. Faster and the orbit stretches into an ellipse (or escapes entirely if $v \geq v_{\text{circ}} \sqrt{2}$). Slower and the orbit drops into a tighter ellipse that dips closer to the central body. With zero velocity, the body falls straight in — no orbit at all.
 
@@ -69,7 +73,9 @@ If the body's speed exactly matches this, it traces a perfect circle. Faster and
 
 When two bodies pass very close, $r \to 0$ and the acceleration diverges toward infinity. This is a well-known numerical problem in N-body codes. `orbitr` offers an optional **softening length** $\varepsilon$ that regularizes the potential:
 
-$$r_{\text{soft}} = \sqrt{r^2 + \varepsilon^2}$$
+$$
+r_{\text{soft}} = \sqrt{r^2 + \varepsilon^2}
+$$
 
 With softening enabled, close encounters produce large but finite forces instead of blowing up to `NaN`. Set `softening = 0` (the default) for exact Newtonian gravity, or try something like `softening = 1e4` (10 km) for dense systems.
 
@@ -81,9 +87,13 @@ With softening enabled, close encounters produce large but finite forces instead
 
 A second-order symplectic integrator. It conserves energy over long timescales, making it the gold standard for orbital mechanics. Orbits stay closed and stable indefinitely.
 
-$$\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t + \tfrac{1}{2} \vec{a}_t \, \Delta t^2$$
+$$
+\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t + \tfrac{1}{2} \vec{a}_t \, \Delta t^2
+$$
 
-$$\vec{v}_{t+\Delta t} = \vec{v}_t + \tfrac{1}{2} \left( \vec{a}_t + \vec{a}_{t+\Delta t} \right) \Delta t$$
+$$
+\vec{v}_{t+\Delta t} = \vec{v}_t + \tfrac{1}{2} \left( \vec{a}_t + \vec{a}_{t+\Delta t} \right) \Delta t
+$$
 
 The position is advanced first, then the acceleration is recalculated at the new position, and finally the velocity is updated using the average of the old and new accelerations. This requires **two** acceleration evaluations per step (the main cost), but the payoff in stability is enormous.
 
@@ -91,9 +101,13 @@ The position is advanced first, then the acceleration is recalculated at the new
 
 A first-order symplectic method. It updates velocity first, then uses the *new* velocity to update position. This small reordering prevents the systematic energy drift that plagues standard Euler:
 
-$$\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t$$
+$$
+\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t
+$$
 
-$$\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_{t+\Delta t} \, \Delta t$$
+$$
+\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_{t+\Delta t} \, \Delta t
+$$
 
 Faster than Verlet (one acceleration evaluation per step) but less accurate. Good for quick previews.
 
@@ -101,9 +115,13 @@ Faster than Verlet (one acceleration evaluation per step) but less accurate. Goo
 
 The classical textbook method. Position and velocity are both updated using values from the *current* time step:
 
-$$\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t$$
+$$
+\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t
+$$
 
-$$\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t$$
+$$
+\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t
+$$
 
 This artificially pumps energy into the system, causing orbits to spiral outward over time. Included primarily for educational comparison — use Verlet for real work.
 
@@ -253,7 +271,7 @@ create_system() |>
 
 ### The Three-Body Problem (Sun-Earth-Moon)
 
-Because `orbitr` uses N-body gravity, nested hierarchies require no special setup. Piggyback the Moon's initial conditions onto Earth's using simple vector addition:
+Because `orbitr` uses N-body gravity, nested hierarchies require no special setup. Piggyback the Moon's initial conditions onto Earth's using simple vector addition. Note that at this scale, the Earth and Moon orbits overlap — the Earth-Moon distance (~384,000 km) is tiny compared to the Earth-Sun distance (~150 million km). Use `shift_reference_frame("Earth")` (shown in the next example) to zoom into the Earth-Moon subsystem:
 
 ```{r}
 create_system() |>
