@@ -1,12 +1,12 @@
 #' Plot Orbital Trajectories (Smart 2D/3D Dispatch)
 #'
 #' @param sim_data A tibble output from `simulate()`
-#' @param force_3d Logical. If TRUE, forces a 3D plot even for 2D data.
+#' @param three_d Logical. If TRUE, forces a 3D plot even for 2D data.
 #' @export
-plot_orbits <- function(sim_data, force_3d = FALSE) {
+plot_orbits <- function(sim_data, three_d = FALSE) {
 
   # Check if there is any movement in the Z dimension
-  is_3d <- force_3d || any(sim_data$z != 0)
+  is_3d <- three_d || any(sim_data$z != 0)
 
   if (is_3d) {
     # Try to plot in 3D

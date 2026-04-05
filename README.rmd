@@ -1,8 +1,9 @@
 ---
 output: md_document
+always_allow_html: true
 ---
 
-# orbitr <img src="man/figures/logo.png" align="right" height="139" />
+# orbitr 
 
 **Tidy N-Body Orbital Mechanics for R**
 
@@ -202,14 +203,14 @@ sim |>
 
 ---
 
-### `plot_orbits(sim_data, force_3d = FALSE)`
+### `plot_orbits(sim_data, three_d = FALSE)`
 
-A smart plotting dispatcher that automatically chooses between 2D and 3D visualization. If any body has non-zero Z positions (or if `force_3d = TRUE`), it renders an interactive 3D plot using `plotly`. Otherwise it produces a 2D trajectory map (x vs y) using `ggplot2` with `coord_equal()`.
+A smart plotting dispatcher that automatically chooses between 2D and 3D visualization. If any body has non-zero Z positions (or if `three_d = TRUE`), it renders an interactive 3D plot using `plotly`. Otherwise it produces a 2D trajectory map (x vs y) using `ggplot2` with `coord_equal()`.
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `sim_data` | `tibble` | — | Output from `simulate()` |
-| `force_3d` | `logical` | `FALSE` | Force 3D rendering even for planar data |
+| `three_d` | `logical` | `FALSE` | Force 3D rendering even for planar data |
 
 Returns a `ggplot` object (2D) or a `plotly` HTML widget (3D).
 
@@ -339,7 +340,7 @@ create_system() |>
 
 All simulations in `orbitr` run in full 3D — every body always has `x`, `y`, and `z` coordinates. When all motion happens in the XY plane (i.e., `z = 0` and `vz = 0` for every body), `plot_orbits()` produces a static 2D `ggplot2` chart. The moment any body has non-zero Z motion, `plot_orbits()` automatically switches to an interactive 3D `plotly` visualization — no code changes needed.
 
-You can also force 3D rendering for planar data with `force_3d = TRUE`, which can be useful if you want the interactive rotation and zoom capabilities even for a flat system.
+You can also force 3D rendering for planar data with `three_d = TRUE`, which can be useful if you want the interactive rotation and zoom capabilities even for a flat system.
 
 ### A Tilted Lunar Orbit
 
@@ -384,7 +385,7 @@ create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
   simulate(time_step = 3600, duration = 86400 * 28) |>
-  plot_orbits(force_3d = TRUE)
+  plot_orbits(three_d = TRUE)
 ```
 
 ---
@@ -588,3 +589,4 @@ If you want an elliptical orbit instead, start the body at periapsis with a fast
 ## License
 
 MIT
+                                                             

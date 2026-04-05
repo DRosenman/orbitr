@@ -4,12 +4,12 @@
 \alias{plot_orbits}
 \title{Plot Orbital Trajectories (Smart 2D/3D Dispatch)}
 \usage{
-plot_orbits(sim_data, force_3d = FALSE)
+plot_orbits(sim_data, three_d = FALSE)
 }
 \arguments{
 \item{sim_data}{A tibble output from `simulate()`}
 
-\item{force_3d}{Logical. If TRUE, forces a 3D plot even for 2D data.}
+\item{three_d}{Logical. If TRUE, forces a 3D plot even for 2D data.}
 }
 \description{
 Plot Orbital Trajectories (Smart 2D/3D Dispatch)

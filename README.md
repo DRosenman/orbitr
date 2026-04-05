@@ -1,6 +1,20 @@
-# orbitr <img src="man/figures/logo.png" align="right" height="139" />
+# orbitr
 
 **Tidy N-Body Orbital Mechanics for R**
+
+## Table of Contents
+
+-   [Installation](#installation)
+-   [The Physics](#the-physics)
+-   [API Reference](#api-reference)
+-   [Examples](#examples)
+-   [3D Plotting](#3d-plotting)
+-   [Custom Visualization with
+    ggplot2](#custom-visualization-with-ggplot2)
+-   [Custom Visualization with
+    plotly](#custom-visualization-with-plotly)
+-   [Built-In Physical Constants](#built-in-physical-constants)
+-   [License](#license)
 
 `orbitr` is a lightweight N-body gravitational physics engine built for
 the R ecosystem. Simulate planetary orbits, binary star systems, or
@@ -348,14 +362,55 @@ view to a geocentric one, for example.
 
 ------------------------------------------------------------------------
 
-### `plot_orbits(sim_data)`
+### `plot_orbits(sim_data, three_d = FALSE)`
 
-Generates a 2D top-down trajectory map (x vs y) using `ggplot2`. Traces
-the path of each body as a line and marks its final position with a dot.
-Uses `coord_equal()` so circular orbits actually look circular.
+A smart plotting dispatcher that automatically chooses between 2D and 3D
+visualization. If any body has non-zero Z positions (or if
+`three_d = TRUE`), it renders an interactive 3D plot using `plotly`.
+Otherwise it produces a 2D trajectory map (x vs y) using `ggplot2` with
+`coord_equal()`.
 
-Returns a `ggplot` object that you can further customize with standard
-ggplot2 layers.
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sim_data</code></td>
+<td><code>tibble</code></td>
+<td>—</td>
+<td>Output from <code>simulate()</code></td>
+</tr>
+<tr>
+<td><code>three_d</code></td>
+<td><code>logical</code></td>
+<td><code>FALSE</code></td>
+<td>Force 3D rendering even for planar data</td>
+</tr>
+</tbody>
+</table>
+
+Returns a `ggplot` object (2D) or a `plotly` HTML widget (3D).
+
+### `plot_orbits_3d(sim_data)`
+
+Generates an interactive 3D visualization using `plotly`. You can click
+and drag to rotate, scroll to zoom, and hover over trajectories to see
+body names and timestamps. Uses `aspectmode = "data"` to preserve
+proportions so circular orbits look circular in 3D space.
+
+Requires the `plotly` package. Returns a `plotly` HTML widget.
 
 ------------------------------------------------------------------------
 
@@ -494,10 +549,78 @@ least 3–4 times the star separation.
 
 ------------------------------------------------------------------------
 
+## 3D Plotting
+
+All simulations in `orbitr` run in full 3D — every body always has `x`,
+`y`, and `z` coordinates. When all motion happens in the XY plane (i.e.,
+`z = 0` and `vz = 0` for every body), `plot_orbits()` produces a static
+2D `ggplot2` chart. The moment any body has non-zero Z motion,
+`plot_orbits()` automatically switches to an interactive 3D `plotly`
+visualization — no code changes needed.
+
+You can also force 3D rendering for planar data with `three_d = TRUE`,
+which can be useful if you want the interactive rotation and zoom
+capabilities even for a flat system.
+
+### A Tilted Lunar Orbit
+
+The Moon’s real orbit is inclined about 5° to the ecliptic. You can
+approximate this by giving the Moon a small `vz` component:
+
+    create_system() |>
+      add_body("Earth", mass = mass_earth) |>
+      add_body("Moon",  mass = mass_moon,
+               x = distance_earth_moon,
+               vy = speed_moon * cos(5 * pi / 180),
+               vz = speed_moon * sin(5 * pi / 180)) |>
+      simulate(time_step = 3600, duration = 86400 * 28) |>
+      plot_orbits()
+
+![](README_files/figure-markdown_strict/unnamed-chunk-8-1.png)
+
+Because `vz` is non-zero, `plot_orbits()` detects 3D motion and returns
+an interactive plotly widget. You can drag to rotate, scroll to zoom,
+and hover to see timestamps.
+
+### Sun-Earth-Moon in 3D
+
+The same three-body system from earlier, but with the Moon’s orbital
+inclination included:
+
+    create_system() |>
+      add_body("Sun",   mass = mass_sun) |>
+      add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+      add_body("Moon",  mass = mass_moon,
+               x = distance_earth_sun + distance_earth_moon,
+               vy = speed_earth + speed_moon * cos(5 * pi / 180),
+               vz = speed_moon * sin(5 * pi / 180)) |>
+      simulate(time_step = 3600, duration = 86400 * 365) |>
+      shift_reference_frame("Earth") |>
+      plot_orbits()
+
+![](README_files/figure-markdown_strict/unnamed-chunk-9-1.png)
+
+### Forcing 3D for Flat Data
+
+Even if your system is entirely planar, you can opt into the interactive
+3D viewer:
+
+    create_system() |>
+      add_body("Earth", mass = mass_earth) |>
+      add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
+      simulate(time_step = 3600, duration = 86400 * 28) |>
+      plot_orbits(three_d = TRUE)
+
+![](README_files/figure-markdown_strict/unnamed-chunk-10-1.png)
+
+------------------------------------------------------------------------
+
 ## Custom Visualization with ggplot2
 
-`plot_orbits()` is a convenience function for quick 2D trajectory plots,
-but the real power of `orbitr` is that `simulate()` returns a standard
+`plot_orbits()` and `plot_orbits_3d()` are convenience functions for
+quick trajectory plots — they’re designed to get you a useful
+visualization in one line so you can focus on setting up the physics.
+But the real power of `orbitr` is that `simulate()` returns a standard
 tidy tibble. You can use `ggplot2`, `plotly`, or any other visualization
 tool directly on the output.
 
@@ -548,7 +671,7 @@ from the barycenter over time:
       ) +
       theme_minimal()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-9-1.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-12-1.png)
 
 Or plot the Moon’s path relative to Earth with a color gradient showing
 the passage of time:
@@ -562,7 +685,123 @@ the passage of time:
       labs(title = "Lunar Orbit (Earth-Centered)", x = "X (m)", y = "Y (m)") +
       theme_minimal()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-10-1.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-13-1.png)
+
+------------------------------------------------------------------------
+
+## Custom Visualization with plotly
+
+Just as `plot_orbits()` is a quick convenience for 2D work,
+`plot_orbits_3d()` is a quick convenience for 3D. Both are intentionally
+simple — they get you a useful plot in one line so you can focus on the
+physics, not the formatting. When you need more control, the simulation
+tibble works just as well with `plotly` as it does with `ggplot2`.
+
+For example, you could color trajectories by speed rather than by body,
+and add markers at the start and end of each orbit:
+
+    library(plotly)
+
+    ## Warning: package 'plotly' was built under R version 4.5.3
+
+    ## 
+    ## Attaching package: 'plotly'
+
+    ## The following object is masked from 'package:ggplot2':
+    ## 
+    ##     last_plot
+
+    ## The following object is masked from 'package:stats':
+    ## 
+    ##     filter
+
+    ## The following object is masked from 'package:graphics':
+    ## 
+    ##     layout
+
+    sim <- create_system() |>
+      add_body("Earth", mass = mass_earth) |>
+      add_body("Moon",  mass = mass_moon,
+               x = distance_earth_moon,
+               vy = speed_moon * cos(5 * pi / 180),
+               vz = speed_moon * sin(5 * pi / 180)) |>
+      simulate(time_step = 3600, duration = 86400 * 28)
+
+    # Compute speed for color mapping
+    sim <- sim |>
+      dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2))
+
+    plot_ly() |>
+      add_trace(
+        data = dplyr::filter(sim, id == "Moon"),
+        x = ~x, y = ~y, z = ~z,
+        type = 'scatter3d', mode = 'lines',
+        line = list(
+          width = 5,
+          color = ~speed,
+          colorscale = 'Viridis',
+          showscale = TRUE,
+          colorbar = list(title = "Speed (m/s)")
+        ),
+        name = "Moon"
+      ) |>
+      add_trace(
+        data = dplyr::filter(sim, id == "Earth"),
+        x = ~x, y = ~y, z = ~z,
+        type = 'scatter3d', mode = 'lines',
+        line = list(width = 3, color = 'gray'),
+        name = "Earth"
+      ) |>
+      layout(
+        title = "Lunar Orbit — Colored by Speed",
+        scene = list(
+          xaxis = list(title = 'X (m)'),
+          yaxis = list(title = 'Y (m)'),
+          zaxis = list(title = 'Z (m)'),
+          aspectmode = "data"
+        )
+      )
+
+![](README_files/figure-markdown_strict/unnamed-chunk-14-1.png)
+
+Or an animated time-slider view of the three-body system:
+
+    sim_3body <- create_system() |>
+      add_body("Sun",   mass = mass_sun) |>
+      add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+      add_body("Moon",  mass = mass_moon,
+               x = distance_earth_sun + distance_earth_moon,
+               vy = speed_earth + speed_moon * cos(5 * pi / 180),
+               vz = speed_moon * sin(5 * pi / 180)) |>
+      simulate(time_step = 86400, duration = 86400 * 365) |>
+      shift_reference_frame("Earth", keep_center = FALSE)
+
+    # Plot trails + current position markers using frame for animation
+    sim_3body |>
+      dplyr::mutate(day = round(time / 86400)) |>
+      plot_ly(
+        x = ~x, y = ~y, z = ~z,
+        color = ~id,
+        frame = ~day,
+        type = 'scatter3d',
+        mode = 'markers',
+        marker = list(size = 4)
+      ) |>
+      layout(
+        title = "Earth-Centered View (Animated)",
+        scene = list(
+          xaxis = list(title = 'X (m)'),
+          yaxis = list(title = 'Y (m)'),
+          zaxis = list(title = 'Z (m)'),
+          aspectmode = "data"
+        )
+      )
+
+![](README_files/figure-markdown_strict/unnamed-chunk-15-1.png)
+
+The point is the same as with `ggplot2`: `simulate()` returns a standard
+tibble, so you have full access to `plotly`’s API for anything the
+built-in plotting functions don’t cover.
 
 ------------------------------------------------------------------------
 
