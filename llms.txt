@@ -68,7 +68,7 @@ all other bodies $k$ is:
 $${\overset{\rightarrow}{a}}_{j} = \sum\limits_{k \neq j}\frac{G\, m_{k}}{r_{jk}^{2}}\,{\widehat{r}}_{jk}$$
 
 where
-$r_{jk} = \left| {\overset{\rightarrow}{r}}_{k} - {\overset{\rightarrow}{r}}_{j} \right|$
+$r_{jk} = |{\overset{\rightarrow}{r}}_{k} - {\overset{\rightarrow}{r}}_{j}|$
 is the distance between the two bodies and ${\widehat{r}}_{jk}$ is the
 unit vector pointing from $j$ toward $k$.
 
