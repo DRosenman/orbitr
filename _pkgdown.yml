@@ -1,4 +1,4 @@
-url: https://daverosenman.github.io/orbitr/
+url: https://drosenman.github.io/orbitr/
 
 template:
   bootstrap: 5
@@ -11,7 +11,31 @@ navbar:
   components:
     github:
       icon: fa-github
-      href: https://github.com/daverosenman/orbitr
+      href: https://github.com/DRosenman/orbitr
+
+articles:
+  - title: "Getting Started"
+    navbar: "Getting Started"
+    contents:
+      - quick-start
+
+  - title: "Understanding the Simulation"
+    navbar: "Understanding the Simulation"
+    contents:
+      - the-physics
+      - unstable-orbits
+
+  - title: "Visualization"
+    navbar: "Visualization"
+    contents:
+      - plotting-3d
+      - custom-visualization
+
+  - title: "Reference"
+    navbar: "Reference"
+    contents:
+      - examples
+      - physical-constants
 
 reference:
   - title: "System Setup"

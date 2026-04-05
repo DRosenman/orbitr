@@ -1,0 +1,107 @@
+---
+title: "Quick Start Guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quick Start Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+## Installation
+
+```r
+# install.packages("devtools")
+devtools::install_github("daverosenman/orbitr")
+```
+
+For 3D interactive plotting, you'll also want:
+
+```r
+install.packages("plotly")
+```
+
+## Your First Simulation in 30 Seconds
+
+`orbitr` is designed around a simple pipe-friendly workflow: create a system, add bodies, simulate, and plot.
+
+```{r}
+library(orbitr)
+
+create_system() |>
+  add_body("Earth", mass = mass_earth) |>
+  add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
+  simulate(time_step = 3600, duration = 86400 * 28) |>
+  plot_orbits()
+```
+
+That's it — a 28-day lunar orbit in four lines. Here's what each step does:
+
+1. **`create_system()`** initializes an empty simulation with standard gravitational constant G.
+2. **`add_body()`** places a body with a given mass, position, and velocity. All positions are in meters, velocities in m/s. The built-in constants (`mass_earth`, `distance_earth_moon`, etc.) save you from looking anything up.
+3. **`simulate()`** runs the N-body integration forward in time. `time_step` is how many seconds per integration step, `duration` is the total time to simulate.
+4. **`plot_orbits()`** produces a quick 2D trajectory plot using `ggplot2`.
+
+## Adding More Bodies
+
+Since `orbitr` is a full N-body engine, you can add as many bodies as you want. Each one gravitationally interacts with every other. Here's the Sun-Earth-Moon system for a full year:
+
+```{r}
+create_system() |>
+  add_body("Sun",   mass = mass_sun) |>
+  add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+  add_body("Moon",  mass = mass_moon,
+           x = distance_earth_sun + distance_earth_moon,
+           vy = speed_earth + speed_moon) |>
+  simulate(time_step = 3600, duration = 86400 * 365) |>
+  shift_reference_frame("Earth") |>
+  plot_orbits()
+```
+
+Notice `shift_reference_frame("Earth")` — this re-centers everything on Earth so you can see the Moon's orbit instead of having everything overlap at the Sun's scale.
+
+## Changing the Integrator
+
+The default integrator is Velocity Verlet, which conserves energy and keeps orbits stable. You can switch to `"euler_cromer"` for faster (but less accurate) runs, or `"euler"` to see what happens when energy isn't conserved:
+
+```{r}
+create_system() |>
+  add_body("Star", mass = 1e30) |>
+  add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
+  simulate(time_step = 3600, duration = 86400 * 365, method = "euler") |>
+  plot_orbits()
+```
+
+You'll see the orbit spiral outward — that's the Euler method artificially pumping energy into the system. Switch back to `method = "verlet"` for a clean closed ellipse.
+
+## The Output is Just a Tibble
+
+`simulate()` returns a standard tidy tibble. You can use `dplyr`, `ggplot2`, `plotly`, or any other tool on it:
+
+```{r}
+sim <- create_system() |>
+  add_body("Earth", mass = mass_earth) |>
+  add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
+  simulate(time_step = 3600, duration = 86400 * 28)
+
+sim
+```
+
+Each row is one body at one point in time, with columns for position (`x`, `y`, `z`), velocity (`vx`, `vy`, `vz`), mass, body ID, and time.
+
+## Next Steps
+
+- **[The Physics](the-physics.html)** — Understand the math behind the simulation
+- **[Examples](examples.html)** — More complex systems including binary stars and the Kepler-16 system
+- **[Unstable Orbits](unstable-orbits.html)** — Why most random configurations are chaotic
+- **[3D Plotting](plotting-3d.html)** — Interactive 3D visualization with plotly
+- **[Custom Visualization](custom-visualization.html)** — Build your own plots with ggplot2 and plotly
+- **[Physical Constants](physical-constants.html)** — All built-in masses, distances, and speeds

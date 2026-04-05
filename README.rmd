@@ -3,6 +3,12 @@ output: github_document
 always_allow_html: true
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures/README-"
+)
+```
+
 # orbitr 
 
 **Tidy N-Body Orbital Mechanics for R**

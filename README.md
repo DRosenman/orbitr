@@ -26,16 +26,7 @@ falls back gracefully to a fully vectorized pure-R implementation.
 
 ``` r
 library(orbitr)
-```
 
-    ## 
-    ## Attaching package: 'orbitr'
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     simulate
-
-``` r
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -47,7 +38,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->
 
 ## Installation
 
@@ -325,7 +316,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
 ### The Sun-Earth System
 
@@ -339,7 +330,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
 ### The Three-Body Problem (Sun-Earth-Moon)
 
@@ -362,7 +353,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 ### Shifting Your Point of View
 
@@ -382,7 +373,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 ### Comparing Integration Methods
 
@@ -391,20 +382,7 @@ long simulations:
 
 ``` r
 library(dplyr)
-```
 
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 system <- create_system() |>
   add_body("Star", mass = 1e30) |>
   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000)
@@ -426,7 +404,7 @@ bind_rows(verlet, euler_cromer, euler) |>
   ggplot2::theme_minimal()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 You’ll see that Verlet traces a clean closed ellipse, Euler-Cromer stays
 close but drifts slightly, and standard Euler spirals outward as it
@@ -467,7 +445,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
 ------------------------------------------------------------------------
 
@@ -498,7 +476,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
 This is actually what happens in real stellar dynamics — close
 three-body encounters in star clusters frequently eject one star at high
@@ -559,7 +537,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
 
 Because `vz` is non-zero, `plot_orbits()` detects 3D motion and returns
 an interactive plotly widget. You can drag to rotate, scroll to zoom,
@@ -627,7 +605,7 @@ sim |>
   theme_minimal()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
 
 Or plot the Moon’s path relative to Earth with a color gradient showing
 the passage of time:
@@ -643,7 +621,7 @@ sim |>
   theme_minimal()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
 ------------------------------------------------------------------------
 
@@ -660,26 +638,7 @@ and add markers at the start and end of each orbit:
 
 ``` r
 library(plotly)
-```
 
-    ## Warning: package 'plotly' was built under R version 4.5.3
-
-    ## 
-    ## Attaching package: 'plotly'
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     last_plot
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     filter
-
-    ## The following object is masked from 'package:graphics':
-    ## 
-    ##     layout
-
-``` r
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon,
@@ -724,7 +683,7 @@ plot_ly() |>
   )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
 
 The point is the same as with `ggplot2`: `simulate()` returns a standard
 tibble, so you have full access to `plotly`’s API for anything the
