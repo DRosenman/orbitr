@@ -585,7 +585,10 @@ and hover to see timestamps.
 ### Sun-Earth-Moon in 3D
 
 The same three-body system from earlier, but with the Moon’s orbital
-inclination included:
+inclination included. Note the use of `keep_center = FALSE` to remove
+Earth from the plot and `dplyr::filter()` to drop the Sun — without
+this, the Sun’s enormous apparent orbit (~150 billion m) dwarfs the
+Moon’s trajectory (~384 million m) and you can’t see anything useful:
 
     create_system() |>
       add_body("Sun",   mass = mass_sun) |>
@@ -595,7 +598,8 @@ inclination included:
                vy = speed_earth + speed_moon * cos(5 * pi / 180),
                vz = speed_moon * sin(5 * pi / 180)) |>
       simulate(time_step = 3600, duration = 86400 * 365) |>
-      shift_reference_frame("Earth") |>
+      shift_reference_frame("Earth", keep_center = FALSE) |>
+      dplyr::filter(id == "Moon") |>
       plot_orbits()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-9-1.png)
@@ -741,7 +745,7 @@ and add markers at the start and end of each orbit:
           color = ~speed,
           colorscale = 'Viridis',
           showscale = TRUE,
-          colorbar = list(title = "Speed (m/s)")
+          colorbar = list(title = "Speed (m/s)", y = 0.3, len = 0.5)
         ),
         name = "Moon"
       ) |>
@@ -754,6 +758,7 @@ and add markers at the start and end of each orbit:
       ) |>
       layout(
         title = "Lunar Orbit — Colored by Speed",
+        legend = list(y = 0.9),
         scene = list(
           xaxis = list(title = 'X (m)'),
           yaxis = list(title = 'Y (m)'),
@@ -763,41 +768,6 @@ and add markers at the start and end of each orbit:
       )
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-14-1.png)
-
-Or an animated time-slider view of the three-body system:
-
-    sim_3body <- create_system() |>
-      add_body("Sun",   mass = mass_sun) |>
-      add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-      add_body("Moon",  mass = mass_moon,
-               x = distance_earth_sun + distance_earth_moon,
-               vy = speed_earth + speed_moon * cos(5 * pi / 180),
-               vz = speed_moon * sin(5 * pi / 180)) |>
-      simulate(time_step = 86400, duration = 86400 * 365) |>
-      shift_reference_frame("Earth", keep_center = FALSE)
-
-    # Plot trails + current position markers using frame for animation
-    sim_3body |>
-      dplyr::mutate(day = round(time / 86400)) |>
-      plot_ly(
-        x = ~x, y = ~y, z = ~z,
-        color = ~id,
-        frame = ~day,
-        type = 'scatter3d',
-        mode = 'markers',
-        marker = list(size = 4)
-      ) |>
-      layout(
-        title = "Earth-Centered View (Animated)",
-        scene = list(
-          xaxis = list(title = 'X (m)'),
-          yaxis = list(title = 'Y (m)'),
-          zaxis = list(title = 'Z (m)'),
-          aspectmode = "data"
-        )
-      )
-
-![](README_files/figure-markdown_strict/unnamed-chunk-15-1.png)
 
 The point is the same as with `ggplot2`: `simulate()` returns a standard
 tibble, so you have full access to `plotly`’s API for anything the
