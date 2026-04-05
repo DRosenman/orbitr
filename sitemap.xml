@@ -1,16 +1,24 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>https://daverosenman.github.io/orbitr/404.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/LICENSE-text.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/authors.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/index.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/linkedin_post.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/add_body.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/create_system.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/index.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/physical_constants.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/plot_orbits.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/plot_orbits_3d.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/shift_reference_frame.html</loc></url>
-<url><loc>https://daverosenman.github.io/orbitr/reference/simulate.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/404.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/LICENSE-text.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/custom-visualization.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/examples.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/index.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/physical-constants.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/plotting-3d.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/quick-start.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/the-physics.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/articles/unstable-orbits.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/authors.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/index.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/linkedin_post.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/add_body.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/create_system.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/index.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/physical_constants.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/plot_orbits.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/plot_orbits_3d.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/shift_reference_frame.html</loc></url>
+<url><loc>https://drosenman.github.io/orbitr/reference/simulate.html</loc></url>
 </urlset>
 

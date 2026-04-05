@@ -32,12 +32,32 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
+    <li><a class="dropdown-item" href="articles/quick-start.html">Quick Start Guide</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Understanding the Simulation</h6></li>
+    <li><a class="dropdown-item" href="articles/the-physics.html">The Physics</a></li>
+    <li><a class="dropdown-item" href="articles/unstable-orbits.html">Unstable Orbits and the Three-Body Problem</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Visualization</h6></li>
+    <li><a class="dropdown-item" href="articles/plotting-3d.html">3D Plotting</a></li>
+    <li><a class="dropdown-item" href="articles/custom-visualization.html">Custom Visualization with ggplot2 and plotly</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Reference</h6></li>
+    <li><a class="dropdown-item" href="articles/examples.html">Examples</a></li>
+    <li><a class="dropdown-item" href="articles/physical-constants.html">Built-In Physical Constants</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/daverosenman/orbitr"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/DRosenman/orbitr"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -46,35 +66,14 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="orbitr">orbitr<a class="anchor" aria-label="anchor" href="#orbitr"></a>
+<div class="page-header"><h1 id="orbitr-">orbitr <img src="reference/figures/logo.png" align="right" height="139"><a class="anchor" aria-label="anchor" href="#orbitr-"></a>
 </h1></div>
-<p><strong>Tidy N-Body Orbital Mechanics for R</strong></p>
-<div class="section level2">
-<h2 id="table-of-contents">Table of Contents<a class="anchor" aria-label="anchor" href="#table-of-contents"></a>
-</h2>
-<ul>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#the-physics">The Physics</a></li>
-<li><a href="#api-reference">API Reference</a></li>
-<li><a href="#examples">Examples</a></li>
-<li><a href="#unstable-orbits-and-the-three-body-problem">Unstable Orbits and the Three-Body Problem</a></li>
-<li><a href="#id_3d-plotting">3D Plotting</a></li>
-<li><a href="#custom-visualization-with-ggplot2">Custom Visualization with ggplot2</a></li>
-<li><a href="#custom-visualization-with-plotly">Custom Visualization with plotly</a></li>
-<li><a href="#built-in-physical-constants">Built-In Physical Constants</a></li>
-<li><a href="#license">License</a></li>
-</ul>
+<p><strong>A tidy physics engine for building and visualizing orbital simulations.</strong></p>
 <p><code>orbitr</code> is a lightweight N-body gravitational physics engine built for the R ecosystem. Simulate planetary orbits, binary star systems, or chaotic three-body problems in a few lines of pipe-friendly code. Under the hood it ships a compiled C++ acceleration engine via <code>Rcpp</code> and falls back gracefully to a fully vectorized pure-R implementation.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">orbitr</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="do">## Attaching package: 'orbitr'</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="do">## The following object is masked from 'package:stats':</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="do">##     simulate</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/orbitr/">orbitr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Sun"</span>,   mass <span class="op">=</span> <span class="va">mass_sun</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>,</span>
@@ -83,695 +82,68 @@
 <span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/shift_reference_frame.html">shift_reference_frame</a></span><span class="op">(</span><span class="st">"Earth"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-1-1.png"><!-- --></p>
-</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"daverosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"DRosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
+<p>For 3D interactive plotting, you’ll also want:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"plotly"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="the-physics">The Physics<a class="anchor" aria-label="anchor" href="#the-physics"></a>
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<div class="section level3">
-<h3 id="gravitational-acceleration">Gravitational Acceleration<a class="anchor" aria-label="anchor" href="#gravitational-acceleration"></a>
-</h3>
-<p>Every body in the system attracts every other body according to Newton’s Law of Universal Gravitation. For body <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>, the net acceleration due to all other bodies <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>j</mi></msub><mo>=</mo><munder><mo>∑</mo><mrow><mi>k</mi><mo>≠</mo><mi>j</mi></mrow></munder><mfrac><mrow><mi>G</mi><mspace width="0.167em"></mspace><msub><mi>m</mi><mi>k</mi></msub></mrow><msubsup><mi>r</mi><mrow><mi>j</mi><mi>k</mi></mrow><mn>2</mn></msubsup></mfrac><mspace width="0.167em"></mspace><msub><mover><mi>r</mi><mo accent="true">̂</mo></mover><mrow><mi>j</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
-\vec{a}_j = \sum_{k \neq j} \frac{G \, m_k}{r_{jk}^2} \, \hat{r}_{jk}
-</annotation></semantics></math></p>
-<p>where <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>j</mi><mi>k</mi></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">|</mo><msub><mover><mi>r</mi><mo accent="true">→</mo></mover><mi>k</mi></msub><mo>−</mo><msub><mover><mi>r</mi><mo accent="true">→</mo></mover><mi>j</mi></msub><mo stretchy="false" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">r_{jk} = \lvert\vec{r}_k - \vec{r}_j\rvert</annotation></semantics></math> is the distance between the two bodies and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mover><mi>r</mi><mo accent="true">̂</mo></mover><mrow><mi>j</mi><mi>k</mi></mrow></msub><annotation encoding="application/x-tex">\hat{r}_{jk}</annotation></semantics></math> is the unit vector pointing from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math> toward <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.</p>
-</div>
-<div class="section level3">
-<h3 id="why-initial-velocity-matters">Why Initial Velocity Matters<a class="anchor" aria-label="anchor" href="#why-initial-velocity-matters"></a>
-</h3>
-<p>Gravity alone will pull every body straight toward every other body. What <em>prevents</em> them from colliding is their initial velocity — the sideways motion that turns a free-fall into a curved orbit. This is the same reason the Moon doesn’t crash into the Earth: it’s falling toward us constantly, but it’s also moving sideways fast enough that it keeps missing.</p>
-<p>When you call <code><a href="reference/add_body.html">add_body()</a></code>, the <code>vx</code>, <code>vy</code>, <code>vz</code> parameters set this initial velocity. The balance between speed and distance determines the shape of the orbit. At a given distance <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> from a central mass <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>, the <strong>circular orbit velocity</strong> is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mtext mathvariant="normal">circ</mtext></msub><mo>=</mo><msqrt><mfrac><mrow><mi>G</mi><mspace width="0.167em"></mspace><mi>M</mi></mrow><mi>r</mi></mfrac></msqrt></mrow><annotation encoding="application/x-tex">
-v_{\text{circ}} = \sqrt{\frac{G \, M}{r}}
-</annotation></semantics></math></p>
-<p>If the body’s speed exactly matches this, it traces a perfect circle. Faster and the orbit stretches into an ellipse (or escapes entirely if <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>≥</mo><msub><mi>v</mi><mtext mathvariant="normal">circ</mtext></msub><msqrt><mn>2</mn></msqrt></mrow><annotation encoding="application/x-tex">v \geq v_{\text{circ}} \sqrt{2}</annotation></semantics></math>). Slower and the orbit drops into a tighter ellipse that dips closer to the central body. With zero velocity, the body falls straight in — no orbit at all.</p>
-</div>
-<div class="section level3">
-<h3 id="gravitational-softening">Gravitational Softening<a class="anchor" aria-label="anchor" href="#gravitational-softening"></a>
-</h3>
-<p>When two bodies pass very close, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>→</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">r \to 0</annotation></semantics></math> and the acceleration diverges toward infinity. This is a well-known numerical problem in N-body codes. <code>orbitr</code> offers an optional <strong>softening length</strong> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math> that regularizes the potential:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mtext mathvariant="normal">soft</mtext></msub><mo>=</mo><msqrt><mrow><msup><mi>r</mi><mn>2</mn></msup><mo>+</mo><msup><mi>ε</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">
-r_{\text{soft}} = \sqrt{r^2 + \varepsilon^2}
-</annotation></semantics></math></p>
-<p>With softening enabled, close encounters produce large but finite forces instead of blowing up to <code>NaN</code>. Set <code>softening = 0</code> (the default) for exact Newtonian gravity, or try something like <code>softening = 1e4</code> (10 km) for dense systems.</p>
-</div>
-<div class="section level3">
-<h3 id="numerical-integration-methods">Numerical Integration Methods<a class="anchor" aria-label="anchor" href="#numerical-integration-methods"></a>
-</h3>
-<p><code><a href="reference/simulate.html">simulate()</a></code> offers three methods for stepping the system forward through time. All operate in 3D Cartesian coordinates.</p>
-<div class="section level4">
-<h4 id="id_1-velocity-verlet-default-method--verlet">1. Velocity Verlet (default, <code>method = "verlet"</code>)<a class="anchor" aria-label="anchor" href="#id_1-velocity-verlet-default-method--verlet"></a>
-</h4>
-<p>A second-order symplectic integrator. It conserves energy over long timescales, making it the gold standard for orbital mechanics. Orbits stay closed and stable indefinitely.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi><mo>+</mo><mfrac displaystyle="false"><mn>1</mn><mn>2</mn></mfrac><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><msup><mi>t</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">
-\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t + \tfrac{1}{2} \vec{a}_t \, \Delta t^2
-</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><mfrac displaystyle="false"><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
-\vec{v}_{t+\Delta t} = \vec{v}_t + \tfrac{1}{2} \left( \vec{a}_t + \vec{a}_{t+\Delta t} \right) \Delta t
-</annotation></semantics></math></p>
-<p>The position is advanced first, then the acceleration is recalculated at the new position, and finally the velocity is updated using the average of the old and new accelerations. This requires <strong>two</strong> acceleration evaluations per step (the main cost), but the payoff in stability is enormous.</p>
-</div>
-<div class="section level4">
-<h4 id="id_2-euler-cromer-method--euler_cromer">2. Euler-Cromer (<code>method = "euler_cromer"</code>)<a class="anchor" aria-label="anchor" href="#id_2-euler-cromer-method--euler_cromer"></a>
-</h4>
-<p>A first-order symplectic method. It updates velocity first, then uses the <em>new</em> velocity to update position. This small reordering prevents the systematic energy drift that plagues standard Euler:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
-\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t
-</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
-\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_{t+\Delta t} \, \Delta t
-</annotation></semantics></math></p>
-<p>Faster than Verlet (one acceleration evaluation per step) but less accurate. Good for quick previews.</p>
-</div>
-<div class="section level4">
-<h4 id="id_3-standard-euler-method--euler">3. Standard Euler (<code>method = "euler"</code>)<a class="anchor" aria-label="anchor" href="#id_3-standard-euler-method--euler"></a>
-</h4>
-<p>The classical textbook method. Position and velocity are both updated using values from the <em>current</em> time step:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
-\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t
-</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">
-\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t
-</annotation></semantics></math></p>
-<p>This artificially pumps energy into the system, causing orbits to spiral outward over time. Included primarily for educational comparison — use Verlet for real work.</p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="the-c-engine">The C++ Engine<a class="anchor" aria-label="anchor" href="#the-c-engine"></a>
-</h3>
-<p>The inner acceleration loop is the computational bottleneck of any N-body simulation. <code>orbitr</code> ships a compiled C++ kernel (via <code>Rcpp</code>) that computes the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math> pairwise interactions in a tight nested loop. When the package is installed from source with a working C++ toolchain, <code><a href="reference/simulate.html">simulate()</a></code> automatically dispatches to this engine. If the compiled code isn’t available, it falls back to a vectorized R implementation that uses matrix outer products — still fast, but the C++ path is significantly faster for systems with many bodies.</p>
-<p>You can control this with the <code>use_cpp</code> argument:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Force the pure-R engine (useful for debugging or benchmarking)</span></span>
-<span><span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span><span class="va">system</span>, use_cpp <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<hr>
-</div>
-</div>
-<div class="section level2">
-<h2 id="api-reference">API Reference<a class="anchor" aria-label="anchor" href="#api-reference"></a>
-</h2>
-<div class="section level3">
-<h3 id="create_system">
-<code>create_system()</code><a class="anchor" aria-label="anchor" href="#create_system"></a>
-</h3>
-<p>Initializes an empty orbital simulation. The gravitational constant <code>G</code> is set here and applies to all bodies added later. Set <code>G = 0</code> for a zero-gravity (inertia-only) environment.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Standard gravity (G = 6.6743e-11)</span></span>
-<span><span class="va">universe</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Stronger gravity (10x)</span></span>
-<span><span class="va">universe</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span>G <span class="op">=</span> <span class="fl">6.6743e-10</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="co"># Zero gravity sandbox</span></span>
-<span><span class="va">universe</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span>G <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p>Returns an <code>orbit_system</code> S3 object.</p>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="add_bodysystem-id-mass-x-y-z-vx-vy-vz">
-<code>add_body(system, id, mass, x, y, z, vx, vy, vz)</code><a class="anchor" aria-label="anchor" href="#add_bodysystem-id-mass-x-y-z-vx-vy-vz"></a>
-</h3>
-<p>Adds a celestial body to the system. Position (<code>x</code>, <code>y</code>, <code>z</code>) is in meters, velocity (<code>vx</code>, <code>vy</code>, <code>vz</code>) in meters per second. All default to 0, placing the body at the origin at rest.</p>
-<table class="table">
-<thead><tr class="header">
-<th>Parameter</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>system</code></td>
-<td><code>orbit_system</code></td>
-<td>—</td>
-<td>The system to add the body to</td>
-</tr>
-<tr class="even">
-<td><code>id</code></td>
-<td><code>character</code></td>
-<td>—</td>
-<td>Unique name for the body</td>
-</tr>
-<tr class="odd">
-<td><code>mass</code></td>
-<td><code>numeric</code></td>
-<td>—</td>
-<td>Mass in kilograms (must be non-negative)</td>
-</tr>
-<tr class="even">
-<td><code>x, y, z</code></td>
-<td><code>numeric</code></td>
-<td><code>0</code></td>
-<td>Initial position in meters</td>
-</tr>
-<tr class="odd">
-<td><code>vx, vy, vz</code></td>
-<td><code>numeric</code></td>
-<td><code>0</code></td>
-<td>Initial velocity in m/s</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>The workflow is simple: create a system, add bodies, simulate, and plot.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="fl">5.97e24</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>, mass <span class="op">=</span> <span class="fl">7.34e22</span>, x <span class="op">=</span> <span class="fl">3.84e8</span>, vy <span class="op">=</span> <span class="fl">1022</span><span class="op">)</span></span></code></pre></div>
-<p>Piping-friendly: returns the updated <code>orbit_system</code>.</p>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="simulatesystem-time_step-duration-method-softening-use_cpp">
-<code>simulate(system, time_step, duration, method, softening, use_cpp)</code><a class="anchor" aria-label="anchor" href="#simulatesystem-time_step-duration-method-softening-use_cpp"></a>
-</h3>
-<p>The core engine. Propagates the system forward through time and returns the full trajectory as a tidy tibble.</p>
-<table class="table">
-<colgroup>
-<col width="25%">
-<col width="25%">
-<col width="25%">
-<col width="25%">
-</colgroup>
-<thead><tr class="header">
-<th>Parameter</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>system</code></td>
-<td><code>orbit_system</code></td>
-<td>—</td>
-<td>The configured system</td>
-</tr>
-<tr class="even">
-<td><code>time_step</code></td>
-<td><code>numeric</code></td>
-<td><code>60</code></td>
-<td>Seconds per integration step</td>
-</tr>
-<tr class="odd">
-<td><code>duration</code></td>
-<td><code>numeric</code></td>
-<td><code>86400</code></td>
-<td>Total simulation time in seconds</td>
-</tr>
-<tr class="even">
-<td><code>method</code></td>
-<td><code>character</code></td>
-<td><code>"verlet"</code></td>
-<td>
-<code>"verlet"</code>, <code>"euler_cromer"</code>, or <code>"euler"</code>
-</td>
-</tr>
-<tr class="odd">
-<td><code>softening</code></td>
-<td><code>numeric</code></td>
-<td><code>0</code></td>
-<td>Softening length in meters</td>
-</tr>
-<tr class="even">
-<td><code>use_cpp</code></td>
-<td><code>logical</code></td>
-<td><code>TRUE</code></td>
-<td>Use the C++ engine when available</td>
-</tr>
-</tbody>
-</table>
-<p>Returns a tibble with columns: <code>time</code>, <code>id</code>, <code>mass</code>, <code>x</code>, <code>y</code>, <code>z</code>, <code>vx</code>, <code>vy</code>, <code>vz</code>.</p>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="shift_reference_framesim_data-center_id-keep_center--true">
-<code>shift_reference_frame(sim_data, center_id, keep_center = TRUE)</code><a class="anchor" aria-label="anchor" href="#shift_reference_framesim_data-center_id-keep_center--true"></a>
-</h3>
-<p>Transforms all positions and velocities so that a chosen body sits at the origin for every time step. This is how you go from a heliocentric view to a geocentric one, for example.</p>
-<table class="table">
-<colgroup>
-<col width="20%">
-<col width="17%">
-<col width="12%">
-<col width="50%">
-</colgroup>
-<thead><tr class="header">
-<th>Parameter</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>sim_data</code></td>
-<td><code>tibble</code></td>
-<td>—</td>
-<td>Output from <code><a href="reference/simulate.html">simulate()</a></code>
-</td>
-</tr>
-<tr class="even">
-<td><code>center_id</code></td>
-<td><code>character</code></td>
-<td>—</td>
-<td>ID of the body to place at (0, 0, 0)</td>
-</tr>
-<tr class="odd">
-<td><code>keep_center</code></td>
-<td><code>logical</code></td>
-<td><code>TRUE</code></td>
-<td>Keep the center body in the output?</td>
-</tr>
-</tbody>
-</table>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># View the Moon's orbit from Earth's perspective</span></span>
-<span><span class="va">sim</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/shift_reference_frame.html">shift_reference_frame</a></span><span class="op">(</span><span class="st">"Earth"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Remove Earth from the plot entirely</span></span>
-<span><span class="va">sim</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/shift_reference_frame.html">shift_reference_frame</a></span><span class="op">(</span><span class="st">"Earth"</span>, keep_center <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="plot_orbitssim_data-three_d--false">
-<code>plot_orbits(sim_data, three_d = FALSE)</code><a class="anchor" aria-label="anchor" href="#plot_orbitssim_data-three_d--false"></a>
-</h3>
-<p>A smart plotting dispatcher that automatically chooses between 2D and 3D visualization. If any body has non-zero Z positions (or if <code>three_d = TRUE</code>), it renders an interactive 3D plot using <code>plotly</code>. Otherwise it produces a 2D trajectory map (x vs y) using <code>ggplot2</code> with <code><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal()</a></code>.</p>
-<table class="table">
-<colgroup>
-<col width="16%">
-<col width="15%">
-<col width="12%">
-<col width="56%">
-</colgroup>
-<thead><tr class="header">
-<th>Parameter</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>sim_data</code></td>
-<td><code>tibble</code></td>
-<td>—</td>
-<td>Output from <code><a href="reference/simulate.html">simulate()</a></code>
-</td>
-</tr>
-<tr class="even">
-<td><code>three_d</code></td>
-<td><code>logical</code></td>
-<td><code>FALSE</code></td>
-<td>Force 3D rendering even for planar data</td>
-</tr>
-</tbody>
-</table>
-<p>Returns a <code>ggplot</code> object (2D) or a <code>plotly</code> HTML widget (3D).</p>
-</div>
-<div class="section level3">
-<h3 id="plot_orbits_3dsim_data">
-<code>plot_orbits_3d(sim_data)</code><a class="anchor" aria-label="anchor" href="#plot_orbits_3dsim_data"></a>
-</h3>
-<p>Generates an interactive 3D visualization using <code>plotly</code>. You can click and drag to rotate, scroll to zoom, and hover over trajectories to see body names and timestamps. Uses <code>aspectmode = "data"</code> to preserve proportions so circular orbits look circular in 3D space.</p>
-<p>Requires the <code>plotly</code> package. Returns a <code>plotly</code> HTML widget.</p>
-<hr>
-</div>
-</div>
-<div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
-</h2>
-<div class="section level3">
-<h3 id="the-earth-moon-system">The Earth-Moon System<a class="anchor" aria-label="anchor" href="#the-earth-moon-system"></a>
-</h3>
-<p>A standard 28-day lunar orbit. One-hour time steps.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">orbitr</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">28</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-2-1.png"><!-- --></p>
-</div>
-<div class="section level3">
-<h3 id="the-sun-earth-system">The Sun-Earth System<a class="anchor" aria-label="anchor" href="#the-sun-earth-system"></a>
-</h3>
-<p>A full year with daily time steps.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Sun"</span>,   mass <span class="op">=</span> <span class="va">mass_sun</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">86400</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-3-1.png"><!-- --></p>
-</div>
-<div class="section level3">
-<h3 id="the-three-body-problem-sun-earth-moon">The Three-Body Problem (Sun-Earth-Moon)<a class="anchor" aria-label="anchor" href="#the-three-body-problem-sun-earth-moon"></a>
-</h3>
-<p>Because <code>orbitr</code> uses N-body gravity, nested hierarchies require no special setup. Piggyback the Moon’s initial conditions onto Earth’s using simple vector addition. Note that at this scale, the Earth and Moon orbits overlap — the Earth-Moon distance (~384,000 km) is tiny compared to the Earth-Sun distance (~150 million km). Use <code>shift_reference_frame("Earth")</code> (shown in the next example) to zoom into the Earth-Moon subsystem:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Sun"</span>,   mass <span class="op">=</span> <span class="va">mass_sun</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>,</span>
-<span>           x <span class="op">=</span> <span class="va">distance_earth_sun</span> <span class="op">+</span> <span class="va">distance_earth_moon</span>,   <span class="co"># Earth's X + lunar orbital radius</span></span>
-<span>           vy <span class="op">=</span> <span class="va">speed_earth</span> <span class="op">+</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span>               <span class="co"># Earth's speed + Moon's orbital speed</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-4-1.png"><!-- --></p>
-</div>
-<div class="section level3">
-<h3 id="shifting-your-point-of-view">Shifting Your Point of View<a class="anchor" aria-label="anchor" href="#shifting-your-point-of-view"></a>
-</h3>
-<p>The three-body plot above is heliocentric (Sun at center). To see the Moon’s path <em>from Earth’s perspective</em>, pipe the results through <code><a href="reference/shift_reference_frame.html">shift_reference_frame()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Sun"</span>,   mass <span class="op">=</span> <span class="va">mass_sun</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>,</span>
-<span>           x <span class="op">=</span> <span class="va">distance_earth_sun</span> <span class="op">+</span> <span class="va">distance_earth_moon</span>,</span>
-<span>           vy <span class="op">=</span> <span class="va">speed_earth</span> <span class="op">+</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/shift_reference_frame.html">shift_reference_frame</a></span><span class="op">(</span><span class="st">"Earth"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-5-1.png"><!-- --></p>
-</div>
-<div class="section level3">
-<h3 id="comparing-integration-methods">Comparing Integration Methods<a class="anchor" aria-label="anchor" href="#comparing-integration-methods"></a>
-</h3>
-<p>Use the <code>method</code> argument to see how different integrators behave over long simulations:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="do">## Attaching package: 'dplyr'</span></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="do">## The following objects are masked from 'package:stats':</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="do">##     filter, lag</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="do">## The following objects are masked from 'package:base':</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="do">##     intersect, setdiff, setequal, union</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">system</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star"</span>, mass <span class="op">=</span> <span class="fl">1e30</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Planet"</span>, mass <span class="op">=</span> <span class="fl">1e24</span>, x <span class="op">=</span> <span class="fl">1e11</span>, vy <span class="op">=</span> <span class="fl">30000</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">verlet</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span><span class="va">system</span>, time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span>, method <span class="op">=</span> <span class="st">"verlet"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Velocity Verlet"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">euler_cromer</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span><span class="va">system</span>, time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span>, method <span class="op">=</span> <span class="st">"euler_cromer"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Euler-Cromer"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">euler</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span><span class="va">system</span>, time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span>, method <span class="op">=</span> <span class="st">"euler"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"Standard Euler"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">verlet</span>, <span class="va">euler_cromer</span>, <span class="va">euler</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"Planet"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-6-1.png"><!-- --></p>
-<p>You’ll see that Verlet traces a clean closed ellipse, Euler-Cromer stays close but drifts slightly, and standard Euler spirals outward as it pumps energy into the orbit.</p>
-</div>
-<div class="section level3">
-<h3 id="the-kepler-16-system-a-real-circumbinary-planet">The Kepler-16 System: A Real Circumbinary Planet<a class="anchor" aria-label="anchor" href="#the-kepler-16-system-a-real-circumbinary-planet"></a>
-</h3>
-<p>Kepler-16b was the first confirmed planet orbiting two stars — a real-life Tatooine. The system has a K-type star (0.68 solar masses) and an M-type star (0.20 solar masses) orbiting each other every ~41 days, with a Saturn-sized planet orbiting the pair at about 0.7 AU.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">G</span> <span class="op">&lt;-</span> <span class="fl">6.6743e-11</span></span>
-<span><span class="va">AU</span> <span class="op">&lt;-</span> <span class="va">distance_earth_sun</span></span>
-<span></span>
-<span><span class="co"># Star masses</span></span>
-<span><span class="va">m_A</span> <span class="op">&lt;-</span> <span class="fl">0.68</span> <span class="op">*</span> <span class="va">mass_sun</span></span>
-<span><span class="va">m_B</span> <span class="op">&lt;-</span> <span class="fl">0.20</span> <span class="op">*</span> <span class="va">mass_sun</span></span>
-<span><span class="va">m_planet</span> <span class="op">&lt;-</span> <span class="fl">0.333</span> <span class="op">*</span> <span class="va">mass_jupiter</span></span>
-<span></span>
-<span><span class="co"># Binary star orbit (~0.22 AU separation)</span></span>
-<span><span class="va">a_bin</span> <span class="op">&lt;-</span> <span class="fl">0.22</span> <span class="op">*</span> <span class="va">AU</span></span>
-<span><span class="va">r_A</span> <span class="op">&lt;-</span> <span class="va">a_bin</span> <span class="op">*</span> <span class="va">m_B</span> <span class="op">/</span> <span class="op">(</span><span class="va">m_A</span> <span class="op">+</span> <span class="va">m_B</span><span class="op">)</span></span>
-<span><span class="va">r_B</span> <span class="op">&lt;-</span> <span class="va">a_bin</span> <span class="op">*</span> <span class="va">m_A</span> <span class="op">/</span> <span class="op">(</span><span class="va">m_A</span> <span class="op">+</span> <span class="va">m_B</span><span class="op">)</span></span>
-<span><span class="va">v_A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">G</span> <span class="op">*</span> <span class="va">m_B</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">m_A</span> <span class="op">+</span> <span class="va">m_B</span><span class="op">)</span> <span class="op">*</span> <span class="va">a_bin</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">v_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">G</span> <span class="op">*</span> <span class="va">m_A</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="va">m_A</span> <span class="op">+</span> <span class="va">m_B</span><span class="op">)</span> <span class="op">*</span> <span class="va">a_bin</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Planet orbit (0.7048 AU from barycenter)</span></span>
-<span><span class="va">r_planet</span> <span class="op">&lt;-</span> <span class="fl">0.7048</span> <span class="op">*</span> <span class="va">AU</span></span>
-<span><span class="va">v_planet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">G</span> <span class="op">*</span> <span class="op">(</span><span class="va">m_A</span> <span class="op">+</span> <span class="va">m_B</span><span class="op">)</span> <span class="op">/</span> <span class="va">r_planet</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star A"</span>, mass <span class="op">=</span> <span class="va">m_A</span>, x <span class="op">=</span> <span class="va">r_A</span>, vy <span class="op">=</span> <span class="va">v_A</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star B"</span>, mass <span class="op">=</span> <span class="va">m_B</span>, x <span class="op">=</span> <span class="op">-</span><span class="va">r_B</span>, vy <span class="op">=</span> <span class="op">-</span><span class="va">v_B</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Kepler-16b"</span>, mass <span class="op">=</span> <span class="va">m_planet</span>, x <span class="op">=</span> <span class="va">r_planet</span>, vy <span class="op">=</span> <span class="va">v_planet</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">228.8</span> <span class="op">*</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-7-1.png"><!-- --></p>
-<hr>
-</div>
+<ol style="list-style-type: decimal">
+<li>
+<strong><code><a href="reference/create_system.html">create_system()</a></code></strong> initializes an empty simulation with standard gravitational constant G.</li>
+<li>
+<strong><code><a href="reference/add_body.html">add_body()</a></code></strong> places a body with a given mass, position, and velocity. Built-in constants like <code>mass_earth</code> and <code>distance_earth_moon</code> save you from looking anything up.</li>
+<li>
+<strong><code><a href="reference/simulate.html">simulate()</a></code></strong> runs the N-body integration. The default Velocity Verlet integrator conserves energy for stable long-term orbits.</li>
+<li>
+<strong><code><a href="reference/plot_orbits.html">plot_orbits()</a></code></strong> produces a quick 2D trajectory plot — or an interactive 3D plotly visualization if any body has Z-axis motion.</li>
+</ol>
+<p>The output is a standard tidy tibble, so you can plug it straight into <code>ggplot2</code>, <code>plotly</code>, <code>dplyr</code>, or whatever you normally use.</p>
 </div>
 <div class="section level2">
-<h2 id="unstable-orbits-and-the-three-body-problem">Unstable Orbits and the Three-Body Problem<a class="anchor" aria-label="anchor" href="#unstable-orbits-and-the-three-body-problem"></a>
+<h2 id="learn-more">Learn More<a class="anchor" aria-label="anchor" href="#learn-more"></a>
 </h2>
-<p>If you start plugging in random masses and velocities, you’ll quickly discover that most configurations are wildly unstable. This isn’t a bug — it’s physics. Stable orbits are the exception, not the rule.</p>
-<p>In a two-body system, stability is relatively easy to achieve: give the smaller body the right velocity at the right distance and it traces a clean ellipse forever. But the moment you add a third body, things get chaotic. The three-body problem has no general closed-form solution — small differences in initial conditions lead to dramatically different outcomes, including bodies being flung out of the system entirely.</p>
-<p>Here’s an example: three equal-mass stars arranged in a triangle with slightly asymmetric velocities. It starts off looking like an interesting dance, but the asymmetry compounds and eventually one or more stars get ejected:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star A"</span>, mass <span class="op">=</span> <span class="fl">1e30</span>, x <span class="op">=</span> <span class="fl">1e11</span>, y <span class="op">=</span> <span class="fl">0</span>, vx <span class="op">=</span> <span class="fl">0</span>, vy <span class="op">=</span> <span class="fl">15000</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star B"</span>, mass <span class="op">=</span> <span class="fl">1e30</span>, x <span class="op">=</span> <span class="op">-</span><span class="fl">5e10</span>, y <span class="op">=</span> <span class="fl">8.66e10</span>, vx <span class="op">=</span> <span class="op">-</span><span class="fl">12990</span>, vy <span class="op">=</span> <span class="op">-</span><span class="fl">7500</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star C"</span>, mass <span class="op">=</span> <span class="fl">1e30</span>, x <span class="op">=</span> <span class="op">-</span><span class="fl">5e10</span>, y <span class="op">=</span> <span class="op">-</span><span class="fl">8.66e10</span>, vx <span class="op">=</span> <span class="fl">14000</span>, vy <span class="op">=</span> <span class="op">-</span><span class="fl">8000</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-8-1.png"><!-- --></p>
-<p>This is actually what happens in real stellar dynamics — close three-body encounters in star clusters frequently eject one star at high velocity while the remaining two settle into a tighter binary. The process is called gravitational slingshot ejection.</p>
-<p>If your simulations are producing messy, diverging trajectories, here are a few things to check before assuming something is wrong:</p>
 <ul>
 <li>
-<strong>Velocity too high or too low.</strong> At a given distance <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> from a central mass <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>, the circular orbit speed is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><msqrt><mrow><mi>G</mi><mi>M</mi><mi>/</mi><mi>r</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">v = \sqrt{GM/r}</annotation></semantics></math>. Deviating significantly from this produces eccentric orbits or escape trajectories.</li>
+<strong><a href="articles/quick-start.html">Quick Start Guide</a></strong> — Full getting-started walkthrough</li>
 <li>
-<strong>Bodies too close together.</strong> Close encounters produce extreme accelerations that can blow up numerically. Try increasing <code>softening</code> or using a smaller <code>time_step</code>.</li>
+<strong><a href="articles/the-physics.html">The Physics</a></strong> — Gravitational equations, integrators, and the C++ engine</li>
 <li>
-<strong>Three or more bodies.</strong> Chaos is the natural state of N-body systems. The stable examples in this README are carefully tuned — don’t expect random configurations to behave.</li>
+<strong><a href="articles/examples.html">Examples</a></strong> — Earth-Moon, Sun-Earth-Moon, Kepler-16, and more</li>
 <li>
-<strong>Time step too large.</strong> If bodies move a significant fraction of their orbital radius in a single step, the integrator can’t track the orbit accurately. Try halving <code>time_step</code> and see if the result changes.</li>
+<strong><a href="articles/unstable-orbits.html">Unstable Orbits</a></strong> — Why most random configurations are chaotic</li>
+<li>
+<strong><a href="articles/plotting-3d.html">3D Plotting</a></strong> — Interactive 3D visualization with plotly</li>
+<li>
+<strong><a href="articles/custom-visualization.html">Custom Visualization</a></strong> — Build your own plots with ggplot2 and plotly</li>
+<li>
+<strong><a href="articles/physical-constants.html">Physical Constants</a></strong> — All built-in masses, distances, and speeds</li>
 </ul>
-<p>The built-in constants and examples in <code>orbitr</code> are designed to give you stable starting points. From there you can tweak parameters and watch how the system responds — that’s where the real intuition for orbital mechanics comes from.</p>
-<hr>
-</div>
-<div class="section level2">
-<h2 id="id_3d-plotting">3D Plotting<a class="anchor" aria-label="anchor" href="#id_3d-plotting"></a>
-</h2>
-<p>All simulations in <code>orbitr</code> run in full 3D — every body always has <code>x</code>, <code>y</code>, and <code>z</code> coordinates. When all motion happens in the XY plane (i.e., <code>z = 0</code> and <code>vz = 0</code> for every body), <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> produces a static 2D <code>ggplot2</code> chart. The moment any body has non-zero Z motion, <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> automatically switches to an interactive 3D <code>plotly</code> visualization — no code changes needed.</p>
-<p>You can also force 3D rendering for planar data with <code>three_d = TRUE</code>, which can be useful if you want the interactive rotation and zoom capabilities even for a flat system.</p>
-<div class="section level3">
-<h3 id="a-tilted-lunar-orbit">A Tilted Lunar Orbit<a class="anchor" aria-label="anchor" href="#a-tilted-lunar-orbit"></a>
-</h3>
-<p>The Moon’s real orbit is inclined about 5° to the ecliptic. You can approximate this by giving the Moon a small <code>vz</code> component:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>,</span>
-<span>           x <span class="op">=</span> <span class="va">distance_earth_moon</span>,</span>
-<span>           vy <span class="op">=</span> <span class="va">speed_moon</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">/</span> <span class="fl">180</span><span class="op">)</span>,</span>
-<span>           vz <span class="op">=</span> <span class="va">speed_moon</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">/</span> <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">28</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-9-1.png"><!-- --></p>
-<p>Because <code>vz</code> is non-zero, <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> detects 3D motion and returns an interactive plotly widget. You can drag to rotate, scroll to zoom, and hover to see timestamps.</p>
-<hr>
 </div>
 </div>
-<div class="section level2">
-<h2 id="custom-visualization-with-ggplot2">Custom Visualization with ggplot2<a class="anchor" aria-label="anchor" href="#custom-visualization-with-ggplot2"></a>
-</h2>
-<p><code><a href="reference/plot_orbits.html">plot_orbits()</a></code> and <code><a href="reference/plot_orbits_3d.html">plot_orbits_3d()</a></code> are convenience functions for quick trajectory plots — they’re designed to get you a useful visualization in one line so you can focus on setting up the physics. But the real power of <code>orbitr</code> is that <code><a href="reference/simulate.html">simulate()</a></code> returns a standard tidy tibble. You can use <code>ggplot2</code>, <code>plotly</code>, or any other visualization tool directly on the output.</p>
-<p>Here’s what the raw output looks like:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">28</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sim</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="do">## # A tibble: 1,346 × 9</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="do">##    id       mass          x           y     z      vx          vy    vz  time</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="do">##    &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="do">##  1 Earth 5.97e24         0         0        0   0        0            0     0</span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="do">##  2 Moon  7.34e22 384400000         0        0   0     1022            0     0</span></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="do">##  3 Earth 5.97e24       215.        0        0   0.119    0.000571     0  3600</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="do">##  4 Moon  7.34e22 384382520.  3679200        0  -9.71  1022.           0  3600</span></span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="do">##  5 Earth 5.97e24       860.        4.11     0   0.239    0.00229      0  7200</span></span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="do">##  6 Moon  7.34e22 384330083.  7358065.       0 -19.4   1022.           0  7200</span></span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="do">##  7 Earth 5.97e24      1934.       16.5      0   0.358    0.00514      0 10800</span></span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="do">##  8 Moon  7.34e22 384242692. 11036262.       0 -29.1   1022.           0 10800</span></span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="do">##  9 Earth 5.97e24      3438.       41.1      0   0.477    0.00914      0 14400</span></span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="do">## 10 Moon  7.34e22 384120357. 14713454.       0 -38.8   1021.           0 14400</span></span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="do">## # ℹ 1,336 more rows</span></span></code></pre></div>
-<p>Each row is one body at one point in time. Every column is available for plotting, filtering, or analysis. Since this is just a tibble, you have the full power of <code>dplyr</code> and <code>ggplot2</code> at your disposal.</p>
-<p>For example, in the Earth-Moon system, <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> shows overlapping circles because both bodies orbit their shared barycenter at roughly the same scale. A more useful visualization might plot each body’s distance from the barycenter over time:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sim</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">y</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span> <span class="op">/</span> <span class="fl">86400</span>, y <span class="op">=</span> <span class="va">r</span>, color <span class="op">=</span> <span class="va">id</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Distance from Barycenter Over Time"</span>,</span>
-<span>    x <span class="op">=</span> <span class="st">"Time (days)"</span>,</span>
-<span>    y <span class="op">=</span> <span class="st">"Distance (m)"</span>,</span>
-<span>    color <span class="op">=</span> <span class="st">"Body"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-11-1.png"><!-- --></p>
-<p>Or plot the Moon’s path relative to Earth with a color gradient showing the passage of time:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/shift_reference_frame.html">shift_reference_frame</a></span><span class="op">(</span><span class="st">"Earth"</span>, keep_center <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, color <span class="op">=</span> <span class="va">time</span> <span class="op">/</span> <span class="fl">86400</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Day"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Lunar Orbit (Earth-Centered)"</span>, x <span class="op">=</span> <span class="st">"X (m)"</span>, y <span class="op">=</span> <span class="st">"Y (m)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-12-1.png"><!-- --></p>
-<hr>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/DRosenman/orbitr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/DRosenman/orbitr/issues" class="external-link">Report a bug</a></li>
+</ul>
 </div>
-<div class="section level2">
-<h2 id="custom-visualization-with-plotly">Custom Visualization with plotly<a class="anchor" aria-label="anchor" href="#custom-visualization-with-plotly"></a>
-</h2>
-<p>Just as <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> is a quick convenience for 2D work, <code><a href="reference/plot_orbits_3d.html">plot_orbits_3d()</a></code> is a quick convenience for 3D. Both are intentionally simple — they get you a useful plot in one line so you can focus on the physics, not the formatting. When you need more control, the simulation tibble works just as well with <code>plotly</code> as it does with <code>ggplot2</code>.</p>
-<p>For example, you could color trajectories by speed rather than by body, and add markers at the start and end of each orbit:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="do">## Warning: package 'plotly' was built under R version 4.5.3</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="do">## Attaching package: 'plotly'</span></span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="do">## The following object is masked from 'package:ggplot2':</span></span>
-<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="do">##     last_plot</span></span>
-<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a><span class="do">## The following object is masked from 'package:stats':</span></span>
-<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a><span class="do">##     filter</span></span>
-<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a></span>
-<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a><span class="do">## The following object is masked from 'package:graphics':</span></span>
-<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a><span class="do">##     layout</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>,</span>
-<span>           x <span class="op">=</span> <span class="va">distance_earth_moon</span>,</span>
-<span>           vy <span class="op">=</span> <span class="va">speed_moon</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">cos</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">/</span> <span class="fl">180</span><span class="op">)</span>,</span>
-<span>           vz <span class="op">=</span> <span class="va">speed_moon</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="fl">5</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">/</span> <span class="fl">180</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">28</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="va">sim</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>speed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">vx</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">vy</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="va">vz</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plot_ly.html" class="external-link">plot_ly</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/add_trace.html" class="external-link">add_trace</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sim</span>, <span class="va">id</span> <span class="op">==</span> <span class="st">"Moon"</span><span class="op">)</span>,</span>
-<span>    x <span class="op">=</span> <span class="op">~</span><span class="va">x</span>, y <span class="op">=</span> <span class="op">~</span><span class="va">y</span>, z <span class="op">=</span> <span class="op">~</span><span class="va">z</span>,</span>
-<span>    type <span class="op">=</span> <span class="st">'scatter3d'</span>, mode <span class="op">=</span> <span class="st">'lines'</span>,</span>
-<span>    line <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      width <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>      color <span class="op">=</span> <span class="op">~</span><span class="va">speed</span>,</span>
-<span>      colorscale <span class="op">=</span> <span class="st">'Viridis'</span>,</span>
-<span>      showscale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>      colorbar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Speed (m/s)"</span><span class="op">)</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"Moon"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/add_trace.html" class="external-link">add_trace</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sim</span>, <span class="va">id</span> <span class="op">==</span> <span class="st">"Earth"</span><span class="op">)</span>,</span>
-<span>    x <span class="op">=</span> <span class="op">~</span><span class="va">x</span>, y <span class="op">=</span> <span class="op">~</span><span class="va">y</span>, z <span class="op">=</span> <span class="op">~</span><span class="va">z</span>,</span>
-<span>    type <span class="op">=</span> <span class="st">'scatter3d'</span>, mode <span class="op">=</span> <span class="st">'lines'</span>,</span>
-<span>    line <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="st">'gray'</span><span class="op">)</span>,</span>
-<span>    name <span class="op">=</span> <span class="st">"Earth"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">layout</span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Lunar Orbit Around Earth"</span>,</span>
-<span>    showlegend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    scene <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      xaxis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'X (m)'</span><span class="op">)</span>,</span>
-<span>      yaxis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Y (m)'</span><span class="op">)</span>,</span>
-<span>      zaxis <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Z (m)'</span><span class="op">)</span>,</span>
-<span>      aspectmode <span class="op">=</span> <span class="st">"data"</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-13-1.png"><!-- --></p>
-<p>The point is the same as with <code>ggplot2</code>: <code><a href="reference/simulate.html">simulate()</a></code> returns a standard tibble, so you have full access to <code>plotly</code>’s API for anything the built-in plotting functions don’t cover.</p>
-<hr>
-</div>
-<div class="section level2">
-<h2 id="built-in-physical-constants">Built-In Physical Constants<a class="anchor" aria-label="anchor" href="#built-in-physical-constants"></a>
-</h2>
-<p><code>orbitr</code> ships a set of real-world masses, distances, and orbital speeds so you don’t have to Google them every time. All values are in SI units (kg, meters, m/s).</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">orbitr</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Masses</span></span>
-<span><span class="va">mass_sun</span>          <span class="co"># 1.989e30 kg</span></span>
-<span><span class="va">mass_earth</span>        <span class="co"># 5.972e24 kg</span></span>
-<span><span class="va">mass_moon</span>         <span class="co"># 7.342e22 kg</span></span>
-<span><span class="va">mass_mars</span>         <span class="co"># 6.417e23 kg</span></span>
-<span><span class="va">mass_jupiter</span>      <span class="co"># 1.898e27 kg</span></span>
-<span><span class="va">mass_saturn</span>       <span class="co"># 5.683e26 kg</span></span>
-<span><span class="va">mass_venus</span>        <span class="co"># 4.867e24 kg</span></span>
-<span><span class="va">mass_mercury</span>      <span class="co"># 3.301e23 kg</span></span>
-<span></span>
-<span><span class="co"># Orbital distances (semi-major axes)</span></span>
-<span><span class="va">distance_earth_sun</span>    <span class="co"># 1.496e11 m  (~149.6 million km)</span></span>
-<span><span class="va">distance_earth_moon</span>   <span class="co"># 3.844e8  m  (~384,400 km)</span></span>
-<span><span class="va">distance_mars_sun</span>     <span class="co"># 2.279e11 m</span></span>
-<span><span class="va">distance_jupiter_sun</span>  <span class="co"># 7.785e11 m</span></span>
-<span><span class="va">distance_venus_sun</span>    <span class="co"># 1.082e11 m</span></span>
-<span><span class="va">distance_mercury_sun</span>  <span class="co"># 5.791e10 m</span></span>
-<span></span>
-<span><span class="co"># Mean orbital speeds</span></span>
-<span><span class="va">speed_earth</span>       <span class="co"># 29,780 m/s</span></span>
-<span><span class="va">speed_moon</span>        <span class="co">#  1,022 m/s</span></span>
-<span><span class="va">speed_mars</span>        <span class="co"># 24,070 m/s</span></span>
-<span><span class="va">speed_jupiter</span>     <span class="co"># 13,060 m/s</span></span>
-<span><span class="va">speed_venus</span>       <span class="co"># 35,020 m/s</span></span>
-<span><span class="va">speed_mercury</span>     <span class="co"># 47,360 m/s</span></span></code></pre></div>
-<p>This means the Earth-Moon example can be written as:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">28</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="why-distance-constants-are-semi-major-axes">Why “Distance” Constants Are Semi-Major Axes<a class="anchor" aria-label="anchor" href="#why-distance-constants-are-semi-major-axes"></a>
-</h3>
-<p>Orbital distances are not truly constant — every orbit is an ellipse, so the separation between two bodies changes continuously throughout each revolution. The values provided here are <strong>semi-major axes</strong>: the average of the closest approach (periapsis) and the farthest point (apoapsis).</p>
-<p>The semi-major axis is the single most characteristic length scale of an elliptical orbit. It determines the orbital period via Kepler’s Third Law, and when paired with the mean orbital speed, it produces a near-circular trajectory that closely approximates the real orbit. For example, the Earth-Sun distance varies from about 147.1 million km in January (perihelion) to 152.1 million km in July (aphelion). The semi-major axis of 149.6 million km sits right in the middle and gives the correct one-year orbital period.</p>
-<p>If you want an elliptical orbit instead, start the body at periapsis with a faster-than-mean velocity, or at apoapsis with a slower one.</p>
-<hr>
-</div>
-</div>
-<div class="section level2">
-<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
-</h2>
-<p>MIT</p>
-</div>
-</div>
-  </main><aside class="col-md-3"><div class="license">
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>

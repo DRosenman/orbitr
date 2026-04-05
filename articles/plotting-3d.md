@@ -1,0 +1,73 @@
+# 3D Plotting
+
+``` r
+library(orbitr)
+#> 
+#> Attaching package: 'orbitr'
+#> The following object is masked from 'package:stats':
+#> 
+#>     simulate
+```
+
+All simulations in `orbitr` run in full 3D — every body always has `x`,
+`y`, and `z` coordinates. When all motion happens in the XY plane (i.e.,
+`z = 0` and `vz = 0` for every body),
+[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+produces a static 2D `ggplot2` chart. The moment any body has non-zero Z
+motion,
+[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+automatically switches to an interactive 3D `plotly` visualization — no
+code changes needed.
+
+You can also force 3D rendering for planar data with `three_d = TRUE`,
+which can be useful if you want the interactive rotation and zoom
+capabilities even for a flat system.
+
+## How the 2D/3D Dispatch Works
+
+[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+checks whether `any(sim_data$z != 0)`. If there’s any Z-axis movement —
+or if you pass `three_d = TRUE` — it hands off to
+[`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md),
+which uses `plotly` for interactive 3D rendering. Otherwise it falls
+back to a static `ggplot2` chart.
+
+If `plotly` isn’t installed, the function warns you and falls back to
+the 2D plot even for 3D data.
+
+## A Tilted Lunar Orbit
+
+The Moon’s real orbit is inclined about 5° to the ecliptic. You can
+approximate this by giving the Moon a small `vz` component:
+
+``` r
+create_system() |>
+  add_body("Earth", mass = mass_earth) |>
+  add_body("Moon",  mass = mass_moon,
+           x = distance_earth_moon,
+           vy = speed_moon * cos(5 * pi / 180),
+           vz = speed_moon * sin(5 * pi / 180)) |>
+  simulate(time_step = 3600, duration = 86400 * 28) |>
+  plot_orbits()
+```
+
+Because `vz` is non-zero,
+[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+detects 3D motion and returns an interactive plotly widget. You can drag
+to rotate, scroll to zoom, and hover to see timestamps.
+
+## Forcing 3D for Flat Data
+
+Even if your system is entirely planar, you can opt into the interactive
+3D viewer:
+
+``` r
+create_system() |>
+  add_body("Earth", mass = mass_earth) |>
+  add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
+  simulate(time_step = 3600, duration = 86400 * 28) |>
+  plot_orbits(three_d = TRUE)
+```
+
+This gives you the same rotation and zoom controls, even though all the
+Z values are zero.
