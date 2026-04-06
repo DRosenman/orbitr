@@ -91,7 +91,7 @@
 <p><code><a href="reference/simulate_system.html">simulate_system()</a></code> returns a tidy tibble — one row per body per time step — ready for <code>dplyr</code>, <code>ggplot2</code>, <code>plotly</code>, or any other tool in the R ecosystem.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png"></p>
+<p><img src="reference/figures/README-sun-earth-plot-1.png"></p>
 <p>You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s a limitation of <code><a href="reference/plot_orbits.html">plot_orbits()</a></code>: it draws trajectories using <code>geom_path()</code>, and the Sun barely moves during the simulation so its path is too small to see at this scale. The Sun <em>does</em> move — Newton’s third law means Earth pulls on the Sun just as the Sun pulls on Earth, causing it to trace a tiny loop around the system’s barycenter. It’s just invisible at this zoom level because the Sun is ~330,000 times more massive than the Earth. This stellar wobble is real, though — it’s exactly the method astronomers use to detect exoplanets.</p>
 <p>For better 2D plots where you control point markers, axis ranges, and labels, use <code>ggplot2</code> directly on the simulation tibble (see <a href="articles/custom-visualization.html">Custom Visualization</a>). For interactive 3D views where you can zoom in and find the Sun, see <a href="articles/plotting-3d.html">3D Plotting</a>.</p>
 <div class="section level2">

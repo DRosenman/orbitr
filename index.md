@@ -56,7 +56,7 @@ returns a tidy tibble — one row per body per time step — ready for
 sim |> plot_orbits()
 ```
 
-![](reference/figures/README-unnamed-chunk-4-1.png)
+![](reference/figures/README-sun-earth-plot-1.png)
 
 You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s
 a limitation of
