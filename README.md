@@ -83,32 +83,23 @@ R ecosystem.
 sim |> plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/README-sun-earth-plot-1.png)<!-- -->
 
 You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s
 a limitation of `plot_orbits()`: it draws trajectories using
 `geom_path()`, and the Sun barely moves during the simulation so its
-path is too small to see at this scale. For better 2D plots where you
-control point markers, axis ranges, and labels, use `ggplot2` directly
-on the simulation tibble (see [Custom Visualization with
-ggplot2](#custom-visualization-with-ggplot2)).
+path is too small to see at this scale. The Sun *does* move — Newton’s
+third law means Earth pulls on the Sun just as the Sun pulls on Earth,
+causing it to trace a tiny loop around the system’s barycenter. It’s
+just invisible at this zoom level because the Sun is ~330,000 times more
+massive than the Earth. This stellar wobble is real, though — it’s
+exactly the method astronomers use to detect exoplanets.
 
-The 3D interactive view makes the Sun easier to find — you can zoom and
-hover to locate it:
-
-``` r
-sim |> plot_orbits(three_d = TRUE)
-```
-
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
-
-Zoom in on the center and you’ll see the Sun isn’t perfectly stationary
-— it traces a tiny loop. This is Newton’s third law at work: just as the
-Sun pulls on the Earth, the Earth pulls back on the Sun, causing it to
-orbit the system’s shared center of mass (barycenter). The effect is
-minuscule because the Sun is ~330,000 times more massive than the Earth,
-but it’s real — and it’s exactly this stellar wobble that astronomers
-use to detect exoplanets.
+For better 2D plots where you control point markers, axis ranges, and
+labels, use `ggplot2` directly on the simulation tibble (see [Custom
+Visualization with ggplot2](#custom-visualization-with-ggplot2)). For
+interactive 3D views where you can zoom in and find the Sun, see [3D
+Plotting](#3d-plotting).
 
 ------------------------------------------------------------------------
 
@@ -259,7 +250,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
 
 Because `vz` is non-zero, `plot_orbits()` detects 3D motion and returns
 an interactive plotly widget. You can drag to rotate, scroll to zoom,
@@ -327,7 +318,7 @@ sim |>
   theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 Or plot the Moon’s path relative to Earth with a color gradient showing
 the passage of time:
@@ -343,7 +334,7 @@ sim |>
   theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 ------------------------------------------------------------------------
 
@@ -424,7 +415,7 @@ plot_ly() |>
   )
 ```
 
-![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 The point is the same as with `ggplot2`: `simulate_system()` returns a
 standard tibble, so you have full access to `plotly`’s API for anything
@@ -448,7 +439,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
 ### The Sun-Earth System
 
@@ -462,7 +453,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-11-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
 ### The Three-Body Problem (Sun-Earth-Moon)
 
@@ -485,7 +476,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
 
 ### Shifting Your Point of View
 
@@ -505,7 +496,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-11-1.png)<!-- -->
 
 ### Comparing Integration Methods
 
@@ -549,7 +540,7 @@ bind_rows(verlet, euler_cromer, euler) |>
   ggplot2::theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
 
 You’ll see that Verlet traces a clean closed ellipse, Euler-Cromer stays
 close but drifts slightly, and standard Euler spirals outward as it
@@ -590,7 +581,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
 ------------------------------------------------------------------------
 
@@ -851,14 +842,14 @@ sim <- create_system() |>
 sim |> plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-16-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
 
 ``` r
 # Geocentric view — now you can see the Moon's orbit clearly
 sim |> shift_reference_frame("Earth") |> plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-17-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
 ### Removing the Center Body
 
@@ -883,7 +874,7 @@ sim |>
   theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-16-1.png)<!-- -->
 
 ### Viewing a Binary Star System from the Planet
 
@@ -916,7 +907,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-19-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-17-1.png)<!-- -->
 
 From the planet’s perspective, both stars trace looping spirograph-like
 patterns across the sky — a double sunset that moves differently every
@@ -955,7 +946,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-20-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
 
 This is actually what happens in real stellar dynamics — close
 three-body encounters in star clusters frequently eject one star at high

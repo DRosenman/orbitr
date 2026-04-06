@@ -54,7 +54,7 @@ sim
 
 `simulate_system()` returns a tidy tibble — one row per body per time step — ready for `dplyr`, `ggplot2`, `plotly`, or any other tool in the R ecosystem.
 
-```{r}
+```{r sun-earth-plot}
 sim |> plot_orbits()
 ```
 

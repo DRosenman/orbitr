@@ -35,7 +35,7 @@ sim
 sim |> plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)
+![](man/figures/README-sun-earth-plot-1.png)
 
 You'll notice only Earth's orbit is visible — the Sun is missing. That's a limitation of `plot_orbits()`: it draws trajectories using `geom_path()`, and the Sun barely moves during the simulation so its path is too small to see at this scale. The Sun *does* move — Newton's third law means Earth pulls on the Sun just as the Sun pulls on Earth, causing it to trace a tiny loop around the system's barycenter. It's just invisible at this zoom level because the Sun is ~330,000 times more massive than the Earth. This stellar wobble is real, though — it's exactly the method astronomers use to detect exoplanets.
 
