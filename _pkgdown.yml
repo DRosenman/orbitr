@@ -18,12 +18,8 @@ articles:
     navbar: "Getting Started"
     contents:
       - quick-start
-
-  - title: "Understanding the Simulation"
-    navbar: "Understanding the Simulation"
-    contents:
-      - the-physics
-      - unstable-orbits
+      - examples
+      - physical-constants
 
   - title: "Visualization"
     navbar: "Visualization"
@@ -31,11 +27,12 @@ articles:
       - plotting-3d
       - custom-visualization
 
-  - title: "Reference"
-    navbar: "Reference"
+  - title: "Understanding the Simulation"
+    navbar: "Understanding the Simulation"
     contents:
-      - examples
-      - physical-constants
+      - the-physics
+      - reference-frames
+      - unstable-orbits
 
 reference:
   - title: "System Setup"
