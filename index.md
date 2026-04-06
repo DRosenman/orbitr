@@ -3,6 +3,20 @@
 **A tidy physics engine for building and visualizing orbital
 simulations.**
 
+> **Note:** `orbitr` is a work in progress. The physics engine is
+> functional, but the built-in plotting functions
+> ([`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+> and
+> [`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md))
+> are intentionally minimal — they exist to get you a quick look at your
+> simulation, not to produce publication-quality figures. Since
+> [`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+> returns a standard tidy tibble, you have the full power of `ggplot2`,
+> `plotly`, and any other visualization library at your disposal. See
+> [Custom
+> Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.md)
+> for examples.
+
 `orbitr` is a lightweight N-body gravitational physics engine built for
 the R ecosystem. Simulate planetary orbits, binary star systems, or
 chaotic three-body problems in a few lines of pipe-friendly code. Under
@@ -12,13 +26,31 @@ falls back gracefully to a fully vectorized pure-R implementation.
 ``` r
 library(orbitr)
 
-create_system() |>
+sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365) |>
+  simulate(time_step = 3600, duration = 86400 * 365)
+
+sim
+```
+
+    ## # A tibble: 26,283 × 9
+    ##    id       mass          x           y     z      vx          vy    vz  time
+    ##    <chr>   <dbl>      <dbl>       <dbl> <dbl>   <dbl>       <dbl> <dbl> <dbl>
+    ##  1 Sun   1.99e30         0          0       0   0        0            0     0
+    ##  2 Earth 5.97e24 149600000000       0       0   0    29780            0     0
+    ##  3 Moon  7.34e22 149984400000       0       0   0    30802            0     0
+    ##  ...
+
+[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+returns a tidy tibble — one row per body per time step — ready for
+`dplyr`, `ggplot2`, `plotly`, or any other tool in the R ecosystem.
+
+``` r
+sim |>
   shift_reference_frame("Earth") |>
   plot_orbits()
 ```
@@ -62,7 +94,8 @@ create_system() |>
     conserves energy for stable long-term orbits.
 4.  **[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)**
     produces a quick 2D trajectory plot — or an interactive 3D plotly
-    visualization if any body has Z-axis motion.
+    visualization if any body has Z-axis motion. For more control, use
+    `ggplot2` or `plotly` directly on the simulation tibble.
 
 The output is a standard tidy tibble, so you can plug it straight into
 `ggplot2`, `plotly`, `dplyr`, or whatever you normally use.
@@ -72,20 +105,24 @@ The output is a standard tidy tibble, so you can plug it straight into
 - **[Quick Start
   Guide](https://drosenman.github.io/orbitr/articles/quick-start.md)** —
   Full getting-started walkthrough
-- **[The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md)**
-  — Gravitational equations, integrators, and the C++ engine
 - **[Examples](https://drosenman.github.io/orbitr/articles/examples.md)**
   — Earth-Moon, Sun-Earth-Moon, Kepler-16, and more
-- **[Unstable
-  Orbits](https://drosenman.github.io/orbitr/articles/unstable-orbits.md)**
-  — Why most random configurations are chaotic
+- **[Physical
+  Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md)**
+  — All built-in masses, distances, and speeds
 - **[3D
   Plotting](https://drosenman.github.io/orbitr/articles/plotting-3d.md)**
   — Interactive 3D visualization with plotly
 - **[Custom
   Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.md)**
   — Build your own plots with ggplot2 and plotly
-- **[Physical
-  Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md)**
-  — All built-in masses, distances, and speeds
+- **[The
+  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md)**
+  — Gravitational equations, integrators, and the C++ engine
+- **[Reference
+  Frames](https://drosenman.github.io/orbitr/articles/reference-frames.md)**
+  — Shift your perspective with
+  [`shift_reference_frame()`](https://drosenman.github.io/orbitr/reference/shift_reference_frame.md)
+- **[Unstable
+  Orbits](https://drosenman.github.io/orbitr/articles/unstable-orbits.md)**
+  — Why most random configurations are chaotic
