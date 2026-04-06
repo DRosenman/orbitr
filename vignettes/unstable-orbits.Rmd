@@ -33,7 +33,7 @@ create_system() |>
   add_body("Star A", mass = 1e30, x = 1e11, y = 0, vx = 0, vy = 15000) |>
   add_body("Star B", mass = 1e30, x = -5e10, y = 8.66e10, vx = -12990, vy = -7500) |>
   add_body("Star C", mass = 1e30, x = -5e10, y = -8.66e10, vx = 14000, vy = -8000) |>
-  simulate(time_step = 3600, duration = 86400 * 365 * 10) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365 * 10) |>
   plot_orbits()
 ```
 

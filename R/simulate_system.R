@@ -24,9 +24,9 @@
 #' my_universe <- create_system() |>
 #'   add_body("Earth", mass = 5.97e24) |>
 #'   add_body("Moon", mass = 7.34e22, x = 3.84e8, vy = 1022) |>
-#'   simulate(time_step = 3600, duration = 86400 * 28)
+#'   simulate_system(time_step = 3600, duration = 86400 * 28)
 #' }
-simulate <- function(system, time_step = 60, duration = 86400, method = "verlet",
+simulate_system <- function(system, time_step = 60, duration = 86400, method = "verlet",
                      softening = 0, use_cpp = TRUE) {
 
   if (!inherits(system, "orbit_system")) stop("Input must be an `orbit_system`.")

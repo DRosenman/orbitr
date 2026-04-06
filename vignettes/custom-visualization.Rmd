@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 library(orbitr)
 ```
 
-`plot_orbits()` and `plot_orbits_3d()` are convenience functions for quick trajectory plots — they're designed to get you a useful visualization in one line so you can focus on setting up the physics. But the real power of `orbitr` is that `simulate()` returns a standard tidy tibble. You can use `ggplot2`, `plotly`, or any other visualization tool directly on the output.
+`plot_orbits()` and `plot_orbits_3d()` are convenience functions for quick trajectory plots — they're designed to get you a useful visualization in one line so you can focus on setting up the physics. But the real power of `orbitr` is that `simulate_system()` returns a standard tidy tibble. You can use `ggplot2`, `plotly`, or any other visualization tool directly on the output.
 
 ## The Raw Output
 
@@ -30,7 +30,7 @@ Here's what the simulation tibble looks like:
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim
 ```
@@ -85,7 +85,7 @@ sim <- create_system() |>
            x = distance_earth_moon,
            vy = speed_moon * cos(5 * pi / 180),
            vz = speed_moon * sin(5 * pi / 180)) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim <- sim |>
   dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2))
@@ -123,4 +123,4 @@ plot_ly() |>
   )
 ```
 
-The point is the same as with `ggplot2`: `simulate()` returns a standard tibble, so you have full access to `plotly`'s API for anything the built-in plotting functions don't cover.
+The point is the same as with `ggplot2`: `simulate_system()` returns a standard tibble, so you have full access to `plotly`'s API for anything the built-in plotting functions don't cover.

@@ -26,9 +26,9 @@
 > functional, but the built-in plotting functions (`plot_orbits()` and
 > `plot_orbits_3d()`) are intentionally minimal — they exist to get you
 > a quick look at your simulation, not to produce publication-quality
-> figures. Since `simulate()` returns a standard tidy tibble, you have
-> the full power of `ggplot2`, `plotly`, and any other visualization
-> library at your disposal. See [Custom Visualization with
+> figures. Since `simulate_system()` returns a standard tidy tibble, you
+> have the full power of `ggplot2`, `plotly`, and any other
+> visualization library at your disposal. See [Custom Visualization with
 > ggplot2](#custom-visualization-with-ggplot2) and [Custom Visualization
 > with plotly](#custom-visualization-with-plotly) for examples.
 
@@ -45,53 +45,70 @@ devtools::install_github("daverosenman/orbitr")
 
 ``` r
 library(orbitr)
-```
 
-    ## 
-    ## Attaching package: 'orbitr'
-
-    ## The following object is masked from 'package:stats':
-    ## 
-    ##     simulate
-
-``` r
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  add_body("Moon",  mass = mass_moon,
-           x = distance_earth_sun + distance_earth_moon,
-           vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365)
+  simulate_system(time_step = 86400, duration = 86400 * 365)
 
 sim
 ```
 
-    ## # A tibble: 26,283 × 9
-    ##    id       mass        x       y     z          vx      vy    vz  time
-    ##    <chr>   <dbl>    <dbl>   <dbl> <dbl>       <dbl>   <dbl> <dbl> <dbl>
-    ##  1 Sun   1.99e30 0        0           0   0         0           0     0
-    ##  2 Earth 5.97e24 1.50e+11 0           0   0         2.98e+4     0     0
-    ##  3 Moon  7.34e22 1.50e+11 0           0   0         3.08e+4     0     0
-    ##  4 Sun   1.99e30 1.17e- 1 0           0   0.0000649 2.33e-8     0  3600
-    ##  5 Earth 5.97e24 1.50e+11 1.07e+8     0 -21.2       2.98e+4     0  3600
-    ##  6 Moon  7.34e22 1.50e+11 1.11e+8     0 -31.0       3.08e+4     0  3600
-    ##  7 Sun   1.99e30 4.67e- 1 1.67e-4     0   0.000130  9.31e-8     0  7200
-    ##  8 Earth 5.97e24 1.50e+11 2.14e+8     0 -42.5       2.98e+4     0  7200
-    ##  9 Moon  7.34e22 1.50e+11 2.22e+8     0 -61.9       3.08e+4     0  7200
-    ## 10 Sun   1.99e30 1.05e+ 0 6.70e-4     0   0.000195  2.09e-7     0 10800
-    ## # ℹ 26,273 more rows
+    ## # A tibble: 732 × 9
+    ##    id       mass       x       y     z          vx            vy    vz   time
+    ##    <chr>   <dbl>   <dbl>   <dbl> <dbl>       <dbl>         <dbl> <dbl>  <dbl>
+    ##  1 Sun   1.99e30 0       0           0     0           0             0      0
+    ##  2 Earth 5.97e24 1.50e11 0           0     0       29780             0      0
+    ##  3 Sun   1.99e30 6.65e 1 0           0     0.00154     0.0000132     0  86400
+    ##  4 Earth 5.97e24 1.50e11 2.57e 9     0  -512.      29776.            0  86400
+    ##  5 Sun   1.99e30 2.66e 2 2.29e 0     0     0.00308     0.0000529     0 172800
+    ##  6 Earth 5.97e24 1.50e11 5.15e 9     0 -1025.      29762.            0 172800
+    ##  7 Sun   1.99e30 5.98e 2 9.15e 0     0     0.00461     0.000119      0 259200
+    ##  8 Earth 5.97e24 1.49e11 7.72e 9     0 -1537.      29740.            0 259200
+    ##  9 Sun   1.99e30 1.06e 3 2.29e 1     0     0.00615     0.000212      0 345600
+    ## 10 Earth 5.97e24 1.49e11 1.03e10     0 -2048.      29710.            0 345600
+    ## # ℹ 722 more rows
 
-`simulate()` returns a tidy tibble — one row per body per time step —
-ready for `dplyr`, `ggplot2`, `plotly`, or any other tool in the R
-ecosystem.
+`mass_sun`, `mass_earth`, `distance_earth_sun`, and `speed_earth` are
+built-in constants — real-world values in SI units (kg, meters, m/s) so
+you don’t have to look anything up. `orbitr` ships constants for the
+Sun, all eight planets, and the Moon. See [Built-In Physical
+Constants](#built-in-physical-constants) for the full list.
+
+`simulate_system()` returns a tidy tibble — one row per body per time
+step — ready for `dplyr`, `ggplot2`, `plotly`, or any other tool in the
+R ecosystem.
 
 ``` r
-sim |>
-  shift_reference_frame("Earth") |>
-  plot_orbits()
+sim |> plot_orbits()
 ```
 
 ![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+
+You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s
+a limitation of `plot_orbits()`: it draws trajectories using
+`geom_path()`, and the Sun barely moves during the simulation so its
+path is too small to see at this scale. For better 2D plots where you
+control point markers, axis ranges, and labels, use `ggplot2` directly
+on the simulation tibble (see [Custom Visualization with
+ggplot2](#custom-visualization-with-ggplot2)).
+
+The 3D interactive view makes the Sun easier to find — you can zoom and
+hover to locate it:
+
+``` r
+sim |> plot_orbits(three_d = TRUE)
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+
+Zoom in on the center and you’ll see the Sun isn’t perfectly stationary
+— it traces a tiny loop. This is Newton’s third law at work: just as the
+Sun pulls on the Earth, the Earth pulls back on the Sun, causing it to
+orbit the system’s shared center of mass (barycenter). The effect is
+minuscule because the Sun is ~330,000 times more massive than the Earth,
+but it’s real — and it’s exactly this stellar wobble that astronomers
+use to detect exoplanets.
 
 ------------------------------------------------------------------------
 
@@ -142,7 +159,7 @@ Piping-friendly: returns the updated `orbit_system`.
 
 ------------------------------------------------------------------------
 
-### `simulate(system, time_step, duration, method, softening, use_cpp)`
+### `simulate_system(system, time_step, duration, method, softening, use_cpp)`
 
 The core engine. Propagates the system forward through time and returns
 the full trajectory as a tidy tibble.
@@ -169,7 +186,7 @@ view to a geocentric one, for example.
 
 | Parameter     | Type        | Default | Description                          |
 |---------------|-------------|---------|--------------------------------------|
-| `sim_data`    | `tibble`    | —       | Output from `simulate()`             |
+| `sim_data`    | `tibble`    | —       | Output from `simulate_system()`      |
 | `center_id`   | `character` | —       | ID of the body to place at (0, 0, 0) |
 | `keep_center` | `logical`   | `TRUE`  | Keep the center body in the output?  |
 
@@ -197,7 +214,7 @@ Otherwise it produces a 2D trajectory map (x vs y) using `ggplot2` with
 
 | Parameter  | Type      | Default | Description                             |
 |------------|-----------|---------|-----------------------------------------|
-| `sim_data` | `tibble`  | —       | Output from `simulate()`                |
+| `sim_data` | `tibble`  | —       | Output from `simulate_system()`         |
 | `three_d`  | `logical` | `FALSE` | Force 3D rendering even for planar data |
 
 Returns a `ggplot` object (2D) or a `plotly` HTML widget (3D).
@@ -238,11 +255,11 @@ create_system() |>
            x = distance_earth_moon,
            vy = speed_moon * cos(5 * pi / 180),
            vz = speed_moon * sin(5 * pi / 180)) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 Because `vz` is non-zero, `plot_orbits()` detects 3D motion and returns
 an interactive plotly widget. You can drag to rotate, scroll to zoom,
@@ -255,9 +272,9 @@ and hover to see timestamps.
 `plot_orbits()` and `plot_orbits_3d()` are convenience functions for
 quick trajectory plots — they’re designed to get you a useful
 visualization in one line so you can focus on setting up the physics.
-But the real power of `orbitr` is that `simulate()` returns a standard
-tidy tibble. You can use `ggplot2`, `plotly`, or any other visualization
-tool directly on the output.
+But the real power of `orbitr` is that `simulate_system()` returns a
+standard tidy tibble. You can use `ggplot2`, `plotly`, or any other
+visualization tool directly on the output.
 
 Here’s what the raw output looks like:
 
@@ -265,7 +282,7 @@ Here’s what the raw output looks like:
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim
 ```
@@ -310,7 +327,7 @@ sim |>
   theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 Or plot the Moon’s path relative to Earth with a color gradient showing
 the passage of time:
@@ -326,7 +343,7 @@ sim |>
   theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
 ------------------------------------------------------------------------
 
@@ -369,7 +386,7 @@ sim <- create_system() |>
            x = distance_earth_moon,
            vy = speed_moon * cos(5 * pi / 180),
            vz = speed_moon * sin(5 * pi / 180)) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim <- sim |>
   dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2))
@@ -407,11 +424,11 @@ plot_ly() |>
   )
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
-The point is the same as with `ggplot2`: `simulate()` returns a standard
-tibble, so you have full access to `plotly`’s API for anything the
-built-in plotting functions don’t cover.
+The point is the same as with `ggplot2`: `simulate_system()` returns a
+standard tibble, so you have full access to `plotly`’s API for anything
+the built-in plotting functions don’t cover.
 
 ------------------------------------------------------------------------
 
@@ -427,11 +444,11 @@ library(orbitr)
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
 
 ### The Sun-Earth System
 
@@ -441,11 +458,11 @@ A full year with daily time steps.
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate(time_step = 86400, duration = 86400 * 365) |>
+  simulate_system(time_step = 86400, duration = 86400 * 365) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-11-1.png)<!-- -->
 
 ### The Three-Body Problem (Sun-Earth-Moon)
 
@@ -464,11 +481,11 @@ create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,   # Earth's X + lunar orbital radius
            vy = speed_earth + speed_moon) |>               # Earth's speed + Moon's orbital speed
-  simulate(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-11-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
 
 ### Shifting Your Point of View
 
@@ -483,12 +500,12 @@ create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365) |>
   shift_reference_frame("Earth") |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
 
 ### Comparing Integration Methods
 
@@ -515,13 +532,13 @@ system <- create_system() |>
   add_body("Star", mass = 1e30) |>
   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000)
 
-verlet <- simulate(system, time_step = 3600, duration = 86400 * 365, method = "verlet") |>
+verlet <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "verlet") |>
   mutate(method = "Velocity Verlet")
 
-euler_cromer <- simulate(system, time_step = 3600, duration = 86400 * 365, method = "euler_cromer") |>
+euler_cromer <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "euler_cromer") |>
   mutate(method = "Euler-Cromer")
 
-euler <- simulate(system, time_step = 3600, duration = 86400 * 365, method = "euler") |>
+euler <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "euler") |>
   mutate(method = "Standard Euler")
 
 bind_rows(verlet, euler_cromer, euler) |>
@@ -532,7 +549,7 @@ bind_rows(verlet, euler_cromer, euler) |>
   ggplot2::theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-13-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
 
 You’ll see that Verlet traces a clean closed ellipse, Euler-Cromer stays
 close but drifts slightly, and standard Euler spirals outward as it
@@ -569,11 +586,11 @@ create_system() |>
   add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
   add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
   add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
-  simulate(time_step = 3600, duration = 86400 * 228.8 * 3) |>
+  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
 
 ------------------------------------------------------------------------
 
@@ -619,7 +636,7 @@ This means the Earth-Moon example can be written as:
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 
@@ -703,7 +720,7 @@ for dense systems.
 
 ### Numerical Integration Methods
 
-`simulate()` offers three methods for stepping the system forward
+`simulate_system()` offers three methods for stepping the system forward
 through time. All operate in 3D Cartesian coordinates.
 
 #### 1. Velocity Verlet (default, `method = "verlet"`)
@@ -768,16 +785,16 @@ The inner acceleration loop is the computational bottleneck of any
 N-body simulation. `orbitr` ships a compiled C++ kernel (via `Rcpp`)
 that computes the $O(n^2)$ pairwise interactions in a tight nested loop.
 When the package is installed from source with a working C++ toolchain,
-`simulate()` automatically dispatches to this engine. If the compiled
-code isn’t available, it falls back to a vectorized R implementation
-that uses matrix outer products — still fast, but the C++ path is
-significantly faster for systems with many bodies.
+`simulate_system()` automatically dispatches to this engine. If the
+compiled code isn’t available, it falls back to a vectorized R
+implementation that uses matrix outer products — still fast, but the C++
+path is significantly faster for systems with many bodies.
 
 You can control this with the `use_cpp` argument:
 
 ``` r
 # Force the pure-R engine (useful for debugging or benchmarking)
-simulate(system, use_cpp = FALSE)
+simulate_system(system, use_cpp = FALSE)
 ```
 
 ------------------------------------------------------------------------
@@ -827,21 +844,21 @@ sim <- create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365)
+  simulate_system(time_step = 3600, duration = 86400 * 365)
 
 # Heliocentric view — Earth and Moon overlap at this scale,
 # and the Sun barely moves so its trajectory is invisible
 sim |> plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-15-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-16-1.png)<!-- -->
 
 ``` r
 # Geocentric view — now you can see the Moon's orbit clearly
 sim |> shift_reference_frame("Earth") |> plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-16-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-17-1.png)<!-- -->
 
 ### Removing the Center Body
 
@@ -866,7 +883,7 @@ sim |>
   theme_minimal()
 ```
 
-![](man/figures/README-unnamed-chunk-17-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
 
 ### Viewing a Binary Star System from the Planet
 
@@ -894,12 +911,12 @@ create_system() |>
   add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
   add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
   add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
-  simulate(time_step = 3600, duration = 86400 * 228.8 * 3) |>
+  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3) |>
   shift_reference_frame("Kepler-16b", keep_center = FALSE) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-19-1.png)<!-- -->
 
 From the planet’s perspective, both stars trace looping spirograph-like
 patterns across the sky — a double sunset that moves differently every
@@ -934,11 +951,11 @@ create_system() |>
   add_body("Star A", mass = 1e30, x = 1e11, y = 0, vx = 0, vy = 15000) |>
   add_body("Star B", mass = 1e30, x = -5e10, y = 8.66e10, vx = -12990, vy = -7500) |>
   add_body("Star C", mass = 1e30, x = -5e10, y = -8.66e10, vx = 14000, vy = -8000) |>
-  simulate(time_step = 3600, duration = 86400 * 365 * 10) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365 * 10) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-19-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-20-1.png)<!-- -->
 
 This is actually what happens in real stellar dynamics — close
 three-body encounters in star clusters frequently eject one star at high

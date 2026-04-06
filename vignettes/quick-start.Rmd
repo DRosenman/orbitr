@@ -39,7 +39,7 @@ library(orbitr)
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 
@@ -47,7 +47,7 @@ That's it — a 28-day lunar orbit in four lines. Here's what each step does:
 
 1. **`create_system()`** initializes an empty simulation with standard gravitational constant G.
 2. **`add_body()`** places a body with a given mass, position, and velocity. All positions are in meters, velocities in m/s. The built-in constants (`mass_earth`, `distance_earth_moon`, etc.) save you from looking anything up.
-3. **`simulate()`** runs the N-body integration forward in time. `time_step` is how many seconds per integration step, `duration` is the total time to simulate.
+3. **`simulate_system()`** runs the N-body integration forward in time. `time_step` is how many seconds per integration step, `duration` is the total time to simulate.
 4. **`plot_orbits()`** produces a quick 2D trajectory plot using `ggplot2`.
 
 ## Adding More Bodies
@@ -61,7 +61,7 @@ create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365) |>
   shift_reference_frame("Earth") |>
   plot_orbits()
 ```
@@ -76,7 +76,7 @@ The default integrator is Velocity Verlet, which conserves energy and keeps orbi
 create_system() |>
   add_body("Star", mass = 1e30) |>
   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
-  simulate(time_step = 3600, duration = 86400 * 365, method = "euler") |>
+  simulate_system(time_step = 3600, duration = 86400 * 365, method = "euler") |>
   plot_orbits()
 ```
 
@@ -84,13 +84,13 @@ You'll see the orbit spiral outward — that's the Euler method artificially pum
 
 ## The Output is Just a Tibble
 
-`simulate()` returns a standard tidy tibble. You can use `dplyr`, `ggplot2`, `plotly`, or any other tool on it:
+`simulate_system()` returns a standard tidy tibble. You can use `dplyr`, `ggplot2`, `plotly`, or any other tool on it:
 
 ```{r}
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim
 ```

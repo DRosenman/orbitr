@@ -44,7 +44,7 @@ reference:
   - title: "Simulation"
     desc: "Run the N-body simulation"
     contents:
-      - simulate
+      - simulate_system
 
   - title: "Analysis & Visualization"
     desc: "Transform and plot results"

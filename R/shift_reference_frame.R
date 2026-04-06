@@ -4,7 +4,7 @@
 #' target body. This effectively "anchors the camera" to the chosen body, placing
 #' it at the origin (0, 0, 0) for all time steps.
 #'
-#' @param sim_data A tidy `tibble` containing the output from `simulate()`.
+#' @param sim_data A tidy `tibble` containing the output from `simulate_system()`.
 #' @param center_id The character string ID of the body to use as the new origin.
 #' @param keep_center Logical. Should the central body remain in the dataset
 #'   (it will have 0 for all coordinates) or be removed? Default is `TRUE`.
@@ -19,7 +19,7 @@
 #'   add_body("Sun", mass = 1.989e30) |>
 #'   add_body("Earth", mass = 5.97e24, x = 1.496e11, vy = 29780) |>
 #'   add_body("Moon", mass = 7.34e22, x = 1.496e11 + 3.84e8, vy = 29780 + 1022) |>
-#'   simulate(time_step = 3600, duration = 86400 * 365)
+#'   simulate_system(time_step = 3600, duration = 86400 * 365)
 #'
 #' # Shift view to Earth and plot
 #' orbit_data |>

@@ -7,7 +7,7 @@
 plot_orbits(sim_data, three_d = FALSE)
 }
 \arguments{
-\item{sim_data}{A tibble output from `simulate()`}
+\item{sim_data}{A tibble output from `simulate_system()`}
 
 \item{three_d}{Logical. If TRUE, forces a 3D plot even for 2D data.}
 }
