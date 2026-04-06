@@ -2,11 +2,6 @@
 
 ``` r
 library(orbitr)
-#> 
-#> Attaching package: 'orbitr'
-#> The following object is masked from 'package:stats':
-#> 
-#>     simulate
 ```
 
 `orbitr` ships a set of real-world masses, distances, and orbital speeds
@@ -56,7 +51,7 @@ This means the Earth-Moon example can be written as:
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 

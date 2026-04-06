@@ -78,12 +78,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/orbitr/">orbitr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'orbitr'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     simulate</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/orbitr/">orbitr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="the-problem-of-scale">The Problem of Scale<a class="anchor" aria-label="anchor" href="#the-problem-of-scale"></a>
 </h2>
@@ -103,7 +98,7 @@ heliocentric (Sun at the origin):</p>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>,</span>
 <span>           x <span class="op">=</span> <span class="va">distance_earth_sun</span> <span class="op">+</span> <span class="va">distance_earth_moon</span>,</span>
 <span>           vy <span class="op">=</span> <span class="va">speed_earth</span> <span class="op">+</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference-frames_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="672"></p>
@@ -161,7 +156,7 @@ place.</p>
 <td><code>sim_data</code></td>
 <td><code>tibble</code></td>
 <td>—</td>
-<td>Output from <code><a href="../reference/simulate.html">simulate()</a></code>
+<td>Output from <code><a href="../reference/simulate_system.html">simulate_system()</a></code>
 </td>
 </tr>
 <tr class="even">
@@ -216,7 +211,7 @@ stuck at zero:</p>
 <p>Since <code><a href="../reference/shift_reference_frame.html">shift_reference_frame()</a></code> doesn’t modify the
 underlying physics — it just translates coordinates — you can call it
 multiple times on the same simulation to explore different viewpoints.
-There’s no need to re-run <code><a href="../reference/simulate.html">simulate()</a></code>.</p>
+There’s no need to re-run <code><a href="../reference/simulate_system.html">simulate_system()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Same simulation, three different perspectives</span></span>
 <span></span>
@@ -295,7 +290,7 @@ circumbinary planet — looking back at its two parent stars:</p>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star A"</span>, mass <span class="op">=</span> <span class="va">m_A</span>, x <span class="op">=</span> <span class="va">r_A</span>, vy <span class="op">=</span> <span class="va">v_A</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star B"</span>, mass <span class="op">=</span> <span class="va">m_B</span>, x <span class="op">=</span> <span class="op">-</span><span class="va">r_B</span>, vy <span class="op">=</span> <span class="op">-</span><span class="va">v_B</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Kepler-16b"</span>, mass <span class="op">=</span> <span class="va">m_planet</span>, x <span class="op">=</span> <span class="va">r_planet</span>, vy <span class="op">=</span> <span class="va">v_planet</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/simulate.html">simulate</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">228.8</span> <span class="op">*</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">228.8</span> <span class="op">*</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p>From the default (barycentric) frame, you see the planet’s wide orbit
 and the stars’ tight inner dance:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">

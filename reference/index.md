@@ -13,7 +13,7 @@ Create a simulation and add bodies
 
 Run the N-body simulation
 
-- [`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+- [`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
   : Simulate kinematics for an orbitr system
 
 ## Analysis & Visualization

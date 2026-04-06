@@ -14,7 +14,7 @@ shift_reference_frame(sim_data, center_id, keep_center = TRUE)
 
 - sim_data:
 
-  A tidy \`tibble\` containing the output from \`simulate()\`.
+  A tidy \`tibble\` containing the output from \`simulate_system()\`.
 
 - center_id:
 
@@ -39,7 +39,7 @@ orbit_data <- create_system() |>
   add_body("Sun", mass = 1.989e30) |>
   add_body("Earth", mass = 5.97e24, x = 1.496e11, vy = 29780) |>
   add_body("Moon", mass = 7.34e22, x = 1.496e11 + 3.84e8, vy = 29780 + 1022) |>
-  simulate(time_step = 3600, duration = 86400 * 365)
+  simulate_system(time_step = 3600, duration = 86400 * 365)
 
 # Shift view to Earth and plot
 orbit_data |>

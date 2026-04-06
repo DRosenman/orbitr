@@ -14,7 +14,7 @@ plot_orbits_3d(sim_data)
 
 - sim_data:
 
-  A tibble containing the simulation output from \`simulate()\`.
+  A tibble containing the simulation output from \`simulate_system()\`.
 
 ## Value
 
@@ -27,7 +27,7 @@ if (FALSE) { # \dontrun{
 create_system() |>
   add_body("Earth", mass = 5.972e24) |>
   add_body("Moon", mass = 7.342e22, x = 3.844e8, vy = 1022, vz = 150) |>
-  simulate(time_step = 3600, duration = 86400 * 30) |>
+  simulate_system(time_step = 3600, duration = 86400 * 30) |>
   plot_orbits_3d()
 } # }
 ```

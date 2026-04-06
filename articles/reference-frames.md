@@ -2,11 +2,6 @@
 
 ``` r
 library(orbitr)
-#> 
-#> Attaching package: 'orbitr'
-#> The following object is masked from 'package:stats':
-#> 
-#>     simulate
 ```
 
 ## The Problem of Scale
@@ -29,7 +24,7 @@ sim <- create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365)
+  simulate_system(time_step = 3600, duration = 86400 * 365)
 
 sim |> plot_orbits()
 ```
@@ -77,11 +72,11 @@ The function signature is:
 shift_reference_frame(sim_data, center_id, keep_center = TRUE)
 ```
 
-| Parameter     | Type        | Default | Description                                                                          |
-|---------------|-------------|---------|--------------------------------------------------------------------------------------|
-| `sim_data`    | `tibble`    | —       | Output from [`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md) |
-| `center_id`   | `character` | —       | ID of the body to place at (0, 0, 0)                                                 |
-| `keep_center` | `logical`   | `TRUE`  | Keep the center body in the output?                                                  |
+| Parameter     | Type        | Default | Description                                                                                        |
+|---------------|-------------|---------|----------------------------------------------------------------------------------------------------|
+| `sim_data`    | `tibble`    | —       | Output from [`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md) |
+| `center_id`   | `character` | —       | ID of the body to place at (0, 0, 0)                                                               |
+| `keep_center` | `logical`   | `TRUE`  | Keep the center body in the output?                                                                |
 
 The transformation operates on all six phase-space coordinates (`x`,
 `y`, `z`, `vx`, `vy`, `vz`) simultaneously. At each time step, the
@@ -123,7 +118,7 @@ Since
 doesn’t modify the underlying physics — it just translates coordinates —
 you can call it multiple times on the same simulation to explore
 different viewpoints. There’s no need to re-run
-[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md).
+[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md).
 
 ``` r
 # Same simulation, three different perspectives
@@ -214,7 +209,7 @@ kepler16 <- create_system() |>
   add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
   add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
   add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
-  simulate(time_step = 3600, duration = 86400 * 228.8 * 3)
+  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3)
 ```
 
 From the default (barycentric) frame, you see the planet’s wide orbit

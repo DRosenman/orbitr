@@ -12,7 +12,7 @@ plot_orbits(sim_data, three_d = FALSE)
 
 - sim_data:
 
-  A tibble output from \`simulate()\`
+  A tibble output from \`simulate_system()\`
 
 - three_d:
 

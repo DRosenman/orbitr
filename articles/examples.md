@@ -2,11 +2,6 @@
 
 ``` r
 library(orbitr)
-#> 
-#> Attaching package: 'orbitr'
-#> The following object is masked from 'package:stats':
-#> 
-#>     simulate
 ```
 
 ## The Earth-Moon System
@@ -17,7 +12,7 @@ A standard 28-day lunar orbit. One-hour time steps.
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 
@@ -31,7 +26,7 @@ A full year with daily time steps.
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate(time_step = 86400, duration = 86400 * 365) |>
+  simulate_system(time_step = 86400, duration = 86400 * 365) |>
   plot_orbits()
 ```
 
@@ -54,7 +49,7 @@ create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365) |>
   plot_orbits()
 ```
 
@@ -73,7 +68,7 @@ create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365) |>
   shift_reference_frame("Earth") |>
   plot_orbits()
 ```
@@ -111,7 +106,7 @@ create_system() |>
   add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
   add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
   add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
-  simulate(time_step = 3600, duration = 86400 * 228.8 * 3) |>
+  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3) |>
   plot_orbits()
 ```
 

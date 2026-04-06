@@ -2,11 +2,6 @@
 
 ``` r
 library(orbitr)
-#> 
-#> Attaching package: 'orbitr'
-#> The following object is masked from 'package:stats':
-#> 
-#>     simulate
 ```
 
 [`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
@@ -15,7 +10,7 @@ and
 are convenience functions for quick trajectory plots — they’re designed
 to get you a useful visualization in one line so you can focus on
 setting up the physics. But the real power of `orbitr` is that
-[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
 returns a standard tidy tibble. You can use `ggplot2`, `plotly`, or any
 other visualization tool directly on the output.
 
@@ -27,7 +22,7 @@ Here’s what the simulation tibble looks like:
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim
 #> # A tibble: 1,346 × 9
@@ -125,7 +120,7 @@ sim <- create_system() |>
            x = distance_earth_moon,
            vy = speed_moon * cos(5 * pi / 180),
            vz = speed_moon * sin(5 * pi / 180)) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim <- sim |>
   dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2))
@@ -164,6 +159,6 @@ plot_ly() |>
 ```
 
 The point is the same as with `ggplot2`:
-[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
 returns a standard tibble, so you have full access to `plotly`’s API for
 anything the built-in plotting functions don’t cover.

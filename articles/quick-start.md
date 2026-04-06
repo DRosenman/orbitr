@@ -20,16 +20,11 @@ system, add bodies, simulate, and plot.
 
 ``` r
 library(orbitr)
-#> 
-#> Attaching package: 'orbitr'
-#> The following object is masked from 'package:stats':
-#> 
-#>     simulate
 
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 
@@ -46,7 +41,7 @@ does:
     positions are in meters, velocities in m/s. The built-in constants
     (`mass_earth`, `distance_earth_moon`, etc.) save you from looking
     anything up.
-3.  **[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)**
+3.  **[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)**
     runs the N-body integration forward in time. `time_step` is how many
     seconds per integration step, `duration` is the total time to
     simulate.
@@ -66,7 +61,7 @@ create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = 3600, duration = 86400 * 365) |>
   shift_reference_frame("Earth") |>
   plot_orbits()
 ```
@@ -88,7 +83,7 @@ conserved:
 create_system() |>
   add_body("Star", mass = 1e30) |>
   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
-  simulate(time_step = 3600, duration = 86400 * 365, method = "euler") |>
+  simulate_system(time_step = 3600, duration = 86400 * 365, method = "euler") |>
   plot_orbits()
 ```
 
@@ -100,7 +95,7 @@ artificially pumping energy into the system. Switch back to
 
 ## The Output is Just a Tibble
 
-[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
 returns a standard tidy tibble. You can use `dplyr`, `ggplot2`,
 `plotly`, or any other tool on it:
 
@@ -108,7 +103,7 @@ returns a standard tidy tibble. You can use `dplyr`, `ggplot2`,
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = 3600, duration = 86400 * 28)
 
 sim
 #> # A tibble: 1,346 × 9

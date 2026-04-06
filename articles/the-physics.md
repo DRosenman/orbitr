@@ -53,7 +53,7 @@ for dense systems.
 
 ## Numerical Integration Methods
 
-[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
 offers three methods for stepping the system forward through time. All
 operate in 3D Cartesian coordinates.
 
@@ -103,11 +103,6 @@ Verlet for real work.
 
 ``` r
 library(orbitr)
-#> 
-#> Attaching package: 'orbitr'
-#> The following object is masked from 'package:stats':
-#> 
-#>     simulate
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -122,13 +117,13 @@ system <- create_system() |>
   add_body("Star", mass = 1e30) |>
   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000)
 
-verlet <- simulate(system, time_step = 3600, duration = 86400 * 365, method = "verlet") |>
+verlet <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "verlet") |>
   mutate(method = "Velocity Verlet")
 
-euler_cromer <- simulate(system, time_step = 3600, duration = 86400 * 365, method = "euler_cromer") |>
+euler_cromer <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "euler_cromer") |>
   mutate(method = "Euler-Cromer")
 
-euler <- simulate(system, time_step = 3600, duration = 86400 * 365, method = "euler") |>
+euler <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "euler") |>
   mutate(method = "Standard Euler")
 
 bind_rows(verlet, euler_cromer, euler) |>
@@ -152,7 +147,7 @@ N-body simulation. `orbitr` ships a compiled C++ kernel (via `Rcpp`)
 that computes the $O\left( n^{2} \right)$ pairwise interactions in a
 tight nested loop. When the package is installed from source with a
 working C++ toolchain,
-[`simulate()`](https://drosenman.github.io/orbitr/reference/simulate.md)
+[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
 automatically dispatches to this engine. If the compiled code isn’t
 available, it falls back to a vectorized R implementation that uses
 matrix outer products — still fast, but the C++ path is significantly
@@ -162,5 +157,5 @@ You can control this with the `use_cpp` argument:
 
 ``` r
 # Force the pure-R engine (useful for debugging or benchmarking)
-simulate(system, use_cpp = FALSE)
+simulate_system(system, use_cpp = FALSE)
 ```

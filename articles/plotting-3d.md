@@ -2,11 +2,6 @@
 
 ``` r
 library(orbitr)
-#> 
-#> Attaching package: 'orbitr'
-#> The following object is masked from 'package:stats':
-#> 
-#>     simulate
 ```
 
 All simulations in `orbitr` run in full 3D — every body always has `x`,
@@ -47,7 +42,7 @@ create_system() |>
            x = distance_earth_moon,
            vy = speed_moon * cos(5 * pi / 180),
            vz = speed_moon * sin(5 * pi / 180)) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits()
 ```
 
@@ -65,7 +60,7 @@ Even if your system is entirely planar, you can opt into the interactive
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = 3600, duration = 86400 * 28) |>
   plot_orbits(three_d = TRUE)
 ```
 
