@@ -133,6 +133,27 @@ Visualization with ggplot2](#custom-visualization-with-ggplot2)). For
 interactive 3D views where you can zoom in and find the Sun, see [3D
 Plotting](#3d-plotting).
 
+### Watching the Orbit in Motion
+
+Static plots are nice, but you can also play the simulation forward as
+an animation with `animate_system()`. By default each body leaves a
+fading wake of recent positions behind it, so you can see where it just
+came from:
+
+``` r
+animate_system(sim, fps = 15, duration = 5)
+```
+
+![](man/figures/README-earth-orbit-anim-1.gif)<!-- -->
+
+`animate_system()` is the animated counterpart to `plot_system()`: it
+samples the simulation tibble down to roughly `fps * duration` evenly
+spaced frames, then renders them as a GIF using `gganimate`. The 2D path
+requires the `gganimate` and `gifski` packages — see the API reference
+below for details. Like the static plotters, it auto-dispatches to a 3D
+version (`animate_system_3d()`, an interactive `plotly` widget with a
+play button) the moment any body has non-zero Z motion.
+
 ------------------------------------------------------------------------
 
 ## API Reference
@@ -248,6 +269,64 @@ Generates an interactive 3D visualization using `plotly`. You can click
 and drag to rotate, scroll to zoom, and hover over trajectories to see
 body names and timestamps. Uses `aspectmode = "data"` to preserve
 proportions so circular orbits look circular in 3D space.
+
+Requires the `plotly` package. Returns a `plotly` HTML widget.
+
+### `plot_system(sim_data, time = NULL, trails = TRUE, three_d = FALSE)`
+
+The snapshot counterpart to `plot_orbits()`. Instead of drawing the full
+trajectories, it shows the position of every body at a single time step.
+Like `plot_orbits()`, it auto-dispatches to 3D when any body has
+non-zero Z motion (or `three_d = TRUE`), in which case it delegates to
+`plot_system_3d()`.
+
+| Parameter | Type | Default | Description |
+|----|----|----|----|
+| `sim_data` | `tibble` | — | Output from `simulate_system()` |
+| `time` | `numeric` | `NULL` | Snapshot time in simulation seconds. Defaults to the last time step. Snaps to the closest available time. |
+| `trails` | `logical` | `TRUE` | Draw the full orbit paths faintly behind the snapshot points |
+| `three_d` | `logical` | `FALSE` | Force 3D rendering even for planar data |
+
+Returns a `ggplot` object (2D) or a `plotly` HTML widget (3D).
+
+### `plot_system_3d(sim_data, time = NULL, trails = TRUE)`
+
+Interactive 3D snapshot via `plotly`. Renders each body’s position at
+the chosen time as a marker in a 3D scene, optionally with the full
+orbital trajectories shown faintly behind. Uses the same
+`aspectmode = "data"` setting as `plot_orbits_3d()`.
+
+Requires the `plotly` package. Returns a `plotly` HTML widget.
+
+### `animate_system(sim_data, fps = 20, duration = 10, trails = TRUE, three_d = FALSE)`
+
+The animated counterpart to `plot_system()` — bodies move along their
+orbits over time, optionally leaving a fading wake. Auto-dispatches to
+`animate_system_3d()` when any body has non-zero Z motion (or
+`three_d = TRUE`).
+
+| Parameter | Type | Default | Description |
+|----|----|----|----|
+| `sim_data` | `tibble` | — | Output from `simulate_system()` |
+| `fps` | `numeric` | `20` | Frames per second of the rendered animation |
+| `duration` | `numeric` | `10` | Length of the animation in seconds |
+| `trails` | `logical` | `TRUE` | Each body leaves a fading wake of recent positions |
+| `three_d` | `logical` | `FALSE` | Force a 3D animation even for planar data |
+
+Together `fps * duration` is the target number of frames;
+`animate_system()` downsamples the simulation tibble to roughly that
+many evenly spaced time steps. The 2D path requires the `gganimate`
+package (in `Suggests`) and is rendered as a GIF, which can take tens of
+seconds. Returns a rendered `gganimate` animation (2D) or a `plotly`
+HTML widget with built-in play/pause controls (3D). Save the 2D output
+to disk with `gganimate::anim_save()`.
+
+### `animate_system_3d(sim_data, fps = 20, duration = 10, trails = TRUE)`
+
+Interactive 3D animation via `plotly`. Returns a widget with a Play
+button and a time slider, optionally with the full orbit paths drawn
+faintly behind the moving markers. Renders essentially instantly because
+no GIF encoding is involved — playback is a native plotly feature.
 
 Requires the `plotly` package. Returns a `plotly` HTML widget.
 
@@ -1003,10 +1082,9 @@ are a few things to check before assuming something is wrong:
 ## Roadmap
 
 `orbitr` has a running list of features being considered for future
-versions — a complementary `plot_system()` snapshot function, an
-optional `radius` argument on `add_body()` for collision detection,
-post-Newtonian relativistic corrections, Keplerian orbital element
-helpers, and more. See the
+versions — an optional `radius` argument on `add_body()` for collision
+detection, non-gravitational forces, post-Newtonian relativistic
+corrections, Keplerian orbital element helpers, and more. See the
 [Roadmap](https://drosenman.github.io/orbitr/articles/roadmap.html) on
 the package website for the full list. Suggestions and pull requests are
 very welcome.

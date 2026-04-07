@@ -57,6 +57,18 @@ sim |>
 
 This works because the Sun sits essentially at the origin throughout the simulation — the barycenter wobble is well inside the Sun itself. For systems where the central body actually moves a noticeable amount, you'd want to pull its position from the simulation tibble instead of hardcoding `(0, 0)`.
 
+### Watching the Orbit in Motion
+
+Static plots are nice, but you can also play the simulation forward as an animation with `animate_system()`. By default each body leaves a fading wake of recent positions behind it:
+
+```r
+animate_system(sim, fps = 20, duration = 6)
+```
+
+![](man/figures/README-earth-orbit-anim-1.gif)
+
+`animate_system()` is the animated counterpart to `plot_system()` — it samples the simulation tibble down to roughly `fps * duration` evenly spaced frames and renders them as a GIF using `gganimate`. Like the static plotters, it auto-dispatches to a 3D version (`animate_system_3d()`, an interactive `plotly` widget with a play button) the moment any body has non-zero Z motion. The 2D path requires the `gganimate` and `gifski` packages — install them with `install.packages(c("gganimate", "gifski"))`.
+
 For better 2D plots where you control point markers, axis ranges, and labels, use `ggplot2` directly on the simulation tibble (see [Custom Visualization](articles/custom-visualization.html)). For interactive 3D views where you can zoom in and find the Sun, see [3D Plotting](articles/plotting-3d.html).
 
 ## Installation

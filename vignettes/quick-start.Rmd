@@ -75,6 +75,18 @@ sim |>
 
 This works because the Sun sits essentially at the origin throughout the simulation. For systems where the central body actually moves a noticeable amount, you'd want to pull its position from the simulation tibble instead of hardcoding `(0, 0)`.
 
+## Watching the Orbit in Motion
+
+Static plots are nice, but you can also play the simulation forward as an animation with `animate_system()`. By default each body leaves a fading wake of recent positions behind it:
+
+```{r eval = FALSE}
+animate_system(sim, fps = 15, duration = 5)
+```
+
+![](../man/figures/quick-start-earth-orbit-anim.gif)
+
+`animate_system()` is the animated counterpart to `plot_system()` — it samples the simulation tibble down to roughly `fps * duration` evenly spaced frames, then renders them as a GIF using `gganimate`. Like the static plotters, it auto-dispatches to a 3D version (`animate_system_3d()`, an interactive `plotly` widget with a play button) the moment any body has non-zero Z motion. The 2D path requires the `gganimate` and `gifski` packages — install them with `install.packages(c("gganimate", "gifski"))`.
+
 ## Adding More Bodies
 
 Since `orbitr` is a full N-body engine, you can add as many bodies as you want. Each one gravitationally interacts with every other. Here's the Sun-Earth-Moon system for a full year:

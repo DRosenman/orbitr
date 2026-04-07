@@ -28,14 +28,23 @@ In a two-body system, stability is relatively easy to achieve: give the smaller 
 
 Here's an example: three equal-mass stars arranged in a triangle with slightly asymmetric velocities. It starts off looking like an interesting dance, but the asymmetry compounds and eventually one or more stars get ejected:
 
-```{r}
-create_system() |>
+```{r three-body-sim}
+three_body <- create_system() |>
   add_body("Star A", mass = 1e30, x = 1e11, y = 0, vx = 0, vy = 15000) |>
   add_body("Star B", mass = 1e30, x = -5e10, y = 8.66e10, vx = -12990, vy = -7500) |>
   add_body("Star C", mass = 1e30, x = -5e10, y = -8.66e10, vx = 14000, vy = -8000) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365 * 10) |>
-  plot_orbits()
+  simulate_system(time_step = 3600, duration = 86400 * 365 * 3)
+
+three_body |> plot_orbits()
 ```
+
+The static plot is honestly hard to read — three crossed paths without a sense of *when* anything happens. Animating it makes the chaos legible. Watch the slingshot ejection unfold in real time:
+
+```{r eval = FALSE}
+animate_system(three_body, fps = 15, duration = 6)
+```
+
+![](../man/figures/unstable-orbits-three-body-anim.gif)
 
 This is actually what happens in real stellar dynamics — close three-body encounters in star clusters frequently eject one star at high velocity while the remaining two settle into a tighter binary. The process is called gravitational slingshot ejection.
 
