@@ -70,6 +70,33 @@ Sun is ~330,000 times more massive than the Earth. This stellar wobble
 is real, though — it’s exactly the method astronomers use to detect
 exoplanets.
 
+By default,
+[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+returns a standard `ggplot` object for planar (2D) simulations, and a
+`plotly` HTML widget for simulations with any 3D motion. (You can also
+force 3D rendering on planar data with `three_d = TRUE`.) Because the 2D
+case returns a regular ggplot, you can layer additional geoms, scales,
+themes, and labels onto it with `+` like any other ggplot. One quick fix
+for the missing Sun is to drop a marker at the origin:
+
+``` r
+sim |>
+  plot_orbits() +
+  ggplot2::geom_point(
+    data = data.frame(x = 0, y = 0),
+    ggplot2::aes(x = x, y = y),
+    color = "gold",
+    size = 6
+  ) +
+  ggplot2::labs(title = "Earth-Sun Orbit")
+```
+
+This works because the Sun sits essentially at the origin throughout the
+simulation — the barycenter wobble is well inside the Sun itself. For
+systems where the central body actually moves a noticeable amount, you’d
+want to pull its position from the simulation tibble instead of
+hardcoding `(0, 0)`.
+
 For better 2D plots where you control point markers, axis ranges, and
 labels, use `ggplot2` directly on the simulation tibble (see [Custom
 Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.md)).

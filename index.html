@@ -96,22 +96,34 @@
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-sun-earth-plot-1.png"></p>
 <p>You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s a limitation of <code><a href="reference/plot_orbits.html">plot_orbits()</a></code>: it draws trajectories using <code>geom_path()</code>, and the Sun barely moves during the simulation so its path is too small to see at this scale. The Sun <em>does</em> move — Newton’s third law means Earth pulls on the Sun just as the Sun pulls on Earth, causing it to trace a tiny loop around the system’s barycenter. It’s just invisible at this zoom level because the Sun is ~330,000 times more massive than the Earth. This stellar wobble is real, though — it’s exactly the method astronomers use to detect exoplanets.</p>
+<p>By default, <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> returns a standard <code>ggplot</code> object for planar (2D) simulations, and a <code>plotly</code> HTML widget for simulations with any 3D motion. (You can also force 3D rendering on planar data with <code>three_d = TRUE</code>.) Because the 2D case returns a regular ggplot, you can layer additional geoms, scales, themes, and labels onto it with <code>+</code> like any other ggplot. One quick fix for the missing Sun is to drop a marker at the origin:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, y <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"gold"</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">6</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Earth-Sun Orbit"</span><span class="op">)</span></span></code></pre></div>
+<p>This works because the Sun sits essentially at the origin throughout the simulation — the barycenter wobble is well inside the Sun itself. For systems where the central body actually moves a noticeable amount, you’d want to pull its position from the simulation tibble instead of hardcoding <code>(0, 0)</code>.</p>
 <p>For better 2D plots where you control point markers, axis ranges, and labels, use <code>ggplot2</code> directly on the simulation tibble (see <a href="articles/custom-visualization.html">Custom Visualization</a>). For interactive 3D views where you can zoom in and find the Sun, see <a href="articles/plotting-3d.html">3D Plotting</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"DRosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
 <p>For 3D interactive plotting, you’ll also want:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"plotly"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <p>The workflow is simple: create a system, add bodies, simulate, and plot.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
