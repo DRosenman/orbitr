@@ -53,6 +53,8 @@ sim |>
   ggplot2::labs(title = "Earth-Sun Orbit")
 ```
 
+![](man/figures/README-sun-earth-plot-with-sun-1.png)
+
 This works because the Sun sits essentially at the origin throughout the simulation — the barycenter wobble is well inside the Sun itself. For systems where the central body actually moves a noticeable amount, you'd want to pull its position from the simulation tibble instead of hardcoding `(0, 0)`.
 
 For better 2D plots where you control point markers, axis ranges, and labels, use `ggplot2` directly on the simulation tibble (see [Custom Visualization](articles/custom-visualization.html)). For interactive 3D views where you can zoom in and find the Sun, see [3D Plotting](articles/plotting-3d.html).
