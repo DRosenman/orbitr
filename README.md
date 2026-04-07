@@ -18,6 +18,7 @@
 - [Reference Frames](#reference-frames)
 - [Unstable Orbits and the Three-Body
   Problem](#unstable-orbits-and-the-three-body-problem)
+- [Roadmap](#roadmap)
 - [License](#license)
 
 ## Quick Start
@@ -30,7 +31,10 @@
 > have the full power of `ggplot2`, `plotly`, and any other
 > visualization library at your disposal. See [Custom Visualization with
 > ggplot2](#custom-visualization-with-ggplot2) and [Custom Visualization
-> with plotly](#custom-visualization-with-plotly) for examples.
+> with plotly](#custom-visualization-with-plotly) for examples. Curious
+> where `orbitr` is headed next? See the
+> [Roadmap](https://drosenman.github.io/orbitr/articles/roadmap.html)
+> for planned features and ideas.
 
 `orbitr` is a lightweight N-body gravitational physics engine built for
 the R ecosystem. Simulate planetary orbits, binary star systems, or
@@ -94,6 +98,32 @@ causing it to trace a tiny loop around the system’s barycenter. It’s
 just invisible at this zoom level because the Sun is ~330,000 times more
 massive than the Earth. This stellar wobble is real, though — it’s
 exactly the method astronomers use to detect exoplanets.
+
+By default, `plot_orbits()` returns a standard `ggplot` object for
+planar (2D) simulations, and a `plotly` HTML widget for simulations with
+any 3D motion. (You can also force 3D rendering on planar data with
+`three_d = TRUE`.) Because the 2D case returns a regular ggplot, you can
+layer additional geoms, scales, themes, and labels onto it with `+` like
+any other ggplot. One quick fix for the missing Sun is to drop a marker
+at the origin:
+
+``` r
+sim |>
+  plot_orbits() +
+  ggplot2::geom_point(
+    data = data.frame(x = 0, y = 0),
+    ggplot2::aes(x = x, y = y),
+    color = "gold",
+    size = 6
+  ) +
+  ggplot2::labs(title = "Earth-Sun Orbit")
+```
+
+This works because the Sun sits essentially at the origin throughout the
+simulation — the barycenter wobble is well inside the Sun itself. For
+systems where the central body actually moves a noticeable amount, you’d
+want to pull its position from the simulation tibble instead of
+hardcoding `(0, 0)`.
 
 For better 2D plots where you control point markers, axis ranges, and
 labels, use `ggplot2` directly on the simulation tibble (see [Custom
@@ -961,4 +991,26 @@ are a few things to check before assuming something is wrong:
   Deviating significantly from this produces eccentric orbits or escape
   trajectories.
 - **Bodies too close together.** Close encounters produce extreme
-  accelerations that can blow up numerically. Try increasing \`soften
+  accelerations that can blow up numerically. Try increasing `softening`
+  to a small non-zero value, or use a smaller `time_step`.
+- **Three-body and beyond.** Most three-body configurations are chaotic.
+  Don’t expect them to be stable.
+
+------------------------------------------------------------------------
+
+## Roadmap
+
+`orbitr` has a running list of features being considered for future
+versions — a complementary `plot_system()` snapshot function, an
+optional `radius` argument on `add_body()` for collision detection,
+post-Newtonian relativistic corrections, Keplerian orbital element
+helpers, and more. See the
+[Roadmap](https://drosenman.github.io/orbitr/articles/roadmap.html) on
+the package website for the full list. Suggestions and pull requests are
+very welcome.
+
+------------------------------------------------------------------------
+
+## License
+
+MIT © Dave Rosenman. See [LICENSE](LICENSE) for details.

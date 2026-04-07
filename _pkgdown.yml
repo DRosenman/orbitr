@@ -34,6 +34,11 @@ articles:
       - reference-frames
       - unstable-orbits
 
+  - title: "Roadmap"
+    navbar: "Roadmap"
+    contents:
+      - roadmap
+
 reference:
   - title: "System Setup"
     desc: "Create a simulation and add bodies"

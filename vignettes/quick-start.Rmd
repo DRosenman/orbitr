@@ -50,6 +50,31 @@ That's it — a 28-day lunar orbit in four lines. Here's what each step does:
 3. **`simulate_system()`** runs the N-body integration forward in time. `time_step` is how many seconds per integration step, `duration` is the total time to simulate.
 4. **`plot_orbits()`** produces a quick 2D trajectory plot using `ggplot2`.
 
+## Customizing the Plot
+
+By default, `plot_orbits()` returns a standard `ggplot` object for planar (2D) simulations and a `plotly` HTML widget for simulations with any 3D motion. (You can also force 3D rendering on planar data with `three_d = TRUE`.) Because the 2D case returns a regular ggplot, you can layer additional geoms, scales, themes, and labels onto it with `+` like any other ggplot.
+
+A common annoyance is that the central body in a two-body system can be invisible: `plot_orbits()` draws each body as a `geom_path()` of its trajectory, and a much more massive body barely moves so its path is too small to see. The Sun in a Sun-Earth simulation is the classic example — it's there, but its loop around the barycenter is well inside the Sun itself. The simplest fix is to drop a marker at the origin:
+
+```r
+sim <- create_system() |>
+  add_body("Sun",   mass = mass_sun) |>
+  add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+  simulate_system(time_step = 86400, duration = 86400 * 365)
+
+sim |>
+  plot_orbits() +
+  ggplot2::geom_point(
+    data = data.frame(x = 0, y = 0),
+    ggplot2::aes(x = x, y = y),
+    color = "gold",
+    size = 6
+  ) +
+  ggplot2::labs(title = "Earth-Sun Orbit")
+```
+
+This works because the Sun sits essentially at the origin throughout the simulation. For systems where the central body actually moves a noticeable amount, you'd want to pull its position from the simulation tibble instead of hardcoding `(0, 0)`.
+
 ## Adding More Bodies
 
 Since `orbitr` is a full N-body engine, you can add as many bodies as you want. Each one gravitationally interacts with every other. Here's the Sun-Earth-Moon system for a full year:
@@ -105,3 +130,4 @@ Each row is one body at one point in time, with columns for position (`x`, `y`, 
 - **[3D Plotting](plotting-3d.html)** — Interactive 3D visualization with plotly
 - **[Custom Visualization](custom-visualization.html)** — Build your own plots with ggplot2 and plotly
 - **[Physical Constants](physical-constants.html)** — All built-in masses, distances, and speeds
+- **[Roadmap](roadmap.html)** — Features being considered for future versions, plus a place to suggest your own
