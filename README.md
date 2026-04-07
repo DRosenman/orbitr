@@ -119,6 +119,8 @@ sim |>
   ggplot2::labs(title = "Earth-Sun Orbit")
 ```
 
+![](man/figures/README-sun-earth-plot-with-sun-1.png)<!-- -->
+
 This works because the Sun sits essentially at the origin throughout the
 simulation — the barycenter wobble is well inside the Sun itself. For
 systems where the central body actually moves a noticeable amount, you’d
