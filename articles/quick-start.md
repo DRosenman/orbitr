@@ -85,6 +85,8 @@ sim |>
   ggplot2::labs(title = "Earth-Sun Orbit")
 ```
 
+![](quick-start_files/figure-html/sun-earth-plot-with-sun-1.png)
+
 This works because the Sun sits essentially at the origin throughout the
 simulation. For systems where the central body actually moves a
 noticeable amount, you’d want to pull its position from the simulation
