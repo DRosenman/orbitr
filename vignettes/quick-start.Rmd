@@ -56,7 +56,7 @@ By default, `plot_orbits()` returns a standard `ggplot` object for planar (2D) s
 
 A common annoyance is that the central body in a two-body system can be invisible: `plot_orbits()` draws each body as a `geom_path()` of its trajectory, and a much more massive body barely moves so its path is too small to see. The Sun in a Sun-Earth simulation is the classic example — it's there, but its loop around the barycenter is well inside the Sun itself. The simplest fix is to drop a marker at the origin:
 
-```r
+```{r sun-earth-plot-with-sun, message = FALSE}
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>

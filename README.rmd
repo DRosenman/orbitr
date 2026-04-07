@@ -63,7 +63,7 @@ You'll notice only Earth's orbit is visible — the Sun is missing. That's a lim
 
 By default, `plot_orbits()` returns a standard `ggplot` object for planar (2D) simulations, and a `plotly` HTML widget for simulations with any 3D motion. (You can also force 3D rendering on planar data with `three_d = TRUE`.) Because the 2D case returns a regular ggplot, you can layer additional geoms, scales, themes, and labels onto it with `+` like any other ggplot. One quick fix for the missing Sun is to drop a marker at the origin:
 
-```r
+```{r sun-earth-plot-with-sun}
 sim |>
   plot_orbits() +
   ggplot2::geom_point(
