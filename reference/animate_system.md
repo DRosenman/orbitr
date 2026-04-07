@@ -1,0 +1,85 @@
+# Animate the System Over Time (Smart 2D/3D Dispatch)
+
+Plays the simulation forward as an animation. Bodies move through their
+orbits frame by frame, optionally leaving a fading wake behind them.
+This is the animated counterpart to \[plot_system()\] — a moving
+snapshot rather than a single frozen one.
+
+## Usage
+
+``` r
+animate_system(
+  sim_data,
+  fps = 20,
+  duration = 10,
+  trails = TRUE,
+  three_d = FALSE
+)
+```
+
+## Arguments
+
+- sim_data:
+
+  A tibble output from \[simulate_system()\].
+
+- fps:
+
+  Frames per second of the rendered animation. Default \`20\`.
+
+- duration:
+
+  Length of the animation in seconds. Default \`10\`. Together with
+  \`fps\`, this determines how many simulation time steps are sampled
+  into frames (\`fps \* duration\`). If your simulation has fewer steps
+  than that, every step becomes a frame.
+
+- trails:
+
+  Logical. If \`TRUE\` (the default), each body leaves a fading wake of
+  its recent positions behind it. Set \`FALSE\` for naked moving dots.
+
+- three_d:
+
+  Logical. If \`TRUE\`, forces a 3D animation even for planar data.
+
+## Value
+
+A rendered \`gganimate\` animation (2D) or a \`plotly\` HTML widget with
+built-in play/pause controls (3D). The 2D return value can be saved to
+disk with \[gganimate::anim_save()\].
+
+## Details
+
+If any body has non-zero motion in the Z dimension (or \`three_d =
+TRUE\`), \[animate_system_3d()\] is used; otherwise a 2D \`gganimate\`
+animation is returned.
+
+The 2D path requires the \`gganimate\` package, which is in
+\`Suggests\`. Install it with \`install.packages("gganimate")\`.
+Rendering a 2D animation is much slower than a static plot — expect tens
+of seconds for typical simulations, since every frame is drawn and
+encoded as a GIF (or MP4).
+
+The 3D path uses \`plotly\`'s built-in \`frame\` aesthetic, which
+produces an interactive HTML widget with a play button and time slider.
+No GIF encoding is involved, so 3D animations render essentially
+instantly.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+sim <- create_system() |>
+  add_body("Sun",   mass = mass_sun) |>
+  add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+  simulate_system(time_step = 86400, duration = 86400 * 365)
+
+# 2D fading-wake animation (requires gganimate)
+anim <- animate_system(sim, fps = 20, duration = 8)
+anim
+
+# Save to disk
+gganimate::anim_save("earth_orbit.gif", anim)
+} # }
+```

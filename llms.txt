@@ -99,6 +99,31 @@ systems where the central body actually moves a noticeable amount, you’d
 want to pull its position from the simulation tibble instead of
 hardcoding `(0, 0)`.
 
+### Watching the Orbit in Motion
+
+Static plots are nice, but you can also play the simulation forward as
+an animation with
+[`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md).
+By default each body leaves a fading wake of recent positions behind it:
+
+``` r
+animate_system(sim, fps = 20, duration = 6)
+```
+
+![](reference/figures/README-earth-orbit-anim-1.gif)
+
+[`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
+is the animated counterpart to
+[`plot_system()`](https://drosenman.github.io/orbitr/reference/plot_system.md)
+— it samples the simulation tibble down to roughly `fps * duration`
+evenly spaced frames and renders them as a GIF using `gganimate`. Like
+the static plotters, it auto-dispatches to a 3D version
+([`animate_system_3d()`](https://drosenman.github.io/orbitr/reference/animate_system_3d.md),
+an interactive `plotly` widget with a play button) the moment any body
+has non-zero Z motion. The 2D path requires the `gganimate` and `gifski`
+packages — install them with
+`install.packages(c("gganimate", "gifski"))`.
+
 For better 2D plots where you control point markers, axis ranges, and
 labels, use `ggplot2` directly on the simulation tibble (see [Custom
 Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.md)).
@@ -203,6 +228,14 @@ Transform and plot results
   : Plot Orbital Trajectories (Smart 2D/3D Dispatch)
 - [`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md)
   : Plot 3D Interactive Orbital Trajectories
+- [`plot_system()`](https://drosenman.github.io/orbitr/reference/plot_system.md)
+  : Plot System Snapshot at a Single Time (Smart 2D/3D Dispatch)
+- [`plot_system_3d()`](https://drosenman.github.io/orbitr/reference/plot_system_3d.md)
+  : Plot 3D Interactive System Snapshot at a Single Time
+- [`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
+  : Animate the System Over Time (Smart 2D/3D Dispatch)
+- [`animate_system_3d()`](https://drosenman.github.io/orbitr/reference/animate_system_3d.md)
+  : Animate the System Over Time in Interactive 3D
 
 ## Physical Constants
 

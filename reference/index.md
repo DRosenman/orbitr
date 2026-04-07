@@ -26,6 +26,14 @@ Transform and plot results
   : Plot Orbital Trajectories (Smart 2D/3D Dispatch)
 - [`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md)
   : Plot 3D Interactive Orbital Trajectories
+- [`plot_system()`](https://drosenman.github.io/orbitr/reference/plot_system.md)
+  : Plot System Snapshot at a Single Time (Smart 2D/3D Dispatch)
+- [`plot_system_3d()`](https://drosenman.github.io/orbitr/reference/plot_system_3d.md)
+  : Plot 3D Interactive System Snapshot at a Single Time
+- [`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
+  : Animate the System Over Time (Smart 2D/3D Dispatch)
+- [`animate_system_3d()`](https://drosenman.github.io/orbitr/reference/animate_system_3d.md)
+  : Animate the System Over Time in Interactive 3D
 
 ## Physical Constants
 

@@ -23,15 +23,26 @@ interesting dance, but the asymmetry compounds and eventually one or
 more stars get ejected:
 
 ``` r
-create_system() |>
+three_body <- create_system() |>
   add_body("Star A", mass = 1e30, x = 1e11, y = 0, vx = 0, vy = 15000) |>
   add_body("Star B", mass = 1e30, x = -5e10, y = 8.66e10, vx = -12990, vy = -7500) |>
   add_body("Star C", mass = 1e30, x = -5e10, y = -8.66e10, vx = 14000, vy = -8000) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365 * 10) |>
-  plot_orbits()
+  simulate_system(time_step = 3600, duration = 86400 * 365 * 3)
+
+three_body |> plot_orbits()
 ```
 
-![](unstable-orbits_files/figure-html/unnamed-chunk-3-1.png)
+![](unstable-orbits_files/figure-html/three-body-sim-1.png)
+
+The static plot is honestly hard to read — three crossed paths without a
+sense of *when* anything happens. Animating it makes the chaos legible.
+Watch the slingshot ejection unfold in real time:
+
+``` r
+animate_system(three_body, fps = 15, duration = 6)
+```
+
+![](../reference/figures/unstable-orbits-three-body-anim.gif)
 
 This is actually what happens in real stellar dynamics — close
 three-body encounters in star clusters frequently eject one star at high

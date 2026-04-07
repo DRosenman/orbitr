@@ -92,6 +92,31 @@ simulation. For systems where the central body actually moves a
 noticeable amount, you’d want to pull its position from the simulation
 tibble instead of hardcoding `(0, 0)`.
 
+## Watching the Orbit in Motion
+
+Static plots are nice, but you can also play the simulation forward as
+an animation with
+[`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md).
+By default each body leaves a fading wake of recent positions behind it:
+
+``` r
+animate_system(sim, fps = 15, duration = 5)
+```
+
+![](../reference/figures/quick-start-earth-orbit-anim.gif)
+
+[`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
+is the animated counterpart to
+[`plot_system()`](https://drosenman.github.io/orbitr/reference/plot_system.md)
+— it samples the simulation tibble down to roughly `fps * duration`
+evenly spaced frames, then renders them as a GIF using `gganimate`. Like
+the static plotters, it auto-dispatches to a 3D version
+([`animate_system_3d()`](https://drosenman.github.io/orbitr/reference/animate_system_3d.md),
+an interactive `plotly` widget with a play button) the moment any body
+has non-zero Z motion. The 2D path requires the `gganimate` and `gifski`
+packages — install them with
+`install.packages(c("gganimate", "gifski"))`.
+
 ## Adding More Bodies
 
 Since `orbitr` is a full N-body engine, you can add as many bodies as
@@ -110,7 +135,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](quick-start_files/figure-html/unnamed-chunk-3-1.png)
+![](quick-start_files/figure-html/unnamed-chunk-4-1.png)
 
 Notice `shift_reference_frame("Earth")` — this re-centers everything on
 Earth so you can see the Moon’s orbit instead of having everything
@@ -131,7 +156,7 @@ create_system() |>
   plot_orbits()
 ```
 
-![](quick-start_files/figure-html/unnamed-chunk-4-1.png)
+![](quick-start_files/figure-html/unnamed-chunk-5-1.png)
 
 You’ll see the orbit spiral outward — that’s the Euler method
 artificially pumping energy into the system. Switch back to

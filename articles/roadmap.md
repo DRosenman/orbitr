@@ -7,31 +7,6 @@ find interesting or what users have asked for. If any of these sound
 useful (or terrible), let me know. Suggestions, feedback, and pull
 requests are all very welcome.
 
-## Visualization
-
-### `plot_system()` and `plot_system_3d()`
-
-The current
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-and
-[`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md)
-functions draw the *trajectories* — the full path each body sweeps out
-over the simulation. A complementary pair of functions, `plot_system()`
-and `plot_system_3d()`, would render a **snapshot of the system at a
-single time step**: each body as a dot (sized by mass, or by radius if
-one is supplied), optionally with velocity vectors as arrows. Useful for
-debugging initial conditions, comparing the state at different times, or
-building the frames of an animation.
-
-### Animation helpers
-
-Something like `animate_orbits()` that wraps `gganimate` (or writes a
-GIF/MP4 directly) to play the simulation forward in time. The tibble
-output of
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
-is already in the right shape for this — it’s just a matter of wiring up
-a clean wrapper so users don’t have to write the boilerplate themselves.
-
 ## Physics
 
 ### A `radius` argument on `add_body()`

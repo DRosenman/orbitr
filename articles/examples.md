@@ -9,14 +9,23 @@ library(orbitr)
 A standard 28-day lunar orbit. One-hour time steps.
 
 ``` r
-create_system() |>
+earth_moon <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28) |>
-  plot_orbits()
+  simulate_system(time_step = 3600, duration = 86400 * 28)
+
+earth_moon |> plot_orbits()
 ```
 
-![](examples_files/figure-html/unnamed-chunk-3-1.png)
+![](examples_files/figure-html/earth-moon-sim-1.png)
+
+And animated, so you can watch the Moon actually swing around:
+
+``` r
+animate_system(earth_moon, fps = 15, duration = 5)
+```
+
+![](../reference/figures/examples-earth-moon-anim.gif)
 
 ## The Sun-Earth System
 
@@ -62,18 +71,28 @@ Moon’s path *from Earth’s perspective*, pipe the results through
 [`shift_reference_frame()`](https://drosenman.github.io/orbitr/reference/shift_reference_frame.md):
 
 ``` r
-create_system() |>
+sun_earth_moon <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
   simulate_system(time_step = 3600, duration = 86400 * 365) |>
-  shift_reference_frame("Earth") |>
-  plot_orbits()
+  shift_reference_frame("Earth")
+
+sun_earth_moon |> plot_orbits()
 ```
 
-![](examples_files/figure-html/unnamed-chunk-6-1.png)
+![](examples_files/figure-html/sun-earth-moon-sim-1.png)
+
+Animating the Earth-frame view makes the Moon’s monthly loops around
+Earth obvious as the Sun drifts across the background:
+
+``` r
+animate_system(sun_earth_moon, fps = 15, duration = 6)
+```
+
+![](../reference/figures/examples-sun-earth-moon-anim.gif)
 
 ## The Kepler-16 System: A Real Circumbinary Planet
 
@@ -102,12 +121,23 @@ v_B <- sqrt(G * m_A^2 / ((m_A + m_B) * a_bin))
 r_planet <- 0.7048 * AU
 v_planet <- sqrt(G * (m_A + m_B) / r_planet)
 
-create_system() |>
+kepler16 <- create_system() |>
   add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
   add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
   add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
-  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3) |>
-  plot_orbits()
+  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3)
+
+kepler16 |> plot_orbits()
 ```
 
 ![](examples_files/figure-html/unnamed-chunk-7-1.png)
+
+The animation makes the circumbinary structure pop — the two stars whirl
+tightly around their common center while the planet traces a much wider,
+slower loop around the pair:
+
+``` r
+animate_system(kepler16, fps = 15, duration = 6)
+```
+
+![](../reference/figures/examples-kepler16-anim.gif)

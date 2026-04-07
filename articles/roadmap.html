@@ -87,34 +87,6 @@ what I personally find interesting or what users have asked for. If any
 of these sound useful (or terrible), let me know. Suggestions, feedback,
 and pull requests are all very welcome.</p>
 <div class="section level2">
-<h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
-</h2>
-<div class="section level3">
-<h3 id="plot_system-and-plot_system_3d">
-<code>plot_system()</code> and <code>plot_system_3d()</code><a class="anchor" aria-label="anchor" href="#plot_system-and-plot_system_3d"></a>
-</h3>
-<p>The current <code><a href="../reference/plot_orbits.html">plot_orbits()</a></code> and
-<code><a href="../reference/plot_orbits_3d.html">plot_orbits_3d()</a></code> functions draw the <em>trajectories</em> —
-the full path each body sweeps out over the simulation. A complementary
-pair of functions, <code>plot_system()</code> and
-<code>plot_system_3d()</code>, would render a <strong>snapshot of the
-system at a single time step</strong>: each body as a dot (sized by
-mass, or by radius if one is supplied), optionally with velocity vectors
-as arrows. Useful for debugging initial conditions, comparing the state
-at different times, or building the frames of an animation.</p>
-</div>
-<div class="section level3">
-<h3 id="animation-helpers">Animation helpers<a class="anchor" aria-label="anchor" href="#animation-helpers"></a>
-</h3>
-<p>Something like <code>animate_orbits()</code> that wraps
-<code>gganimate</code> (or writes a GIF/MP4 directly) to play the
-simulation forward in time. The tibble output of
-<code><a href="../reference/simulate_system.html">simulate_system()</a></code> is already in the right shape for this —
-it’s just a matter of wiring up a clean wrapper so users don’t have to
-write the boilerplate themselves.</p>
-</div>
-</div>
-<div class="section level2">
 <h2 id="physics">Physics<a class="anchor" aria-label="anchor" href="#physics"></a>
 </h2>
 <div class="section level3">
