@@ -48,6 +48,48 @@ does:
 4.  **[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)**
     produces a quick 2D trajectory plot using `ggplot2`.
 
+## Customizing the Plot
+
+By default,
+[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+returns a standard `ggplot` object for planar (2D) simulations and a
+`plotly` HTML widget for simulations with any 3D motion. (You can also
+force 3D rendering on planar data with `three_d = TRUE`.) Because the 2D
+case returns a regular ggplot, you can layer additional geoms, scales,
+themes, and labels onto it with `+` like any other ggplot.
+
+A common annoyance is that the central body in a two-body system can be
+invisible:
+[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+draws each body as a
+[`geom_path()`](https://ggplot2.tidyverse.org/reference/geom_path.html)
+of its trajectory, and a much more massive body barely moves so its path
+is too small to see. The Sun in a Sun-Earth simulation is the classic
+example — it’s there, but its loop around the barycenter is well inside
+the Sun itself. The simplest fix is to drop a marker at the origin:
+
+``` r
+sim <- create_system() |>
+  add_body("Sun",   mass = mass_sun) |>
+  add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+  simulate_system(time_step = 86400, duration = 86400 * 365)
+
+sim |>
+  plot_orbits() +
+  ggplot2::geom_point(
+    data = data.frame(x = 0, y = 0),
+    ggplot2::aes(x = x, y = y),
+    color = "gold",
+    size = 6
+  ) +
+  ggplot2::labs(title = "Earth-Sun Orbit")
+```
+
+This works because the Sun sits essentially at the origin throughout the
+simulation. For systems where the central body actually moves a
+noticeable amount, you’d want to pull its position from the simulation
+tibble instead of hardcoding `(0, 0)`.
+
 ## Adding More Bodies
 
 Since `orbitr` is a full N-body engine, you can add as many bodies as
@@ -144,3 +186,6 @@ Each row is one body at one point in time, with columns for position
 - **[Physical
   Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md)**
   — All built-in masses, distances, and speeds
+- **[Roadmap](https://drosenman.github.io/orbitr/articles/roadmap.md)**
+  — Features being considered for future versions, plus a place to
+  suggest your own
