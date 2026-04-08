@@ -35,7 +35,7 @@ sim
 sim |> plot_orbits()
 ```
 
-![](man/figures/README-sun-earth-plot-1.png)
+![Closed elliptical trajectory of Earth orbiting the Sun over one year, rendered by plot_orbits()](man/figures/README-sun-earth-plot-1.png)
 
 You'll notice only Earth's orbit is visible — the Sun is missing. That's a limitation of `plot_orbits()`: it draws trajectories using `geom_path()`, and the Sun barely moves during the simulation so its path is too small to see at this scale. The Sun *does* move — Newton's third law means Earth pulls on the Sun just as the Sun pulls on Earth, causing it to trace a tiny loop around the system's barycenter. It's just invisible at this zoom level because the Sun is ~330,000 times more massive than the Earth. This stellar wobble is real, though — it's exactly the method astronomers use to detect exoplanets.
 
@@ -53,7 +53,7 @@ sim |>
   ggplot2::labs(title = "Earth-Sun Orbit")
 ```
 
-![](man/figures/README-sun-earth-plot-with-sun-1.png)
+![Same Earth-Sun orbit plot with a gold point added at the origin to mark the Sun's position](man/figures/README-sun-earth-plot-with-sun-1.png)
 
 This works because the Sun sits essentially at the origin throughout the simulation — the barycenter wobble is well inside the Sun itself. For systems where the central body actually moves a noticeable amount, you'd want to pull its position from the simulation tibble instead of hardcoding `(0, 0)`.
 
@@ -65,7 +65,7 @@ Static plots are nice, but you can also play the simulation forward as an animat
 animate_system(sim, fps = 20, duration = 6)
 ```
 
-![](man/figures/README-earth-orbit-anim-1.gif)
+![Animated GIF of Earth orbiting the Sun, with Earth leaving a fading trail as it moves](man/figures/README-earth-orbit-anim-1.gif)
 
 `animate_system()` is the animated counterpart to `plot_system()` — it samples the simulation tibble down to roughly `fps * duration` evenly spaced frames and renders them as a GIF using `gganimate`. Like the static plotters, it auto-dispatches to a 3D version (`animate_system_3d()`, an interactive `plotly` widget with a play button) the moment any body has non-zero Z motion. The 2D path requires the `gganimate` and `gifski` packages — install them with `install.packages(c("gganimate", "gifski"))`.
 

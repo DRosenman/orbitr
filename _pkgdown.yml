@@ -18,6 +18,7 @@ articles:
     navbar: "Getting Started"
     contents:
       - quick-start
+      - building-two-body-orbits
       - examples
       - physical-constants
 
