@@ -3,6 +3,7 @@
 \docType{data}
 \name{physical_constants}
 \alias{physical_constants}
+\alias{gravitational_constant}
 \alias{mass_sun}
 \alias{mass_earth}
 \alias{mass_moon}
@@ -112,6 +113,11 @@ starting points in `orbitr` simulations. All values are in SI units (kilograms
 and meters).
 }
 \details{
+`gravitational_constant`: Newton's gravitational constant
+(6.6743 x 10^-11 m^3 kg^-1 s^-2). Source: CODATA 2018 recommended value.
+Use this with `create_system()` to scale gravity:
+`create_system(G = gravitational_constant * 10)`.
+
 `mass_sun`: Mass of the Sun (1.989 x 10^30 kg). Source: IAU 2015 nominal solar mass.
 
 `mass_earth`: Mass of the Earth (5.972 x 10^24 kg). Source: IAU 2015 nominal Earth mass.
