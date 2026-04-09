@@ -102,7 +102,7 @@
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Sun"</span>,   mass <span class="op">=</span> <span class="va">mass_sun</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">86400</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_day</span>, duration <span class="op">=</span> <span class="va">seconds_per_year</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
@@ -140,7 +140,7 @@
 </h2>
 <p>Kepler-16b orbits two stars — a real-life Tatooine. <code>orbitr</code> handles multi-body gravitational interactions natively, no special setup needed:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">G</span>  <span class="op">&lt;-</span> <span class="fl">6.6743e-11</span></span>
+<code class="sourceCode R"><span><span class="va">G</span>  <span class="op">&lt;-</span> <span class="va">gravitational_constant</span></span>
 <span><span class="va">AU</span> <span class="op">&lt;-</span> <span class="va">distance_earth_sun</span></span>
 <span></span>
 <span><span class="va">m_A</span> <span class="op">&lt;-</span> <span class="fl">0.68</span> <span class="op">*</span> <span class="va">mass_sun</span></span>
@@ -159,7 +159,7 @@
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star A"</span>,      mass <span class="op">=</span> <span class="va">m_A</span>,                 x <span class="op">=</span> <span class="va">r_A</span>,      vy <span class="op">=</span> <span class="va">v_A</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star B"</span>,      mass <span class="op">=</span> <span class="va">m_B</span>,                 x <span class="op">=</span> <span class="op">-</span><span class="va">r_B</span>,     vy <span class="op">=</span> <span class="op">-</span><span class="va">v_B</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Kepler-16b"</span>,  mass <span class="op">=</span> <span class="fl">0.333</span> <span class="op">*</span> <span class="va">mass_jupiter</span>, x <span class="op">=</span> <span class="va">r_planet</span>, vy <span class="op">=</span> <span class="va">v_planet</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">228.8</span> <span class="op">*</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_hour</span>, duration <span class="op">=</span> <span class="va">seconds_per_day</span> <span class="op">*</span> <span class="fl">228.8</span> <span class="op">*</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/animate_system.html">animate_system</a></span><span class="op">(</span>fps <span class="op">=</span> <span class="fl">15</span>, duration <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="reference/figures/examples-kepler16-anim.gif" alt="Animated GIF of Kepler-16b orbiting a binary star system"><div class="figcaption">Animated GIF of Kepler-16b orbiting a binary star system</div>

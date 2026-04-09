@@ -12,7 +12,7 @@ A standard 28-day lunar orbit. One-hour time steps.
 earth_moon <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
 
 earth_moon |> plot_orbits()
 ```
@@ -35,7 +35,7 @@ A full year with daily time steps.
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
   plot_orbits()
 ```
 
@@ -58,7 +58,7 @@ create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_year) |>
   plot_orbits()
 ```
 
@@ -77,7 +77,7 @@ sun_earth_moon <- create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_year) |>
   shift_reference_frame("Earth")
 
 sun_earth_moon |> plot_orbits()
@@ -102,7 +102,6 @@ an M-type star (0.20 solar masses) orbiting each other every ~41 days,
 with a Saturn-sized planet orbiting the pair at about 0.7 AU.
 
 ``` r
-G <- 6.6743e-11
 AU <- distance_earth_sun
 
 # Star masses
@@ -114,18 +113,18 @@ m_planet <- 0.333 * mass_jupiter
 a_bin <- 0.22 * AU
 r_A <- a_bin * m_B / (m_A + m_B)
 r_B <- a_bin * m_A / (m_A + m_B)
-v_A <- sqrt(G * m_B^2 / ((m_A + m_B) * a_bin))
-v_B <- sqrt(G * m_A^2 / ((m_A + m_B) * a_bin))
+v_A <- sqrt(gravitational_constant * m_B^2 / ((m_A + m_B) * a_bin))
+v_B <- sqrt(gravitational_constant * m_A^2 / ((m_A + m_B) * a_bin))
 
 # Planet orbit (0.7048 AU from barycenter)
 r_planet <- 0.7048 * AU
-v_planet <- sqrt(G * (m_A + m_B) / r_planet)
+v_planet <- sqrt(gravitational_constant * (m_A + m_B) / r_planet)
 
 kepler16 <- create_system() |>
   add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
   add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
   add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
-  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 228.8 * 3)
 
 kepler16 |> plot_orbits()
 ```

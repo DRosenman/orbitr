@@ -24,7 +24,7 @@ library(orbitr)
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28) |>
   plot_orbits()
 ```
 
@@ -71,7 +71,7 @@ the Sun itself. The simplest fix is to drop a marker at the origin:
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365)
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
 sim |>
   plot_orbits() +
@@ -127,7 +127,7 @@ create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Venus", mass = mass_venus, x = distance_venus_sun, vy = speed_venus) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
   plot_orbits()
 ```
 
@@ -146,7 +146,7 @@ returns a standard tidy tibble. You can use `dplyr`, `ggplot2`,
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
 
 sim
 #> # A tibble: 1,346 × 9

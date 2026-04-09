@@ -116,13 +116,13 @@ system <- create_system() |>
   add_body("Star", mass = 1e30) |>
   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000)
 
-verlet <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "verlet") |>
+verlet <- simulate_system(system, time_step = seconds_per_hour, duration = seconds_per_year, method = "verlet") |>
   mutate(method = "Velocity Verlet")
 
-euler_cromer <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "euler_cromer") |>
+euler_cromer <- simulate_system(system, time_step = seconds_per_hour, duration = seconds_per_year, method = "euler_cromer") |>
   mutate(method = "Euler-Cromer")
 
-euler <- simulate_system(system, time_step = 3600, duration = 86400 * 365, method = "euler") |>
+euler <- simulate_system(system, time_step = seconds_per_hour, duration = seconds_per_year, method = "euler") |>
   mutate(method = "Standard Euler")
 
 bind_rows(verlet, euler_cromer, euler) |>

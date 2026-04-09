@@ -70,11 +70,10 @@ $$v_{\text{circ}} = \sqrt{\frac{G\, M}{r}}$$
 In code:
 
 ``` r
-G    <- 6.6743e-11
 M    <- 1e30         # central mass (kg)
 r    <- 1e11         # starting distance (m)
 
-v_circ <- sqrt(G * M / r)
+v_circ <- sqrt(gravitational_constant * M / r)
 v_circ
 #> [1] 25834.67
 ```
@@ -85,7 +84,7 @@ Plug that into the planet’s `vy` and you get a circle:
 create_system() |>
   add_body("Star",   mass = M) |>
   add_body("Planet", mass = 1e24, x = r, vy = v_circ) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_year) |>
   plot_orbits()
 ```
 
@@ -106,7 +105,7 @@ make_sim <- function(v, label) {
   create_system() |>
     add_body("Star",   mass = M) |>
     add_body("Planet", mass = 1e24, x = r, vy = v) |>
-    simulate_system(time_step = 3600, duration = 86400 * 365 * 2) |>
+    simulate_system(time_step = seconds_per_hour, duration = seconds_per_year * 2) |>
     filter(id == "Planet") |>
     mutate(case = label)
 }
@@ -214,7 +213,7 @@ goes in `vx` (with the opposite sign convention for direction).
 create_system() |>
   add_body("Star",   mass = M) |>
   add_body("Planet", mass = 1e24, y = r, vx = -v_circ) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_year) |>
   plot_orbits()
 ```
 
