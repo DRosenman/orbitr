@@ -22,6 +22,16 @@
 #' @name physical_constants
 NULL
 
+# --- Gravitational Constant ---
+
+#' @rdname physical_constants
+#' @details `gravitational_constant`: Newton's gravitational constant
+#'   (6.6743 x 10^-11 m^3 kg^-1 s^-2). Source: CODATA 2018 recommended value.
+#'   Use this with `create_system()` to scale gravity:
+#'   `create_system(G = gravitational_constant * 10)`.
+#' @export
+gravitational_constant <- 6.6743e-11
+
 # --- Masses (kg) ---
 
 #' @rdname physical_constants
