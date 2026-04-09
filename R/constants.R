@@ -95,6 +95,22 @@ mass_venus <- 4.867e24
 #' @export
 mass_mercury <- 3.301e23
 
+#' @rdname physical_constants
+#' @details `mass_uranus`: Mass of Uranus (8.681 x 10^25 kg). Source: JPL DE440 ephemeris.
+#' @export
+mass_uranus <- 8.681e25
+
+#' @rdname physical_constants
+#' @details `mass_neptune`: Mass of Neptune (1.024 x 10^26 kg). Source: JPL DE440 ephemeris.
+#' @export
+mass_neptune <- 1.024e26
+
+#' @rdname physical_constants
+#' @details `mass_pluto`: Mass of Pluto (1.309 x 10^22 kg). Source: JPL DE440 ephemeris.
+#'   Pluto is a dwarf planet but is included for convenience.
+#' @export
+mass_pluto <- 1.309e22
+
 # --- Orbital Distances: Semi-Major Axes (m) ---
 
 #' @rdname physical_constants
@@ -138,6 +154,31 @@ distance_venus_sun <- 1.082e11
 #' @export
 distance_mercury_sun <- 5.791e10
 
+#' @rdname physical_constants
+#' @details `distance_saturn_sun`: Semi-major axis of Saturn's orbit around the Sun
+#'   (1.434 x 10^12 m, ~1.434 billion km).
+#' @export
+distance_saturn_sun <- 1.434e12
+
+#' @rdname physical_constants
+#' @details `distance_uranus_sun`: Semi-major axis of Uranus's orbit around the Sun
+#'   (2.871 x 10^12 m, ~2.871 billion km).
+#' @export
+distance_uranus_sun <- 2.871e12
+
+#' @rdname physical_constants
+#' @details `distance_neptune_sun`: Semi-major axis of Neptune's orbit around the Sun
+#'   (4.495 x 10^12 m, ~4.495 billion km).
+#' @export
+distance_neptune_sun <- 4.495e12
+
+#' @rdname physical_constants
+#' @details `distance_pluto_sun`: Semi-major axis of Pluto's orbit around the Sun
+#'   (5.906 x 10^12 m, ~5.906 billion km). Pluto has a highly eccentric orbit
+#'   (e = 0.249), ranging from ~4.437 billion km to ~7.376 billion km.
+#' @export
+distance_pluto_sun <- 5.906e12
+
 # --- Mean Orbital Speeds (m/s) ---
 
 #' @rdname physical_constants
@@ -169,3 +210,23 @@ speed_venus <- 35020
 #' @details `speed_mercury`: Mean orbital speed of Mercury around the Sun (47,360 m/s).
 #' @export
 speed_mercury <- 47360
+
+#' @rdname physical_constants
+#' @details `speed_saturn`: Mean orbital speed of Saturn around the Sun (9,680 m/s).
+#' @export
+speed_saturn <- 9680
+
+#' @rdname physical_constants
+#' @details `speed_uranus`: Mean orbital speed of Uranus around the Sun (6,800 m/s).
+#' @export
+speed_uranus <- 6800
+
+#' @rdname physical_constants
+#' @details `speed_neptune`: Mean orbital speed of Neptune around the Sun (5,430 m/s).
+#' @export
+speed_neptune <- 5430
+
+#' @rdname physical_constants
+#' @details `speed_pluto`: Mean orbital speed of Pluto around the Sun (4,740 m/s).
+#' @export
+speed_pluto <- 4740

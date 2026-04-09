@@ -89,35 +89,18 @@ animate_system(sim, fps = 15, duration = 5)
 
 ## Adding More Bodies
 
-Since `orbitr` is a full N-body engine, you can add as many bodies as you want. Each one gravitationally interacts with every other. Here's the Sun-Earth-Moon system for a full year:
+Since `orbitr` is a full N-body engine, you can add as many bodies as you want. Each one gravitationally interacts with every other. Here's the Sun with both Earth and Venus for a full year:
 
 ```{r}
 create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  add_body("Moon",  mass = mass_moon,
-           x = distance_earth_sun + distance_earth_moon,
-           vy = speed_earth + speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365) |>
-  shift_reference_frame("Earth") |>
+  add_body("Venus", mass = mass_venus, x = distance_venus_sun, vy = speed_venus) |>
+  simulate_system(time_step = 86400, duration = 86400 * 365) |>
   plot_orbits()
 ```
 
-Notice `shift_reference_frame("Earth")` — this re-centers everything on Earth so you can see the Moon's orbit instead of having everything overlap at the Sun's scale.
-
-## Changing the Integrator
-
-The default integrator is Velocity Verlet, which conserves energy and keeps orbits stable. You can switch to `"euler_cromer"` for faster (but less accurate) runs, or `"euler"` to see what happens when energy isn't conserved:
-
-```{r}
-create_system() |>
-  add_body("Star", mass = 1e30) |>
-  add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365, method = "euler") |>
-  plot_orbits()
-```
-
-You'll see the orbit spiral outward — that's the Euler method artificially pumping energy into the system. Switch back to `method = "verlet"` for a clean closed ellipse.
+Venus completes more than one full orbit in the same time Earth takes to go around once — you can see the inner orbit is both smaller and faster.
 
 ## The Output is Just a Tibble
 
