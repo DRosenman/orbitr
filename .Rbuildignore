@@ -1,7 +1,12 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^README_cache$
 ^_pkgdown\.yml$
 ^docs$
 ^\.github$
 ^pkgdown$
+^tools$
+^\.Rhistory$
+^cran-comments\.md$
+^LICENSE\.md$
