@@ -4,6 +4,9 @@
 \name{physical_constants}
 \alias{physical_constants}
 \alias{gravitational_constant}
+\alias{seconds_per_hour}
+\alias{seconds_per_day}
+\alias{seconds_per_year}
 \alias{mass_sun}
 \alias{mass_earth}
 \alias{mass_moon}
@@ -117,6 +120,15 @@ and meters).
 (6.6743 x 10^-11 m^3 kg^-1 s^-2). Source: CODATA 2018 recommended value.
 Use this with `create_system()` to scale gravity:
 `create_system(G = gravitational_constant * 10)`.
+
+`seconds_per_hour`: 3,600 seconds. Convenient for setting `time_step`
+in lunar or close-orbit simulations.
+
+`seconds_per_day`: 86,400 seconds. Convenient for setting `time_step`
+in planetary-scale simulations.
+
+`seconds_per_year`: 31,557,600 seconds (365.25 days, the Julian year).
+Convenient for setting `duration` in `simulate_system()`.
 
 `mass_sun`: Mass of the Sun (1.989 x 10^30 kg). Source: IAU 2015 nominal solar mass.
 

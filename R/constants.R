@@ -32,6 +32,26 @@ NULL
 #' @export
 gravitational_constant <- 6.6743e-11
 
+# --- Time Conversions (seconds) ---
+
+#' @rdname physical_constants
+#' @details `seconds_per_hour`: 3,600 seconds. Convenient for setting `time_step`
+#'   in lunar or close-orbit simulations.
+#' @export
+seconds_per_hour <- 3600
+
+#' @rdname physical_constants
+#' @details `seconds_per_day`: 86,400 seconds. Convenient for setting `time_step`
+#'   in planetary-scale simulations.
+#' @export
+seconds_per_day <- 86400
+
+#' @rdname physical_constants
+#' @details `seconds_per_year`: 31,557,600 seconds (365.25 days, the Julian year).
+#'   Convenient for setting `duration` in `simulate_system()`.
+#' @export
+seconds_per_year <- 86400 * 365.25
+
 # --- Masses (kg) ---
 
 #' @rdname physical_constants

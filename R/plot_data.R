@@ -113,7 +113,7 @@ plot_orbits_3d <- function(sim_data) {
 #' # State at day 100, no trails
 #' plot_system(sim, time = 86400 * 100, trails = FALSE)
 #' }
-plot_system <- function(sim_data, time = NULL, trails = TRUE, three_d = FALSE) {
+plot_system <- function(sim_data, time = NULL, trails = FALSE, three_d = FALSE) {
 
   is_3d <- three_d || any(sim_data$z != 0)
 
@@ -168,7 +168,7 @@ plot_system <- function(sim_data, time = NULL, trails = TRUE, three_d = FALSE) {
 #'   simulate_system(time_step = 3600, duration = 86400 * 30) |>
 #'   plot_system_3d()
 #' }
-plot_system_3d <- function(sim_data, time = NULL, trails = TRUE) {
+plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
 
   if (!requireNamespace("plotly", quietly = TRUE)) {
     stop("The 'plotly' package is required for 3D plotting. Please install it.")

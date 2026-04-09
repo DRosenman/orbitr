@@ -4,7 +4,7 @@
 \alias{plot_system}
 \title{Plot System Snapshot at a Single Time (Smart 2D/3D Dispatch)}
 \usage{
-plot_system(sim_data, time = NULL, trails = TRUE, three_d = FALSE)
+plot_system(sim_data, time = NULL, trails = FALSE, three_d = FALSE)
 }
 \arguments{
 \item{sim_data}{A tibble output from [simulate_system()].}

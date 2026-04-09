@@ -6,8 +6,8 @@
 \usage{
 simulate_system(
   system,
-  time_step = 60,
-  duration = 86400,
+  time_step = seconds_per_hour,
+  duration = seconds_per_year,
   method = "verlet",
   softening = 0,
   use_cpp = TRUE
@@ -16,9 +16,11 @@ simulate_system(
 \arguments{
 \item{system}{An `orbit_system` object created by `create_system()`.}
 
-\item{time_step}{The time increment per frame in seconds (default 60s).}
+\item{time_step}{The time increment per frame in seconds (default 3600s / 1 hour).
+For planetary orbits around a star, daily steps (86400) are usually sufficient.
+For lunar-scale or tighter orbits, hourly steps (3600) work well.}
 
-\item{duration}{Total simulation time in seconds (default 86400s / 1 day).}
+\item{duration}{Total simulation time in seconds (default 31557600s / 1 year).}
 
 \item{method}{The numerical integration method: "verlet" (default), "euler_cromer", or "euler".}
 

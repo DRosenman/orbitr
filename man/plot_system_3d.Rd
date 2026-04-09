@@ -4,7 +4,7 @@
 \alias{plot_system_3d}
 \title{Plot 3D Interactive System Snapshot at a Single Time}
 \usage{
-plot_system_3d(sim_data, time = NULL, trails = TRUE)
+plot_system_3d(sim_data, time = NULL, trails = FALSE)
 }
 \arguments{
 \item{sim_data}{A tibble output from [simulate_system()].}

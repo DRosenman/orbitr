@@ -5,8 +5,10 @@
 #' Velocity Verlet algorithm to ensure highly stable orbital trajectories.
 #'
 #' @param system An `orbit_system` object created by `create_system()`.
-#' @param time_step The time increment per frame in seconds (default 60s).
-#' @param duration Total simulation time in seconds (default 86400s / 1 day).
+#' @param time_step The time increment per frame in seconds (default 3600s / 1 hour).
+#'   For planetary orbits around a star, daily steps (`86400`) are usually sufficient.
+#'   For lunar-scale or tighter orbits, hourly steps (`3600`) work well.
+#' @param duration Total simulation time in seconds (default 31557600s / 1 year).
 #' @param method The numerical integration method: "verlet" (default), "euler_cromer", or "euler".
 #' @param softening A small distance (in meters) added to prevent numerical singularities
 #'   when bodies pass very close to each other. The gravitational distance is computed as
@@ -26,7 +28,7 @@
 #'   add_body("Moon", mass = 7.34e22, x = 3.84e8, vy = 1022) |>
 #'   simulate_system(time_step = 3600, duration = 86400 * 28)
 #' }
-simulate_system <- function(system, time_step = 60, duration = 86400, method = "verlet",
+simulate_system <- function(system, time_step = seconds_per_hour, duration = seconds_per_year, method = "verlet",
                      softening = 0, use_cpp = TRUE) {
 
   if (!inherits(system, "orbit_system")) stop("Input must be an `orbit_system`.")
