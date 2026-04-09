@@ -24,9 +24,9 @@
 #' @examples
 #' \dontrun{
 #' my_universe <- create_system() |>
-#'   add_body("Earth", mass = 5.97e24) |>
-#'   add_body("Moon", mass = 7.34e22, x = 3.84e8, vy = 1022) |>
-#'   simulate_system(time_step = 3600, duration = 86400 * 28)
+#'   add_body("Earth", mass = mass_earth) |>
+#'   add_body("Moon", mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
+#'   simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
 #' }
 simulate_system <- function(system, time_step = seconds_per_hour, duration = seconds_per_year, method = "verlet",
                      softening = 0, use_cpp = TRUE) {

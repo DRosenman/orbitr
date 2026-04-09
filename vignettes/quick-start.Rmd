@@ -39,7 +39,7 @@ library(orbitr)
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28) |>
   plot_orbits()
 ```
 
@@ -60,7 +60,7 @@ A common annoyance is that the central body in a two-body system can be invisibl
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365)
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
 sim |>
   plot_orbits() +
@@ -96,7 +96,7 @@ create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Venus", mass = mass_venus, x = distance_venus_sun, vy = speed_venus) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
   plot_orbits()
 ```
 
@@ -110,7 +110,7 @@ Venus completes more than one full orbit in the same time Earth takes to go arou
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
 
 sim
 ```

@@ -41,9 +41,10 @@ plot_orbits <- function(sim_data, three_d = FALSE) {
 #' @examples
 #' \dontrun{
 #' create_system() |>
-#'   add_body("Earth", mass = 5.972e24) |>
-#'   add_body("Moon", mass = 7.342e22, x = 3.844e8, vy = 1022, vz = 150) |>
-#'   simulate_system(time_step = 3600, duration = 86400 * 30) |>
+#'   add_body("Earth", mass = mass_earth) |>
+#'   add_body("Moon", mass = mass_moon,
+#'            x = distance_earth_moon, vy = speed_moon, vz = 150) |>
+#'   simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 30) |>
 #'   plot_orbits_3d()
 #' }
 plot_orbits_3d <- function(sim_data) {
@@ -63,7 +64,7 @@ plot_orbits_3d <- function(sim_data) {
     mode = 'lines',
     line = list(width = 4),
     hoverinfo = 'text',
-    text = ~paste("Body:", id, "<br>Time:", round(time / 86400, 1), "days")
+    text = ~paste("Body:", id, "<br>Time:", round(time / seconds_per_day, 1), "days")
   ) |>
     plotly::layout(
       title = "3D Orbital Trajectories",
@@ -105,13 +106,13 @@ plot_orbits_3d <- function(sim_data) {
 #' sim <- create_system() |>
 #'   add_body("Sun",   mass = mass_sun) |>
 #'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-#'   simulate_system(time_step = 86400, duration = 86400 * 365)
+#'   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 #'
 #' # Final state with faint orbit trails
 #' plot_system(sim)
 #'
 #' # State at day 100, no trails
-#' plot_system(sim, time = 86400 * 100, trails = FALSE)
+#' plot_system(sim, time = seconds_per_day * 100, trails = FALSE)
 #' }
 plot_system <- function(sim_data, time = NULL, trails = FALSE, three_d = FALSE) {
 
@@ -165,7 +166,7 @@ plot_system <- function(sim_data, time = NULL, trails = FALSE, three_d = FALSE) 
 #'   add_body("Earth", mass = mass_earth) |>
 #'   add_body("Moon",  mass = mass_moon,
 #'            x = distance_earth_moon, vy = speed_moon, vz = 100) |>
-#'   simulate_system(time_step = 3600, duration = 86400 * 30) |>
+#'   simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 30) |>
 #'   plot_system_3d()
 #' }
 plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
@@ -204,7 +205,7 @@ plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
       hoverinfo = 'text',
       text = ~paste0(
         "Body: ", id,
-        "<br>Time: ", round(time / 86400, 2), " days",
+        "<br>Time: ", round(time / seconds_per_day, 2), " days",
         "<br>x: ", signif(x, 4),
         "<br>y: ", signif(y, 4),
         "<br>z: ", signif(z, 4)
@@ -269,7 +270,7 @@ plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
 #' sim <- create_system() |>
 #'   add_body("Sun",   mass = mass_sun) |>
 #'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-#'   simulate_system(time_step = 86400, duration = 86400 * 365)
+#'   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 #'
 #' # 2D fading-wake animation (requires gganimate)
 #' anim <- animate_system(sim, fps = 20, duration = 8)
@@ -320,7 +321,7 @@ animate_system <- function(sim_data, fps = 20, duration = 10,
     ggplot2::geom_point(size = 4) +
     ggplot2::coord_equal() +
     ggplot2::labs(
-      title = "Time: {round(frame_time / 86400, 1)} days",
+      title = "Time: {round(frame_time / seconds_per_day, 1)} days",
       x = "X (m)", y = "Y (m)"
     ) +
     ggplot2::theme_minimal() +
@@ -356,7 +357,7 @@ animate_system <- function(sim_data, fps = 20, duration = 10,
 #'   add_body("Earth", mass = mass_earth) |>
 #'   add_body("Moon",  mass = mass_moon,
 #'            x = distance_earth_moon, vy = speed_moon, vz = 100) |>
-#'   simulate_system(time_step = 3600, duration = 86400 * 30) |>
+#'   simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 30) |>
 #'   animate_system_3d()
 #' }
 animate_system_3d <- function(sim_data, fps = 20, duration = 10, trails = FALSE) {
@@ -396,7 +397,7 @@ animate_system_3d <- function(sim_data, fps = 20, duration = 10, trails = FALSE)
       hoverinfo = 'text',
       text = ~paste0(
         "Body: ", id,
-        "<br>Time: ", round(time / 86400, 2), " days"
+        "<br>Time: ", round(time / seconds_per_day, 2), " days"
       )
     )
 

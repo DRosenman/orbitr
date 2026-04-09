@@ -33,7 +33,7 @@ sim <- create_system() |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
            vy = speed_earth + speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 365)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_year)
 
 sim |> plot_orbits()
 ```
@@ -86,7 +86,7 @@ library(ggplot2)
 sim |>
   shift_reference_frame("Earth", keep_center = FALSE) |>
   dplyr::filter(id == "Moon") |>
-  ggplot(aes(x = x, y = y, color = time / 86400)) +
+  ggplot(aes(x = x, y = y, color = time / seconds_per_day)) +
   geom_path(linewidth = 1.2) +
   scale_color_viridis_c(name = "Day") +
   coord_equal() +
@@ -134,7 +134,7 @@ sim |>
   shift_reference_frame("Earth", keep_center = FALSE) |>
   dplyr::filter(id == "Moon") |>
   dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2)) |>
-  ggplot(aes(x = time / 86400, y = speed)) +
+  ggplot(aes(x = time / seconds_per_day, y = speed)) +
   geom_line(color = "#2563eb", linewidth = 0.8) +
   labs(title = "Moon's Orbital Speed Relative to Earth",
        x = "Time (days)", y = "Speed (m/s)") +
@@ -148,7 +148,6 @@ The oscillation reflects the Moon's slightly elliptical orbit — it speeds up a
 Reference frame shifts aren't limited to the most massive body. You can center on any body in the system. Here's Kepler-16b — a real circumbinary planet — looking back at its two parent stars:
 
 ```{r}
-G <- 6.6743e-11
 AU <- distance_earth_sun
 
 m_A <- 0.68 * mass_sun
@@ -158,17 +157,17 @@ m_planet <- 0.333 * mass_jupiter
 a_bin <- 0.22 * AU
 r_A <- a_bin * m_B / (m_A + m_B)
 r_B <- a_bin * m_A / (m_A + m_B)
-v_A <- sqrt(G * m_B^2 / ((m_A + m_B) * a_bin))
-v_B <- sqrt(G * m_A^2 / ((m_A + m_B) * a_bin))
+v_A <- sqrt(gravitational_constant * m_B^2 / ((m_A + m_B) * a_bin))
+v_B <- sqrt(gravitational_constant * m_A^2 / ((m_A + m_B) * a_bin))
 
 r_planet <- 0.7048 * AU
-v_planet <- sqrt(G * (m_A + m_B) / r_planet)
+v_planet <- sqrt(gravitational_constant * (m_A + m_B) / r_planet)
 
 kepler16 <- create_system() |>
   add_body("Star A", mass = m_A, x = r_A, vy = v_A) |>
   add_body("Star B", mass = m_B, x = -r_B, vy = -v_B) |>
   add_body("Kepler-16b", mass = m_planet, x = r_planet, vy = v_planet) |>
-  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 228.8 * 3)
 ```
 
 From the default (barycentric) frame, you see the planet's wide orbit and the stars' tight inner dance:
@@ -201,7 +200,7 @@ sim |>
   shift_reference_frame("Earth", keep_center = FALSE) |>
   dplyr::filter(id == "Moon") |>
   dplyr::mutate(distance_km = sqrt(x^2 + y^2 + z^2) / 1000) |>
-  ggplot(aes(x = time / 86400, y = distance_km)) +
+  ggplot(aes(x = time / seconds_per_day, y = distance_km)) +
   geom_line(color = "#dc2626", linewidth = 0.8) +
   labs(title = "Earth-Moon Distance Over One Year",
        x = "Time (days)", y = "Distance (km)") +

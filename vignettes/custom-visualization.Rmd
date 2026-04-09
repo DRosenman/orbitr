@@ -30,7 +30,7 @@ Here's what the simulation tibble looks like:
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
 
 sim
 ```
@@ -46,7 +46,7 @@ library(ggplot2)
 
 sim |>
   dplyr::mutate(r = sqrt(x^2 + y^2)) |>
-  ggplot(aes(x = time / 86400, y = r, color = id)) +
+  ggplot(aes(x = time / seconds_per_day, y = r, color = id)) +
   geom_line(linewidth = 1) +
   labs(
     title = "Distance from Barycenter Over Time",
@@ -62,7 +62,7 @@ Or plot the Moon's path relative to Earth with a color gradient showing the pass
 ```{r}
 sim |>
   shift_reference_frame("Earth", keep_center = FALSE) |>
-  ggplot(aes(x = x, y = y, color = time / 86400)) +
+  ggplot(aes(x = x, y = y, color = time / seconds_per_day)) +
   geom_path(linewidth = 1.2) +
   scale_color_viridis_c(name = "Day") +
   coord_equal() +
@@ -85,7 +85,7 @@ sim <- create_system() |>
            x = distance_earth_moon,
            vy = speed_moon * cos(5 * pi / 180),
            vz = speed_moon * sin(5 * pi / 180)) |>
-  simulate_system(time_step = 3600, duration = 86400 * 28)
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
 
 sim <- sim |>
   dplyr::mutate(speed = sqrt(vx^2 + vy^2 + vz^2))

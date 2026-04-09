@@ -16,10 +16,11 @@
 #' \dontrun{
 #' # Simulate Sun-Earth-Moon
 #' orbit_data <- create_system() |>
-#'   add_body("Sun", mass = 1.989e30) |>
-#'   add_body("Earth", mass = 5.97e24, x = 1.496e11, vy = 29780) |>
-#'   add_body("Moon", mass = 7.34e22, x = 1.496e11 + 3.84e8, vy = 29780 + 1022) |>
-#'   simulate_system(time_step = 3600, duration = 86400 * 365)
+#'   add_body("Sun", mass = mass_sun) |>
+#'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
+#'   add_body("Moon", mass = mass_moon, x = distance_earth_sun + distance_earth_moon,
+#'            vy = speed_earth + speed_moon) |>
+#'   simulate_system(time_step = seconds_per_hour, duration = seconds_per_year)
 #'
 #' # Shift view to Earth and plot
 #' orbit_data |>

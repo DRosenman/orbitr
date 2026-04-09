@@ -22,7 +22,7 @@ library(orbitr)
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365)
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
 sim |> plot_orbits()
 ```
@@ -52,7 +52,7 @@ animate_system(sim, fps = 15, duration = 5)
 Kepler-16b orbits two stars — a real-life Tatooine. `orbitr` handles multi-body gravitational interactions natively, no special setup needed:
 
 ```r
-G  <- 6.6743e-11
+G  <- gravitational_constant
 AU <- distance_earth_sun
 
 m_A <- 0.68 * mass_sun
@@ -71,7 +71,7 @@ create_system() |>
   add_body("Star A",      mass = m_A,                 x = r_A,      vy = v_A) |>
   add_body("Star B",      mass = m_B,                 x = -r_B,     vy = -v_B) |>
   add_body("Kepler-16b",  mass = 0.333 * mass_jupiter, x = r_planet, vy = v_planet) |>
-  simulate_system(time_step = 3600, duration = 86400 * 228.8 * 3) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 228.8 * 3) |>
   animate_system(fps = 15, duration = 6)
 ```
 
