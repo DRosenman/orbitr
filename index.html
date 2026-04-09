@@ -73,12 +73,19 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="orbitr">orbitr<a class="anchor" aria-label="anchor" href="#orbitr"></a>
 </h1></div>
-<p><strong>A tidy physics engine for building and visualizing orbital simulations.</strong></p>
-<blockquote>
-<p><strong>Note:</strong> <code>orbitr</code> is a work in progress. The physics engine is functional, but the built-in plotting functions (<code><a href="reference/plot_orbits.html">plot_orbits()</a></code> and <code><a href="reference/plot_orbits_3d.html">plot_orbits_3d()</a></code>) are intentionally minimal — they exist to get you a quick look at your simulation, not to produce publication-quality figures. Since <code><a href="reference/simulate_system.html">simulate_system()</a></code> returns a standard tidy tibble, you have the full power of <code>ggplot2</code>, <code>plotly</code>, and any other visualization library at your disposal. See <a href="articles/custom-visualization.html">Custom Visualization</a> for examples.</p>
-</blockquote>
-<p><code>orbitr</code> is a lightweight N-body gravitational physics engine built for the R ecosystem. Simulate planetary orbits, binary star systems, or chaotic three-body problems in a few lines of pipe-friendly code. Under the hood it ships a compiled C++ acceleration engine via <code>Rcpp</code> and falls back gracefully to a fully vectorized pure-R implementation.</p>
+<p><strong>A tidy physics engine for building and visualizing orbital simulations in R.</strong></p>
+<p><code>orbitr</code> is a lightweight N-body gravitational simulator built for the R ecosystem. Simulate planetary orbits, binary star systems, or chaotic three-body problems in a few lines of pipe-friendly code. Under the hood it ships a compiled C++ engine via <code>Rcpp</code> and falls back gracefully to a pure-R implementation.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"DRosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="five-lines-to-an-orbit">Five Lines to an Orbit<a class="anchor" aria-label="anchor" href="#five-lines-to-an-orbit"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://drosenman.github.io/orbitr/">orbitr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -86,102 +93,57 @@
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">86400</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sim</span></span></code></pre></div>
-<pre><code><span><span class="co">## # A tibble: 1,462 × 9</span></span>
-<span><span class="co">##    id       mass          x           y     z      vx          vy    vz  time</span></span>
-<span><span class="co">##    &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">##  1 Sun   1.99e30         0          0       0   0        0            0     0</span></span>
-<span><span class="co">##  2 Earth 5.97e24 149600000000       0       0   0    29780            0     0</span></span>
-<span><span class="co">##  ...</span></span></code></pre>
-<p><code>mass_sun</code>, <code>mass_earth</code>, <code>distance_earth_sun</code>, and <code>speed_earth</code> are built-in constants — real-world values in SI units (kg, meters, m/s) so you don’t have to look anything up. <code>orbitr</code> ships constants for the Sun, all eight planets, and the Moon. See <a href="articles/physical-constants.html">Physical Constants</a> for the full list.</p>
-<p><code><a href="reference/simulate_system.html">simulate_system()</a></code> returns a tidy tibble — one row per body per time step — ready for <code>dplyr</code>, <code>ggplot2</code>, <code>plotly</code>, or any other tool in the R ecosystem.</p>
+<span><span class="va">sim</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="reference/figures/README-sun-earth-plot-with-sun-1.png" alt="Closed elliptical trajectory of Earth orbiting the Sun over one year"><div class="figcaption">Closed elliptical trajectory of Earth orbiting the Sun over one year</div>
+</div>
+<p>And animated:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="float">
-<img src="reference/figures/README-sun-earth-plot-1.png" alt="Closed elliptical trajectory of Earth orbiting the Sun over one year, rendered by plot_orbits()"><div class="figcaption">Closed elliptical trajectory of Earth orbiting the Sun over one year, rendered by plot_orbits()</div>
-</div>
-<p>You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s a limitation of <code><a href="reference/plot_orbits.html">plot_orbits()</a></code>: it draws trajectories using <code>geom_path()</code>, and the Sun barely moves during the simulation so its path is too small to see at this scale. The Sun <em>does</em> move — Newton’s third law means Earth pulls on the Sun just as the Sun pulls on Earth, causing it to trace a tiny loop around the system’s barycenter. It’s just invisible at this zoom level because the Sun is ~330,000 times more massive than the Earth. This stellar wobble is real, though — it’s exactly the method astronomers use to detect exoplanets.</p>
-<p>By default, <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> returns a standard <code>ggplot</code> object for planar (2D) simulations, and a <code>plotly</code> HTML widget for simulations with any 3D motion. (You can also force 3D rendering on planar data with <code>three_d = TRUE</code>.) Because the 2D case returns a regular ggplot, you can layer additional geoms, scales, themes, and labels onto it with <code>+</code> like any other ggplot. One quick fix for the missing Sun is to drop a marker at the origin:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span>, y <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
-<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span>,</span>
-<span>    color <span class="op">=</span> <span class="st">"gold"</span>,</span>
-<span>    size <span class="op">=</span> <span class="fl">6</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Earth-Sun Orbit"</span><span class="op">)</span></span></code></pre></div>
-<div class="float">
-<img src="reference/figures/README-sun-earth-plot-with-sun-1.png" alt="Same Earth-Sun orbit plot with a gold point added at the origin to mark the Sun’s position"><div class="figcaption">Same Earth-Sun orbit plot with a gold point added at the origin to mark the Sun’s position</div>
-</div>
-<p>This works because the Sun sits essentially at the origin throughout the simulation — the barycenter wobble is well inside the Sun itself. For systems where the central body actually moves a noticeable amount, you’d want to pull its position from the simulation tibble instead of hardcoding <code>(0, 0)</code>.</p>
-<div class="section level3">
-<h3 id="watching-the-orbit-in-motion">Watching the Orbit in Motion<a class="anchor" aria-label="anchor" href="#watching-the-orbit-in-motion"></a>
-</h3>
-<p>Static plots are nice, but you can also play the simulation forward as an animation with <code><a href="reference/animate_system.html">animate_system()</a></code>. By default each body leaves a fading wake of recent positions behind it:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/animate_system.html">animate_system</a></span><span class="op">(</span><span class="va">sim</span>, fps <span class="op">=</span> <span class="fl">20</span>, duration <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/animate_system.html">animate_system</a></span><span class="op">(</span><span class="va">sim</span>, fps <span class="op">=</span> <span class="fl">15</span>, duration <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="reference/figures/README-earth-orbit-anim-1.gif" alt="Animated GIF of Earth orbiting the Sun, with Earth leaving a fading trail as it moves"><div class="figcaption">Animated GIF of Earth orbiting the Sun, with Earth leaving a fading trail as it moves</div>
 </div>
-<p><code><a href="reference/animate_system.html">animate_system()</a></code> is the animated counterpart to <code><a href="reference/plot_system.html">plot_system()</a></code> — it samples the simulation tibble down to roughly <code>fps * duration</code> evenly spaced frames and renders them as a GIF using <code>gganimate</code>. Like the static plotters, it auto-dispatches to a 3D version (<code><a href="reference/animate_system_3d.html">animate_system_3d()</a></code>, an interactive <code>plotly</code> widget with a play button) the moment any body has non-zero Z motion. The 2D path requires the <code>gganimate</code> and <code>gifski</code> packages — install them with <code>install.packages(c("gganimate", "gifski"))</code>.</p>
-<p>For better 2D plots where you control point markers, axis ranges, and labels, use <code>ggplot2</code> directly on the simulation tibble (see <a href="articles/custom-visualization.html">Custom Visualization</a>). For interactive 3D views where you can zoom in and find the Sun, see <a href="articles/plotting-3d.html">3D Plotting</a>.</p>
 </div>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"DRosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
-<p>For 3D interactive plotting, you’ll also want:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"plotly"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
-</h2>
-<p>The workflow is simple: create a system, add bodies, simulate, and plot.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">28</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<ol style="list-style-type: decimal">
+<ul>
 <li>
-<strong><code><a href="reference/create_system.html">create_system()</a></code></strong> initializes an empty simulation with standard gravitational constant G.</li>
+<strong>Tidy output</strong> — <code><a href="reference/simulate_system.html">simulate_system()</a></code> returns a standard tibble (one row per body per time step), ready for <code>dplyr</code>, <code>ggplot2</code>, <code>plotly</code>, or anything else in the R ecosystem.</li>
 <li>
-<strong><code><a href="reference/add_body.html">add_body()</a></code></strong> places a body with a given mass, position, and velocity. Built-in constants like <code>mass_earth</code> and <code>distance_earth_moon</code> save you from looking anything up.</li>
+<strong>Built-in physical constants</strong> — real-world masses, distances, and orbital speeds for the Sun, all eight planets, and the Moon, so you don’t have to look anything up. See <a href="articles/physical-constants.html">Physical Constants</a>.</li>
 <li>
-<strong><code><a href="reference/simulate_system.html">simulate_system()</a></code></strong> runs the N-body integration. The default Velocity Verlet integrator conserves energy for stable long-term orbits.</li>
+<strong>C++ engine</strong> — a compiled <code>Rcpp</code> acceleration kernel handles the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math> gravity loop, with automatic fallback to vectorized R if the compiled code isn’t available.</li>
 <li>
-<strong><code><a href="reference/plot_orbits.html">plot_orbits()</a></code></strong> produces a quick 2D trajectory plot — or an interactive 3D plotly visualization if any body has Z-axis motion. For more control, use <code>ggplot2</code> or <code>plotly</code> directly on the simulation tibble.</li>
-</ol>
-<p>The output is a standard tidy tibble, so you can plug it straight into <code>ggplot2</code>, <code>plotly</code>, <code>dplyr</code>, or whatever you normally use.</p>
+<strong>Three integrators</strong> — Velocity Verlet (default, symplectic, energy-conserving), Euler-Cromer (fast preview), and standard Euler (educational comparison). See <a href="articles/the-physics.html">The Physics</a>.</li>
+<li>
+<strong>2D and 3D plotting</strong> — <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> returns a <code>ggplot</code> for planar sims and auto-dispatches to an interactive <code>plotly</code> widget when any body has Z-axis motion. See <a href="articles/plotting-3d.html">3D Plotting</a>.</li>
+<li>
+<strong>Animations</strong> — <code><a href="reference/animate_system.html">animate_system()</a></code> renders orbits as GIFs with fading trails via <code>gganimate</code>, or as interactive 3D animations with <code>plotly</code>.</li>
+<li>
+<strong>Reference frame shifting</strong> — <code>shift_reference_frame("Earth")</code> re-centers the simulation on any body, turning a heliocentric view into a geocentric one. See <a href="articles/reference-frames.html">Reference Frames</a>.</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="learn-more">Learn More<a class="anchor" aria-label="anchor" href="#learn-more"></a>
 </h2>
 <ul>
 <li>
-<strong><a href="articles/quick-start.html">Quick Start Guide</a></strong> — Full getting-started walkthrough</li>
+<strong><a href="articles/quick-start.html">Get Started</a></strong> — install, simulate, and plot your first orbit</li>
+<li>
+<strong><a href="articles/building-two-body-orbits.html">Building Two-Body Orbits</a></strong> — the physics of choosing positions, velocities, and masses</li>
 <li>
 <strong><a href="articles/examples.html">Examples</a></strong> — Earth-Moon, Sun-Earth-Moon, Kepler-16, and more</li>
 <li>
-<strong><a href="articles/physical-constants.html">Physical Constants</a></strong> — All built-in masses, distances, and speeds</li>
+<strong><a href="articles/unstable-orbits.html">Unstable Orbits</a></strong> — why most random configurations are chaotic</li>
 <li>
-<strong><a href="articles/plotting-3d.html">3D Plotting</a></strong> — Interactive 3D visualization with plotly</li>
+<strong><a href="articles/custom-visualization.html">Custom Visualization</a></strong> — build your own plots with ggplot2 and plotly</li>
 <li>
-<strong><a href="articles/custom-visualization.html">Custom Visualization</a></strong> — Build your own plots with ggplot2 and plotly</li>
-<li>
-<strong><a href="articles/the-physics.html">The Physics</a></strong> — Gravitational equations, integrators, and the C++ engine</li>
-<li>
-<strong><a href="articles/reference-frames.html">Reference Frames</a></strong> — Shift your perspective with <code><a href="reference/shift_reference_frame.html">shift_reference_frame()</a></code>
-</li>
-<li>
-<strong><a href="articles/unstable-orbits.html">Unstable Orbits</a></strong> — Why most random configurations are chaotic</li>
+<strong><a href="articles/the-physics.html">The Physics</a></strong> — gravitational equations, integrators, and the C++ engine</li>
 </ul>
+<blockquote>
+<p><code>orbitr</code> is under active development. The physics engine is stable, but the API may evolve. Feedback and contributions are welcome on <a href="https://github.com/DRosenman/orbitr" class="external-link">GitHub</a>.</p>
+</blockquote>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
