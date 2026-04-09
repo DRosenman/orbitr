@@ -8,7 +8,7 @@ trajectories.
 ## Usage
 
 ``` r
-plot_system(sim_data, time = NULL, trails = TRUE, three_d = FALSE)
+plot_system(sim_data, time = NULL, trails = FALSE, three_d = FALSE)
 ```
 
 ## Arguments

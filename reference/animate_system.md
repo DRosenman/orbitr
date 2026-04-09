@@ -12,7 +12,7 @@ animate_system(
   sim_data,
   fps = 20,
   duration = 10,
-  trails = TRUE,
+  trails = FALSE,
   three_d = FALSE
 )
 ```

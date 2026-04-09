@@ -7,7 +7,7 @@ with the full orbital trajectories shown faintly behind.
 ## Usage
 
 ``` r
-plot_system_3d(sim_data, time = NULL, trails = TRUE)
+plot_system_3d(sim_data, time = NULL, trails = FALSE)
 ```
 
 ## Arguments

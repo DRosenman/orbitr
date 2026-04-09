@@ -39,7 +39,11 @@ Transform and plot results
 
 Built-in masses, distances, and orbital speeds
 
-- [`mass_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
+- [`gravitational_constant`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
+  [`seconds_per_hour`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
+  [`seconds_per_day`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
+  [`seconds_per_year`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
+  [`mass_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
   [`mass_earth`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
   [`mass_moon`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
   [`mass_mars`](https://drosenman.github.io/orbitr/reference/physical_constants.md)

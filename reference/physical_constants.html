@@ -67,7 +67,15 @@ and meters).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">mass_sun</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">gravitational_constant</span></span>
+<span></span>
+<span><span class="va">seconds_per_hour</span></span>
+<span></span>
+<span><span class="va">seconds_per_day</span></span>
+<span></span>
+<span><span class="va">seconds_per_year</span></span>
+<span></span>
+<span><span class="va">mass_sun</span></span>
 <span></span>
 <span><span class="va">mass_earth</span></span>
 <span></span>
@@ -110,7 +118,11 @@ and meters).</p>
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>Numeric scalar in kilograms.</p>
+    <p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>Numeric scalar in kilograms.</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
@@ -134,9 +146,15 @@ and meters).</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>`gravitational_constant`: Newton's gravitational constant
-(6.6743 x 10^-11 m^3 kg^-1 s^-2). Source: CODATA 2018 recommended value.
-Use this with `create_system()` to scale gravity:
-`create_system(G = gravitational_constant * 10)`.</p>
+  (6.6743 x 10^-11 m^3 kg^-1 s^-2). Source: CODATA 2018 recommended value.
+  Use this with `create_system()` to scale gravity:
+  `create_system(G = gravitational_constant * 10)`.</p>
+<p>`seconds_per_hour`: 3,600 seconds. Convenient for setting `time_step`
+  in lunar or close-orbit simulations.</p>
+<p>`seconds_per_day`: 86,400 seconds. Convenient for setting `time_step`
+  in planetary-scale simulations.</p>
+<p>`seconds_per_year`: 31,557,600 seconds (365.25 days, the Julian year).
+  Convenient for setting `duration` in `simulate_system()`.</p>
 <p>`mass_sun`: Mass of the Sun (1.989 x 10^30 kg). Source: IAU 2015 nominal solar mass.</p>
 <p>`mass_earth`: Mass of the Earth (5.972 x 10^24 kg). Source: IAU 2015 nominal Earth mass.</p>
 <p>`mass_moon`: Mass of the Moon (7.342 x 10^22 kg). Source: JPL DE440 ephemeris.</p>

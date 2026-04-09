@@ -67,7 +67,7 @@ gravitational constant.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_system</span><span class="op">(</span>G <span class="op">=</span> <span class="fl">6.6743e-11</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_system</span><span class="op">(</span>G <span class="op">=</span> <span class="va">gravitational_constant</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,7 +75,8 @@ gravitational constant.</p>
 
 
 <dl><dt id="arg-g">G<a class="anchor" aria-label="anchor" href="#arg-g"></a></dt>
-<dd><p>The gravitational constant. Defaults to standard physics (6.6743e-11).
+<dd><p>The gravitational constant. Defaults to the real-world value
+(`gravitational_constant`, 6.6743e-11 m^3 kg^-1 s^-2).
 To simulate a zero-gravity environment (inertia only), set `G = 0`.</p></dd>
 
 </dl></div>
@@ -90,7 +91,7 @@ To simulate a zero-gravity environment (inertia only), set `G = 0`.</p></dd>
 <span class="r-in"><span><span class="va">my_universe</span> <span class="op">&lt;-</span> <span class="fu">create_system</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Creates a universe with 10x stronger gravity</span></span></span>
-<span class="r-in"><span><span class="va">heavy_universe</span> <span class="op">&lt;-</span> <span class="fu">create_system</span><span class="op">(</span>G <span class="op">=</span> <span class="fl">6.6743e-10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">heavy_universe</span> <span class="op">&lt;-</span> <span class="fu">create_system</span><span class="op">(</span>G <span class="op">=</span> <span class="va">gravitational_constant</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Creates a zero-gravity sandbox</span></span></span>
 <span class="r-in"><span><span class="va">floating_universe</span> <span class="op">&lt;-</span> <span class="fu">create_system</span><span class="op">(</span>G <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>

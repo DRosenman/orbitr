@@ -8,7 +8,7 @@ faintly behind.
 ## Usage
 
 ``` r
-animate_system_3d(sim_data, fps = 20, duration = 10, trails = TRUE)
+animate_system_3d(sim_data, fps = 20, duration = 10, trails = FALSE)
 ```
 
 ## Arguments

@@ -7,15 +7,16 @@ using the specified gravitational constant.
 ## Usage
 
 ``` r
-create_system(G = 6.6743e-11)
+create_system(G = gravitational_constant)
 ```
 
 ## Arguments
 
 - G:
 
-  The gravitational constant. Defaults to standard physics (6.6743e-11).
-  To simulate a zero-gravity environment (inertia only), set \`G = 0\`.
+  The gravitational constant. Defaults to the real-world value
+  (\`gravitational_constant\`, 6.6743e-11 m^3 kg^-1 s^-2). To simulate a
+  zero-gravity environment (inertia only), set \`G = 0\`.
 
 ## Value
 
@@ -28,7 +29,7 @@ An empty \`orbit_system\` object ready for bodies to be added.
 my_universe <- create_system()
 
 # Creates a universe with 10x stronger gravity
-heavy_universe <- create_system(G = 6.6743e-10)
+heavy_universe <- create_system(G = gravitational_constant * 10)
 
 # Creates a zero-gravity sandbox
 floating_universe <- create_system(G = 0)

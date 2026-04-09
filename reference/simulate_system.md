@@ -10,8 +10,8 @@ to ensure highly stable orbital trajectories.
 ``` r
 simulate_system(
   system,
-  time_step = 60,
-  duration = 86400,
+  time_step = seconds_per_hour,
+  duration = seconds_per_year,
   method = "verlet",
   softening = 0,
   use_cpp = TRUE
@@ -26,11 +26,14 @@ simulate_system(
 
 - time_step:
 
-  The time increment per frame in seconds (default 60s).
+  The time increment per frame in seconds (default 3600s / 1 hour). For
+  planetary orbits around a star, daily steps (\`86400\`) are usually
+  sufficient. For lunar-scale or tighter orbits, hourly steps (\`3600\`)
+  work well.
 
 - duration:
 
-  Total simulation time in seconds (default 86400s / 1 day).
+  Total simulation time in seconds (default 31557600s / 1 year).
 
 - method:
 
