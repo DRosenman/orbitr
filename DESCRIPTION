@@ -15,7 +15,7 @@ Description: A lightweight, fully vectorized N-body physics engine built for
     tidyverse principles. Features multiple numerical integration methods,
     including the energy-conserving Velocity Verlet algorithm, to ensure
     highly stable orbital propagation.
-URL: https://drosenman.github.io/orbitr/, https://github.com/DRosenman/orbitr
+URL: https://orbit-r.com/, https://github.com/DRosenman/orbitr
 BugReports: https://github.com/DRosenman/orbitr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8

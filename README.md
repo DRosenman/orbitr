@@ -1,5 +1,5 @@
 
-# orbitr
+# orbitr <img src="man/figures/logo.svg" align="right" height="139" alt="orbitr logo" />
 
 **Tidy N-body orbital mechanics for R.**
 
@@ -10,7 +10,7 @@
 > [GitHub](https://github.com/DRosenman/orbitr).
 
 > Full documentation, examples, and guides at
-> **[drosenman.github.io/orbitr](https://drosenman.github.io/orbitr/)**
+> **[orbit-r.com](https://orbit-r.com/)**
 
 ## Installation
 
@@ -126,23 +126,20 @@ create_system() |>
 
 ## Learn More
 
-- **[Get
-  Started](https://drosenman.github.io/orbitr/articles/quick-start.html)**
-  — full walkthrough
+- **[Get Started](https://orbit-r.com/articles/quick-start.html)** —
+  full walkthrough
 - **[Building Two-Body
-  Orbits](https://drosenman.github.io/orbitr/articles/building-two-body-orbits.html)**
+  Orbits](https://orbit-r.com/articles/building-two-body-orbits.html)**
   — choosing positions, velocities, and masses
-- **[Examples](https://drosenman.github.io/orbitr/articles/examples.html)**
-  — Earth-Moon, Sun-Earth-Moon, Kepler-16, and more
-- **[The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.html)**
-  — integrators, softening, and the C++ engine
+- **[Examples](https://orbit-r.com/articles/examples.html)** —
+  Earth-Moon, Sun-Earth-Moon, Kepler-16, and more
+- **[The Physics](https://orbit-r.com/articles/the-physics.html)** —
+  integrators, softening, and the C++ engine
 - **[Custom
-  Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.html)**
+  Visualization](https://orbit-r.com/articles/custom-visualization.html)**
   — build your own plots with ggplot2 and plotly
-- **[API
-  Reference](https://drosenman.github.io/orbitr/reference/index.html)**
-  — full function documentation
+- **[API Reference](https://orbit-r.com/reference/index.html)** — full
+  function documentation
 
 ## License
 
