@@ -90,6 +90,12 @@ and meters).</p>
 <span></span>
 <span><span class="va">mass_mercury</span></span>
 <span></span>
+<span><span class="va">mass_uranus</span></span>
+<span></span>
+<span><span class="va">mass_neptune</span></span>
+<span></span>
+<span><span class="va">mass_pluto</span></span>
+<span></span>
 <span><span class="va">distance_earth_sun</span></span>
 <span></span>
 <span><span class="va">distance_earth_moon</span></span>
@@ -102,6 +108,14 @@ and meters).</p>
 <span></span>
 <span><span class="va">distance_mercury_sun</span></span>
 <span></span>
+<span><span class="va">distance_saturn_sun</span></span>
+<span></span>
+<span><span class="va">distance_uranus_sun</span></span>
+<span></span>
+<span><span class="va">distance_neptune_sun</span></span>
+<span></span>
+<span><span class="va">distance_pluto_sun</span></span>
+<span></span>
 <span><span class="va">speed_earth</span></span>
 <span></span>
 <span><span class="va">speed_moon</span></span>
@@ -112,7 +126,15 @@ and meters).</p>
 <span></span>
 <span><span class="va">speed_venus</span></span>
 <span></span>
-<span><span class="va">speed_mercury</span></span></code></pre></div>
+<span><span class="va">speed_mercury</span></span>
+<span></span>
+<span><span class="va">speed_saturn</span></span>
+<span></span>
+<span><span class="va">speed_uranus</span></span>
+<span></span>
+<span><span class="va">speed_neptune</span></span>
+<span></span>
+<span><span class="va">speed_pluto</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -122,6 +144,17 @@ and meters).</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
 <p>Numeric scalar in kilograms.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
+<p>An object of class <code>numeric</code> of length 1.</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
 <p>An object of class <code>numeric</code> of length 1.</p>
@@ -162,6 +195,10 @@ and meters).</p>
 <p>`mass_saturn`: Mass of Saturn (5.683 x 10^26 kg). Source: JPL DE440 ephemeris.</p>
 <p>`mass_venus`: Mass of Venus (4.867 x 10^24 kg). Source: JPL DE440 ephemeris.</p>
 <p>`mass_mercury`: Mass of Mercury (3.301 x 10^23 kg). Source: JPL DE440 ephemeris.</p>
+<p>`mass_uranus`: Mass of Uranus (8.681 x 10^25 kg). Source: JPL DE440 ephemeris.</p>
+<p>`mass_neptune`: Mass of Neptune (1.024 x 10^26 kg). Source: JPL DE440 ephemeris.</p>
+<p>`mass_pluto`: Mass of Pluto (1.309 x 10^22 kg). Source: JPL DE440 ephemeris.
+  Pluto is a dwarf planet but is included for convenience.</p>
 <p>`distance_earth_sun`: Semi-major axis of Earth's orbit around the Sun
   (1.496 x 10^11 m, ~149.6 million km). Earth's actual distance varies between
   ~147.1 million km (perihelion) and ~152.1 million km (aphelion).</p>
@@ -179,12 +216,25 @@ and meters).</p>
 <p>`distance_mercury_sun`: Semi-major axis of Mercury's orbit around the Sun
   (5.791 x 10^10 m, ~57.9 million km). Mercury has the most eccentric planetary
   orbit (e = 0.206), ranging from ~46.0 million km to ~69.8 million km.</p>
+<p>`distance_saturn_sun`: Semi-major axis of Saturn's orbit around the Sun
+  (1.434 x 10^12 m, ~1.434 billion km).</p>
+<p>`distance_uranus_sun`: Semi-major axis of Uranus's orbit around the Sun
+  (2.871 x 10^12 m, ~2.871 billion km).</p>
+<p>`distance_neptune_sun`: Semi-major axis of Neptune's orbit around the Sun
+  (4.495 x 10^12 m, ~4.495 billion km).</p>
+<p>`distance_pluto_sun`: Semi-major axis of Pluto's orbit around the Sun
+  (5.906 x 10^12 m, ~5.906 billion km). Pluto has a highly eccentric orbit
+  (e = 0.249), ranging from ~4.437 billion km to ~7.376 billion km.</p>
 <p>`speed_earth`: Mean orbital speed of Earth around the Sun (29,780 m/s).</p>
 <p>`speed_moon`: Mean orbital speed of the Moon around Earth (1,022 m/s).</p>
 <p>`speed_mars`: Mean orbital speed of Mars around the Sun (24,070 m/s).</p>
 <p>`speed_jupiter`: Mean orbital speed of Jupiter around the Sun (13,060 m/s).</p>
 <p>`speed_venus`: Mean orbital speed of Venus around the Sun (35,020 m/s).</p>
 <p>`speed_mercury`: Mean orbital speed of Mercury around the Sun (47,360 m/s).</p>
+<p>`speed_saturn`: Mean orbital speed of Saturn around the Sun (9,680 m/s).</p>
+<p>`speed_uranus`: Mean orbital speed of Uranus around the Sun (6,800 m/s).</p>
+<p>`speed_neptune`: Mean orbital speed of Neptune around the Sun (5,430 m/s).</p>
+<p>`speed_pluto`: Mean orbital speed of Pluto around the Sun (4,740 m/s).</p>
     </div>
     <div class="section level2">
     <h2 id="a-note-on-distance-constants">A Note on "Distance" Constants<a class="anchor" aria-label="anchor" href="#a-note-on-distance-constants"></a></h2>

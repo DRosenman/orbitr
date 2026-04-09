@@ -195,39 +195,18 @@ with <code>install.packages(c("gganimate", "gifski"))</code>.</p>
 </h2>
 <p>Since <code>orbitr</code> is a full N-body engine, you can add as
 many bodies as you want. Each one gravitationally interacts with every
-other. Here’s the Sun-Earth-Moon system for a full year:</p>
+other. Here’s the Sun with both Earth and Venus for a full year:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Sun"</span>,   mass <span class="op">=</span> <span class="va">mass_sun</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>,</span>
-<span>           x <span class="op">=</span> <span class="va">distance_earth_sun</span> <span class="op">+</span> <span class="va">distance_earth_moon</span>,</span>
-<span>           vy <span class="op">=</span> <span class="va">speed_earth</span> <span class="op">+</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/shift_reference_frame.html">shift_reference_frame</a></span><span class="op">(</span><span class="st">"Earth"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Venus"</span>, mass <span class="op">=</span> <span class="va">mass_venus</span>, x <span class="op">=</span> <span class="va">distance_venus_sun</span>, vy <span class="op">=</span> <span class="va">speed_venus</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">86400</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="quick-start_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="672"></p>
-<p>Notice <code>shift_reference_frame("Earth")</code> — this re-centers
-everything on Earth so you can see the Moon’s orbit instead of having
-everything overlap at the Sun’s scale.</p>
-</div>
-<div class="section level2">
-<h2 id="changing-the-integrator">Changing the Integrator<a class="anchor" aria-label="anchor" href="#changing-the-integrator"></a>
-</h2>
-<p>The default integrator is Velocity Verlet, which conserves energy and
-keeps orbits stable. You can switch to <code>"euler_cromer"</code> for
-faster (but less accurate) runs, or <code>"euler"</code> to see what
-happens when energy isn’t conserved:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Star"</span>, mass <span class="op">=</span> <span class="fl">1e30</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Planet"</span>, mass <span class="op">=</span> <span class="fl">1e24</span>, x <span class="op">=</span> <span class="fl">1e11</span>, vy <span class="op">=</span> <span class="fl">30000</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="fl">3600</span>, duration <span class="op">=</span> <span class="fl">86400</span> <span class="op">*</span> <span class="fl">365</span>, method <span class="op">=</span> <span class="st">"euler"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="quick-start_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
-<p>You’ll see the orbit spiral outward — that’s the Euler method
-artificially pumping energy into the system. Switch back to
-<code>method = "verlet"</code> for a clean closed ellipse.</p>
+<p>Venus completes more than one full orbit in the same time Earth takes
+to go around once — you can see the inner orbit is both smaller and
+faster.</p>
 </div>
 <div class="section level2">
 <h2 id="the-output-is-just-a-tibble">The Output is Just a Tibble<a class="anchor" aria-label="anchor" href="#the-output-is-just-a-tibble"></a>
@@ -235,7 +214,7 @@ artificially pumping energy into the system. Switch back to
 <p><code><a href="../reference/simulate_system.html">simulate_system()</a></code> returns a standard tidy tibble. You
 can use <code>dplyr</code>, <code>ggplot2</code>, <code>plotly</code>,
 or any other tool on it:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>

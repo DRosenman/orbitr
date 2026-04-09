@@ -31,6 +31,12 @@ mass_venus
 
 mass_mercury
 
+mass_uranus
+
+mass_neptune
+
+mass_pluto
+
 distance_earth_sun
 
 distance_earth_moon
@@ -43,6 +49,14 @@ distance_venus_sun
 
 distance_mercury_sun
 
+distance_saturn_sun
+
+distance_uranus_sun
+
+distance_neptune_sun
+
+distance_pluto_sun
+
 speed_earth
 
 speed_moon
@@ -54,6 +68,14 @@ speed_jupiter
 speed_venus
 
 speed_mercury
+
+speed_saturn
+
+speed_uranus
+
+speed_neptune
+
+speed_pluto
 ```
 
 ## Format
@@ -67,6 +89,28 @@ An object of class `numeric` of length 1.
 An object of class `numeric` of length 1.
 
 Numeric scalar in kilograms.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
+
+An object of class `numeric` of length 1.
 
 An object of class `numeric` of length 1.
 
@@ -146,6 +190,15 @@ ephemeris.
 \`mass_mercury\`: Mass of Mercury (3.301 x 10^23 kg). Source: JPL DE440
 ephemeris.
 
+\`mass_uranus\`: Mass of Uranus (8.681 x 10^25 kg). Source: JPL DE440
+ephemeris.
+
+\`mass_neptune\`: Mass of Neptune (1.024 x 10^26 kg). Source: JPL DE440
+ephemeris.
+
+\`mass_pluto\`: Mass of Pluto (1.309 x 10^22 kg). Source: JPL DE440
+ephemeris. Pluto is a dwarf planet but is included for convenience.
+
 \`distance_earth_sun\`: Semi-major axis of Earth's orbit around the Sun
 (1.496 x 10^11 m, ~149.6 million km). Earth's actual distance varies
 between ~147.1 million km (perihelion) and ~152.1 million km (aphelion).
@@ -170,6 +223,19 @@ Sun (5.791 x 10^10 m, ~57.9 million km). Mercury has the most eccentric
 planetary orbit (e = 0.206), ranging from ~46.0 million km to ~69.8
 million km.
 
+\`distance_saturn_sun\`: Semi-major axis of Saturn's orbit around the
+Sun (1.434 x 10^12 m, ~1.434 billion km).
+
+\`distance_uranus_sun\`: Semi-major axis of Uranus's orbit around the
+Sun (2.871 x 10^12 m, ~2.871 billion km).
+
+\`distance_neptune_sun\`: Semi-major axis of Neptune's orbit around the
+Sun (4.495 x 10^12 m, ~4.495 billion km).
+
+\`distance_pluto_sun\`: Semi-major axis of Pluto's orbit around the Sun
+(5.906 x 10^12 m, ~5.906 billion km). Pluto has a highly eccentric orbit
+(e = 0.249), ranging from ~4.437 billion km to ~7.376 billion km.
+
 \`speed_earth\`: Mean orbital speed of Earth around the Sun (29,780
 m/s).
 
@@ -185,6 +251,17 @@ m/s).
 
 \`speed_mercury\`: Mean orbital speed of Mercury around the Sun (47,360
 m/s).
+
+\`speed_saturn\`: Mean orbital speed of Saturn around the Sun (9,680
+m/s).
+
+\`speed_uranus\`: Mean orbital speed of Uranus around the Sun (6,800
+m/s).
+
+\`speed_neptune\`: Mean orbital speed of Neptune around the Sun (5,430
+m/s).
+
+\`speed_pluto\`: Mean orbital speed of Pluto around the Sun (4,740 m/s).
 
 ## A Note on "Distance" Constants
 
