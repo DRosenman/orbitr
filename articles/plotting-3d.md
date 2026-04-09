@@ -7,10 +7,9 @@ library(orbitr)
 All simulations in `orbitr` run in full 3D — every body always has `x`,
 `y`, and `z` coordinates. When all motion happens in the XY plane (i.e.,
 `z = 0` and `vz = 0` for every body),
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-produces a static 2D `ggplot2` chart. The moment any body has non-zero Z
-motion,
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) produces
+a static 2D `ggplot2` chart. The moment any body has non-zero Z motion,
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md)
 automatically switches to an interactive 3D `plotly` visualization — no
 code changes needed.
 
@@ -20,10 +19,10 @@ capabilities even for a flat system.
 
 ## How the 2D/3D Dispatch Works
 
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-checks whether `any(sim_data$z != 0)`. If there’s any Z-axis movement —
-or if you pass `three_d = TRUE` — it hands off to
-[`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md),
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) checks
+whether `any(sim_data$z != 0)`. If there’s any Z-axis movement — or if
+you pass `three_d = TRUE` — it hands off to
+[`plot_orbits_3d()`](https://orbit-r.com/reference/plot_orbits_3d.md),
 which uses `plotly` for interactive 3D rendering. Otherwise it falls
 back to a static `ggplot2` chart.
 
@@ -47,9 +46,9 @@ create_system() |>
 ```
 
 Because `vz` is non-zero,
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-detects 3D motion and returns an interactive plotly widget. You can drag
-to rotate, scroll to zoom, and hover to see timestamps.
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) detects
+3D motion and returns an interactive plotly widget. You can drag to
+rotate, scroll to zoom, and hover to see timestamps.
 
 ## Forcing 3D for Flat Data
 

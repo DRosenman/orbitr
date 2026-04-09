@@ -92,8 +92,8 @@ create_system() |>
 ![](building-two-body-orbits_files/figure-html/circle-orbit-1.png)
 
 That’s it. One line of math, one call to
-[`add_body()`](https://drosenman.github.io/orbitr/reference/add_body.md),
-and you have a stable circular orbit.
+[`add_body()`](https://orbit-r.com/reference/add_body.md), and you have
+a stable circular orbit.
 
 ## What Happens If You Get the Speed Wrong?
 
@@ -236,9 +236,8 @@ are comparable.
 For those, both bodies orbit their common center of mass (the
 **barycenter**), and you need to give *both* bodies initial velocities
 that satisfy conservation of momentum. The [Kepler-16
-example](https://drosenman.github.io/orbitr/articles/examples.md) shows
-how to do this for a realistic binary-star-plus-planet system. The short
-version:
+example](https://orbit-r.com/articles/examples.md) shows how to do this
+for a realistic binary-star-plus-planet system. The short version:
 
 - Put the two bodies on opposite sides of the origin at distances
   inversely proportional to their masses.

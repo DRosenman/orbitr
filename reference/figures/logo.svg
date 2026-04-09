@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 231" width="200" height="231">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0e27"/>
+      <stop offset="100%" style="stop-color:#1a1040"/>
+    </linearGradient>
+    <linearGradient id="orbit1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4fc3f7;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#4fc3f7;stop-opacity:0.2"/>
+    </linearGradient>
+    <linearGradient id="orbit2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff7043;stop-opacity:0.9"/>
+      <stop offset="100%" style="stop-color:#ff7043;stop-opacity:0.2"/>
+    </linearGradient>
+    <linearGradient id="orbit3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#66bb6a;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#66bb6a;stop-opacity:0.15"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fff59d"/>
+      <stop offset="40%" style="stop-color:#ffd54f"/>
+      <stop offset="100%" style="stop-color:#ff8f00"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffd54f;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#ffd54f;stop-opacity:0"/>
+    </radialGradient>
+    <clipPath id="hex-clip">
+      <polygon points="100,3 197,58 197,173 100,228 3,173 3,58"/>
+    </clipPath>
+    <!-- Stars -->
+    <filter id="star-glow">
+      <feGaussianBlur stdDeviation="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Hex border -->
+  <polygon points="100,3 197,58 197,173 100,228 3,173 3,58"
+           fill="url(#bg)" stroke="#4fc3f7" stroke-width="3"/>
+
+  <g clip-path="url(#hex-clip)">
+    <!-- Scattered stars -->
+    <circle cx="30" cy="45" r="0.8" fill="white" opacity="0.7"/>
+    <circle cx="55" cy="70" r="0.6" fill="white" opacity="0.5"/>
+    <circle cx="170" cy="55" r="0.9" fill="white" opacity="0.6"/>
+    <circle cx="150" cy="85" r="0.5" fill="white" opacity="0.4"/>
+    <circle cx="25" cy="130" r="0.7" fill="white" opacity="0.5"/>
+    <circle cx="175" cy="140" r="0.6" fill="white" opacity="0.6"/>
+    <circle cx="45" cy="175" r="0.8" fill="white" opacity="0.4"/>
+    <circle cx="160" cy="180" r="0.5" fill="white" opacity="0.5"/>
+    <circle cx="80" cy="50" r="0.5" fill="white" opacity="0.3"/>
+    <circle cx="130" cy="170" r="0.7" fill="white" opacity="0.4"/>
+    <circle cx="40" cy="100" r="0.6" fill="white" opacity="0.5"/>
+    <circle cx="165" cy="110" r="0.5" fill="white" opacity="0.3"/>
+    <circle cx="70" cy="190" r="0.6" fill="white" opacity="0.4"/>
+    <circle cx="120" cy="55" r="0.4" fill="white" opacity="0.5"/>
+    <circle cx="90" cy="160" r="0.5" fill="white" opacity="0.3"/>
+
+    <!-- Sun glow -->
+    <circle cx="100" cy="115" r="25" fill="url(#glow)"/>
+
+    <!-- Orbit paths (ellipses) -->
+    <ellipse cx="100" cy="115" rx="55" ry="30"
+             fill="none" stroke="url(#orbit1)" stroke-width="1.5"
+             transform="rotate(-15, 100, 115)" stroke-dasharray="2,3" opacity="0.5"/>
+
+    <ellipse cx="100" cy="115" rx="38" ry="22"
+             fill="none" stroke="url(#orbit2)" stroke-width="1.5"
+             transform="rotate(25, 100, 115)" stroke-dasharray="2,3" opacity="0.5"/>
+
+    <ellipse cx="100" cy="115" rx="72" ry="40"
+             fill="none" stroke="url(#orbit3)" stroke-width="1.2"
+             transform="rotate(-5, 100, 115)" stroke-dasharray="2,4" opacity="0.4"/>
+
+    <!-- Sun -->
+    <circle cx="100" cy="115" r="8" fill="url(#sun)"/>
+
+    <!-- Planets on orbits -->
+    <!-- Inner planet (orange orbit) -->
+    <circle cx="131" cy="104" r="4" fill="#ff7043"/>
+    <circle cx="131" cy="104" r="6" fill="#ff7043" opacity="0.2"/>
+
+    <!-- Middle planet (blue orbit) -->
+    <circle cx="52" cy="124" r="5" fill="#4fc3f7"/>
+    <circle cx="52" cy="124" r="7.5" fill="#4fc3f7" opacity="0.2"/>
+
+    <!-- Outer planet (green orbit) -->
+    <circle cx="168" cy="105" r="3.5" fill="#66bb6a"/>
+    <circle cx="168" cy="105" r="5.5" fill="#66bb6a" opacity="0.2"/>
+
+    <!-- Small moon near blue planet -->
+    <circle cx="58" cy="119" r="1.5" fill="#b0bec5"/>
+  </g>
+
+  <!-- Package name -->
+  <text x="100" y="190" text-anchor="middle"
+        font-family="'Courier New', monospace" font-weight="bold"
+        font-size="30" fill="white" letter-spacing="2">
+    orbitr
+  </text>
+
+</svg>

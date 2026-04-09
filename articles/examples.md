@@ -68,7 +68,7 @@ create_system() |>
 
 The three-body plot above is heliocentric (Sun at center). To see the
 Moon’s path *from Earth’s perspective*, pipe the results through
-[`shift_reference_frame()`](https://drosenman.github.io/orbitr/reference/shift_reference_frame.md):
+[`shift_reference_frame()`](https://orbit-r.com/reference/shift_reference_frame.md):
 
 ``` r
 sun_earth_moon <- create_system() |>

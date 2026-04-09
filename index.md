@@ -55,33 +55,33 @@ trail as it moves
 ## Features
 
 - **Tidy output** —
-  [`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+  [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
   returns a standard tibble (one row per body per time step), ready for
   `dplyr`, `ggplot2`, `plotly`, or anything else in the R ecosystem.
 - **Built-in physical constants** — real-world masses, distances, and
   orbital speeds for the Sun, all eight planets, and the Moon, so you
   don’t have to look anything up. See [Physical
-  Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md).
+  Constants](https://orbit-r.com/articles/physical-constants.md).
 - **C++ engine** — a compiled `Rcpp` acceleration kernel handles the
   $O\left( n^{2} \right)$ gravity loop, with automatic fallback to
   vectorized R if the compiled code isn’t available.
 - **Three integrators** — Velocity Verlet (default, symplectic,
   energy-conserving), Euler-Cromer (fast preview), and standard Euler
   (educational comparison). See [The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md).
+  Physics](https://orbit-r.com/articles/the-physics.md).
 - **2D and 3D plotting** —
-  [`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+  [`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md)
   returns a `ggplot` for planar sims and auto-dispatches to an
   interactive `plotly` widget when any body has Z-axis motion. See [3D
-  Plotting](https://drosenman.github.io/orbitr/articles/plotting-3d.md).
+  Plotting](https://orbit-r.com/articles/plotting-3d.md).
 - **Animations** —
-  [`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
+  [`animate_system()`](https://orbit-r.com/reference/animate_system.md)
   renders orbits as GIFs with fading trails via `gganimate`, or as
   interactive 3D animations with `plotly`.
 - **Reference frame shifting** — `shift_reference_frame("Earth")`
   re-centers the simulation on any body, turning a heliocentric view
   into a geocentric one. See [Reference
-  Frames](https://drosenman.github.io/orbitr/articles/reference-frames.md).
+  Frames](https://orbit-r.com/articles/reference-frames.md).
 
 ## Kepler-16: A Real Circumbinary Planet
 
@@ -119,20 +119,17 @@ Animated GIF of Kepler-16b orbiting a binary star system
 
 ## Learn More
 
-- **[Get
-  Started](https://drosenman.github.io/orbitr/articles/quick-start.md)**
-  — install, simulate, and plot your first orbit
+- **[Get Started](https://orbit-r.com/articles/quick-start.md)** —
+  install, simulate, and plot your first orbit
 - **[Building Two-Body
-  Orbits](https://drosenman.github.io/orbitr/articles/building-two-body-orbits.md)**
-  — the physics of choosing positions, velocities, and masses
-- **[Examples](https://drosenman.github.io/orbitr/articles/examples.md)**
-  — Earth-Moon, Sun-Earth-Moon, Kepler-16, and more
-- **[Unstable
-  Orbits](https://drosenman.github.io/orbitr/articles/unstable-orbits.md)**
+  Orbits](https://orbit-r.com/articles/building-two-body-orbits.md)** —
+  the physics of choosing positions, velocities, and masses
+- **[Examples](https://orbit-r.com/articles/examples.md)** — Earth-Moon,
+  Sun-Earth-Moon, Kepler-16, and more
+- **[Unstable Orbits](https://orbit-r.com/articles/unstable-orbits.md)**
   — why most random configurations are chaotic
 - **[Custom
-  Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.md)**
+  Visualization](https://orbit-r.com/articles/custom-visualization.md)**
   — build your own plots with ggplot2 and plotly
-- **[The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md)**
-  — gravitational equations, integrators, and the C++ engine
+- **[The Physics](https://orbit-r.com/articles/the-physics.md)** —
+  gravitational equations, integrators, and the C++ engine

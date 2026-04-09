@@ -4,13 +4,12 @@
 library(orbitr)
 ```
 
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-and
-[`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md)
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) and
+[`plot_orbits_3d()`](https://orbit-r.com/reference/plot_orbits_3d.md)
 are convenience functions for quick trajectory plots — they’re designed
 to get you a useful visualization in one line so you can focus on
 setting up the physics. But the real power of `orbitr` is that
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 returns a standard tidy tibble. You can use `ggplot2`, `plotly`, or any
 other visualization tool directly on the output.
 
@@ -48,10 +47,10 @@ the full power of `dplyr` and `ggplot2` at your disposal.
 ## Custom ggplot2 Visualizations
 
 For example, in the Earth-Moon system,
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-shows overlapping circles because both bodies orbit their shared
-barycenter at roughly the same scale. A more useful visualization might
-plot each body’s distance from the barycenter over time:
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) shows
+overlapping circles because both bodies orbit their shared barycenter at
+roughly the same scale. A more useful visualization might plot each
+body’s distance from the barycenter over time:
 
 ``` r
 library(ggplot2)
@@ -89,12 +88,11 @@ sim |>
 
 ## Custom plotly Visualizations
 
-Just as
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+Just as [`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md)
 is a quick convenience for 2D work,
-[`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md)
-is a quick convenience for 3D. Both are intentionally simple — they get
-you a useful plot in one line so you can focus on the physics, not the
+[`plot_orbits_3d()`](https://orbit-r.com/reference/plot_orbits_3d.md) is
+a quick convenience for 3D. Both are intentionally simple — they get you
+a useful plot in one line so you can focus on the physics, not the
 formatting. When you need more control, the simulation tibble works just
 as well with `plotly` as it does with `ggplot2`.
 
@@ -159,6 +157,6 @@ plot_ly() |>
 ```
 
 The point is the same as with `ggplot2`:
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 returns a standard tibble, so you have full access to `plotly`’s API for
 anything the built-in plotting functions don’t cover.

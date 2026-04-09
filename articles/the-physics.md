@@ -22,8 +22,7 @@ same reason the Moon doesn’t crash into the Earth: it’s falling toward
 us constantly, but it’s also moving sideways fast enough that it keeps
 missing.
 
-When you call
-[`add_body()`](https://drosenman.github.io/orbitr/reference/add_body.md),
+When you call [`add_body()`](https://orbit-r.com/reference/add_body.md),
 the `vx`, `vy`, `vz` parameters set this initial velocity. The balance
 between speed and distance determines the shape of the orbit. At a given
 distance $r$ from a central mass $M$, the **circular orbit velocity**
@@ -53,7 +52,7 @@ for dense systems.
 
 ## Numerical Integration Methods
 
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 offers three methods for stepping the system forward through time. All
 operate in 3D Cartesian coordinates.
 
@@ -147,7 +146,7 @@ N-body simulation. `orbitr` ships a compiled C++ kernel (via `Rcpp`)
 that computes the $O\left( n^{2} \right)$ pairwise interactions in a
 tight nested loop. When the package is installed from source with a
 working C++ toolchain,
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 automatically dispatches to this engine. If the compiled code isn’t
 available, it falls back to a vectorized R implementation that uses
 matrix outer products — still fast, but the C++ path is significantly

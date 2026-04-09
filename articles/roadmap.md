@@ -19,8 +19,8 @@ optional `radius` parameter would enable collision detection, merging on
 contact, and more realistic close-encounter behavior.
 
 I’d probably add it to
-[`add_body()`](https://drosenman.github.io/orbitr/reference/add_body.md)
-as an optional parameter with a sensible default, something like:
+[`add_body()`](https://orbit-r.com/reference/add_body.md) as an optional
+parameter with a sensible default, something like:
 
 ``` r
 add_body <- function(system, id, mass, x = 0, y = 0, z = 0,
@@ -33,11 +33,10 @@ user-chosen policy (elastic bounce, inelastic merge, simulation halt,
 etc.).
 
 In the meantime, the existing `softening` parameter on
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 partly works around the missing-radius problem by preventing the
 gravitational force from blowing up at very small separations — see [The
-Physics](https://drosenman.github.io/orbitr/articles/the-physics.md) for
-details.
+Physics](https://orbit-r.com/articles/the-physics.md) for details.
 
 ### Non-gravitational forces
 
@@ -53,15 +52,14 @@ Optional support for forces beyond pure Newtonian gravity:
 A small post-Newtonian correction term would let `orbitr` reproduce real
 GR effects like the precession of Mercury’s perihelion. Probably opt-in
 via an argument on
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md),
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md),
 since most users wouldn’t need it.
 
 ## Setup helpers
 
 ### Construct bodies from Keplerian orbital elements
 
-The current
-[`add_body()`](https://drosenman.github.io/orbitr/reference/add_body.md)
+The current [`add_body()`](https://orbit-r.com/reference/add_body.md)
 takes raw Cartesian state vectors (`x`, `y`, `z`, `vx`, `vy`, `vz`). For
 users who think in classical orbital elements — semi-major axis $a$,
 eccentricity $e$, inclination $i$, longitude of ascending node $\Omega$,
@@ -81,8 +79,7 @@ add_body_keplerian(system, "Mars", mass = mass_mars,
 A one-liner that pre-builds the Sun and all eight planets with real
 ephemeris values, so you can skip straight to interesting experiments
 without typing out a dozen
-[`add_body()`](https://drosenman.github.io/orbitr/reference/add_body.md)
-calls.
+[`add_body()`](https://orbit-r.com/reference/add_body.md) calls.
 
 ## Quality of life
 
@@ -95,7 +92,7 @@ and for sharing reproducible setups.
 ### Progress bar for long simulations
 
 A simple progress indicator on
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 for runs that take more than a few seconds, with an option to disable it
 for scripted use.
 

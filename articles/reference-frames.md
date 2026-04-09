@@ -35,13 +35,13 @@ At this scale the Earth-Moon distance (~384,000 km) is a rounding error
 compared to the Earth-Sun distance (~150 million km). The Moon’s
 trajectory overlaps Earth’s completely, and the Sun barely moves (its
 tiny wobble around the barycenter is invisible at this zoom level), so
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-only shows what looks like a single circular track. The physics is fine;
-the perspective is wrong.
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) only
+shows what looks like a single circular track. The physics is fine; the
+perspective is wrong.
 
 ## Shifting the Reference Frame
 
-[`shift_reference_frame()`](https://drosenman.github.io/orbitr/reference/shift_reference_frame.md)
+[`shift_reference_frame()`](https://orbit-r.com/reference/shift_reference_frame.md)
 fixes this by applying a Galilean coordinate transformation. At every
 time step, it subtracts the position and velocity of a chosen body from
 all other bodies:
@@ -72,11 +72,11 @@ The function signature is:
 shift_reference_frame(sim_data, center_id, keep_center = TRUE)
 ```
 
-| Parameter     | Type        | Default | Description                                                                                        |
-|---------------|-------------|---------|----------------------------------------------------------------------------------------------------|
-| `sim_data`    | `tibble`    | —       | Output from [`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md) |
-| `center_id`   | `character` | —       | ID of the body to place at (0, 0, 0)                                                               |
-| `keep_center` | `logical`   | `TRUE`  | Keep the center body in the output?                                                                |
+| Parameter     | Type        | Default | Description                                                                         |
+|---------------|-------------|---------|-------------------------------------------------------------------------------------|
+| `sim_data`    | `tibble`    | —       | Output from [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md) |
+| `center_id`   | `character` | —       | ID of the body to place at (0, 0, 0)                                                |
+| `keep_center` | `logical`   | `TRUE`  | Keep the center body in the output?                                                 |
 
 The transformation operates on all six phase-space coordinates (`x`,
 `y`, `z`, `vx`, `vy`, `vz`) simultaneously. At each time step, the
@@ -114,11 +114,11 @@ sim |>
 ## Multiple Perspectives on the Same Data
 
 Since
-[`shift_reference_frame()`](https://drosenman.github.io/orbitr/reference/shift_reference_frame.md)
+[`shift_reference_frame()`](https://orbit-r.com/reference/shift_reference_frame.md)
 doesn’t modify the underlying physics — it just translates coordinates —
 you can call it multiple times on the same simulation to explore
 different viewpoints. There’s no need to re-run
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md).
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md).
 
 ``` r
 # Same simulation, three different perspectives
@@ -240,7 +240,7 @@ the sky.
 ## Practical Tips
 
 **Don’t re-simulate.**
-[`shift_reference_frame()`](https://drosenman.github.io/orbitr/reference/shift_reference_frame.md)
+[`shift_reference_frame()`](https://orbit-r.com/reference/shift_reference_frame.md)
 is a pure coordinate transformation on the output tibble. It’s fast and
 doesn’t require re-running the physics. Store the simulation result once
 and shift it as many times as you need.

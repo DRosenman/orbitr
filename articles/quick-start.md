@@ -33,35 +33,34 @@ create_system() |>
 That’s it — a 28-day lunar orbit in four lines. Here’s what each step
 does:
 
-1.  **[`create_system()`](https://drosenman.github.io/orbitr/reference/create_system.md)**
+1.  **[`create_system()`](https://orbit-r.com/reference/create_system.md)**
     initializes an empty simulation with standard gravitational constant
     G.
-2.  **[`add_body()`](https://drosenman.github.io/orbitr/reference/add_body.md)**
-    places a body with a given mass, position, and velocity. All
-    positions are in meters, velocities in m/s. The built-in constants
-    (`mass_earth`, `distance_earth_moon`, etc.) save you from looking
-    anything up.
-3.  **[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)**
+2.  **[`add_body()`](https://orbit-r.com/reference/add_body.md)** places
+    a body with a given mass, position, and velocity. All positions are
+    in meters, velocities in m/s. The built-in constants (`mass_earth`,
+    `distance_earth_moon`, etc.) save you from looking anything up.
+3.  **[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)**
     runs the N-body integration forward in time. `time_step` is how many
     seconds per integration step, `duration` is the total time to
     simulate.
-4.  **[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)**
+4.  **[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md)**
     produces a quick 2D trajectory plot using `ggplot2`.
 
 ## Customizing the Plot
 
 By default,
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-returns a standard `ggplot` object for planar (2D) simulations and a
-`plotly` HTML widget for simulations with any 3D motion. (You can also
-force 3D rendering on planar data with `three_d = TRUE`.) Because the 2D
-case returns a regular ggplot, you can layer additional geoms, scales,
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) returns
+a standard `ggplot` object for planar (2D) simulations and a `plotly`
+HTML widget for simulations with any 3D motion. (You can also force 3D
+rendering on planar data with `three_d = TRUE`.) Because the 2D case
+returns a regular ggplot, you can layer additional geoms, scales,
 themes, and labels onto it with `+` like any other ggplot.
 
 A common annoyance is that the central body in a two-body system can be
 invisible:
-[`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-draws each body as a
+[`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) draws
+each body as a
 [`geom_path()`](https://ggplot2.tidyverse.org/reference/geom_path.html)
 of its trajectory, and a much more massive body barely moves so its path
 is too small to see. The Sun in a Sun-Earth simulation is the classic
@@ -96,7 +95,7 @@ tibble instead of hardcoding `(0, 0)`.
 
 Static plots are nice, but you can also play the simulation forward as
 an animation with
-[`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md).
+[`animate_system()`](https://orbit-r.com/reference/animate_system.md).
 By default each body leaves a fading wake of recent positions behind it:
 
 ``` r
@@ -105,13 +104,13 @@ animate_system(sim, fps = 15, duration = 5)
 
 ![](../reference/figures/quick-start-earth-orbit-anim.gif)
 
-[`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
-is the animated counterpart to
-[`plot_system()`](https://drosenman.github.io/orbitr/reference/plot_system.md)
-— it samples the simulation tibble down to roughly `fps * duration`
-evenly spaced frames, then renders them as a GIF using `gganimate`. Like
-the static plotters, it auto-dispatches to a 3D version
-([`animate_system_3d()`](https://drosenman.github.io/orbitr/reference/animate_system_3d.md),
+[`animate_system()`](https://orbit-r.com/reference/animate_system.md) is
+the animated counterpart to
+[`plot_system()`](https://orbit-r.com/reference/plot_system.md) — it
+samples the simulation tibble down to roughly `fps * duration` evenly
+spaced frames, then renders them as a GIF using `gganimate`. Like the
+static plotters, it auto-dispatches to a 3D version
+([`animate_system_3d()`](https://orbit-r.com/reference/animate_system_3d.md),
 an interactive `plotly` widget with a play button) the moment any body
 has non-zero Z motion. The 2D path requires the `gganimate` and `gifski`
 packages — install them with
@@ -164,7 +163,7 @@ artificially pumping energy into the system. Switch back to
 
 ## The Output is Just a Tibble
 
-[`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 returns a standard tidy tibble. You can use `dplyr`, `ggplot2`,
 `plotly`, or any other tool on it:
 
@@ -196,23 +195,19 @@ Each row is one body at one point in time, with columns for position
 
 ## Next Steps
 
-- **[The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md)**
-  — Understand the math behind the simulation
-- **[Examples](https://drosenman.github.io/orbitr/articles/examples.md)**
-  — More complex systems including binary stars and the Kepler-16 system
-- **[Unstable
-  Orbits](https://drosenman.github.io/orbitr/articles/unstable-orbits.md)**
+- **[The Physics](https://orbit-r.com/articles/the-physics.md)** —
+  Understand the math behind the simulation
+- **[Examples](https://orbit-r.com/articles/examples.md)** — More
+  complex systems including binary stars and the Kepler-16 system
+- **[Unstable Orbits](https://orbit-r.com/articles/unstable-orbits.md)**
   — Why most random configurations are chaotic
-- **[3D
-  Plotting](https://drosenman.github.io/orbitr/articles/plotting-3d.md)**
-  — Interactive 3D visualization with plotly
+- **[3D Plotting](https://orbit-r.com/articles/plotting-3d.md)** —
+  Interactive 3D visualization with plotly
 - **[Custom
-  Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.md)**
+  Visualization](https://orbit-r.com/articles/custom-visualization.md)**
   — Build your own plots with ggplot2 and plotly
 - **[Physical
-  Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md)**
-  — All built-in masses, distances, and speeds
-- **[Roadmap](https://drosenman.github.io/orbitr/articles/roadmap.md)**
-  — Features being considered for future versions, plus a place to
-  suggest your own
+  Constants](https://orbit-r.com/articles/physical-constants.md)** — All
+  built-in masses, distances, and speeds
+- **[Roadmap](https://orbit-r.com/articles/roadmap.md)** — Features
+  being considered for future versions, plus a place to suggest your own

@@ -55,33 +55,33 @@ trail as it moves
 ## Features
 
 - **Tidy output** —
-  [`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+  [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
   returns a standard tibble (one row per body per time step), ready for
   `dplyr`, `ggplot2`, `plotly`, or anything else in the R ecosystem.
 - **Built-in physical constants** — real-world masses, distances, and
   orbital speeds for the Sun, all eight planets, and the Moon, so you
   don’t have to look anything up. See [Physical
-  Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md).
+  Constants](https://orbit-r.com/articles/physical-constants.md).
 - **C++ engine** — a compiled `Rcpp` acceleration kernel handles the
   $O\left( n^{2} \right)$ gravity loop, with automatic fallback to
   vectorized R if the compiled code isn’t available.
 - **Three integrators** — Velocity Verlet (default, symplectic,
   energy-conserving), Euler-Cromer (fast preview), and standard Euler
   (educational comparison). See [The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md).
+  Physics](https://orbit-r.com/articles/the-physics.md).
 - **2D and 3D plotting** —
-  [`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
+  [`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md)
   returns a `ggplot` for planar sims and auto-dispatches to an
   interactive `plotly` widget when any body has Z-axis motion. See [3D
-  Plotting](https://drosenman.github.io/orbitr/articles/plotting-3d.md).
+  Plotting](https://orbit-r.com/articles/plotting-3d.md).
 - **Animations** —
-  [`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
+  [`animate_system()`](https://orbit-r.com/reference/animate_system.md)
   renders orbits as GIFs with fading trails via `gganimate`, or as
   interactive 3D animations with `plotly`.
 - **Reference frame shifting** — `shift_reference_frame("Earth")`
   re-centers the simulation on any body, turning a heliocentric view
   into a geocentric one. See [Reference
-  Frames](https://drosenman.github.io/orbitr/articles/reference-frames.md).
+  Frames](https://orbit-r.com/articles/reference-frames.md).
 
 ## Kepler-16: A Real Circumbinary Planet
 
@@ -119,23 +119,20 @@ Animated GIF of Kepler-16b orbiting a binary star system
 
 ## Learn More
 
-- **[Get
-  Started](https://drosenman.github.io/orbitr/articles/quick-start.md)**
-  — install, simulate, and plot your first orbit
+- **[Get Started](https://orbit-r.com/articles/quick-start.md)** —
+  install, simulate, and plot your first orbit
 - **[Building Two-Body
-  Orbits](https://drosenman.github.io/orbitr/articles/building-two-body-orbits.md)**
-  — the physics of choosing positions, velocities, and masses
-- **[Examples](https://drosenman.github.io/orbitr/articles/examples.md)**
-  — Earth-Moon, Sun-Earth-Moon, Kepler-16, and more
-- **[Unstable
-  Orbits](https://drosenman.github.io/orbitr/articles/unstable-orbits.md)**
+  Orbits](https://orbit-r.com/articles/building-two-body-orbits.md)** —
+  the physics of choosing positions, velocities, and masses
+- **[Examples](https://orbit-r.com/articles/examples.md)** — Earth-Moon,
+  Sun-Earth-Moon, Kepler-16, and more
+- **[Unstable Orbits](https://orbit-r.com/articles/unstable-orbits.md)**
   — why most random configurations are chaotic
 - **[Custom
-  Visualization](https://drosenman.github.io/orbitr/articles/custom-visualization.md)**
+  Visualization](https://orbit-r.com/articles/custom-visualization.md)**
   — build your own plots with ggplot2 and plotly
-- **[The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md)**
-  — gravitational equations, integrators, and the C++ engine
+- **[The Physics](https://orbit-r.com/articles/the-physics.md)** —
+  gravitational equations, integrators, and the C++ engine
 
 # Package index
 
@@ -143,65 +140,65 @@ Animated GIF of Kepler-16b orbiting a binary star system
 
 Create a simulation and add bodies
 
-- [`create_system()`](https://drosenman.github.io/orbitr/reference/create_system.md)
-  : Initialize an orbitr simulation system
-- [`add_body()`](https://drosenman.github.io/orbitr/reference/add_body.md)
-  : Add a physical body to the system
+- [`create_system()`](https://orbit-r.com/reference/create_system.md) :
+  Initialize an orbitr simulation system
+- [`add_body()`](https://orbit-r.com/reference/add_body.md) : Add a
+  physical body to the system
 
 ## Simulation
 
 Run the N-body simulation
 
-- [`simulate_system()`](https://drosenman.github.io/orbitr/reference/simulate_system.md)
+- [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
   : Simulate kinematics for an orbitr system
 
 ## Analysis & Visualization
 
 Transform and plot results
 
-- [`shift_reference_frame()`](https://drosenman.github.io/orbitr/reference/shift_reference_frame.md)
+- [`shift_reference_frame()`](https://orbit-r.com/reference/shift_reference_frame.md)
   : Shift the coordinate reference frame of the simulation
-- [`plot_orbits()`](https://drosenman.github.io/orbitr/reference/plot_orbits.md)
-  : Plot Orbital Trajectories (Smart 2D/3D Dispatch)
-- [`plot_orbits_3d()`](https://drosenman.github.io/orbitr/reference/plot_orbits_3d.md)
+- [`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) : Plot
+  Orbital Trajectories (Smart 2D/3D Dispatch)
+- [`plot_orbits_3d()`](https://orbit-r.com/reference/plot_orbits_3d.md)
   : Plot 3D Interactive Orbital Trajectories
-- [`plot_system()`](https://drosenman.github.io/orbitr/reference/plot_system.md)
-  : Plot System Snapshot at a Single Time (Smart 2D/3D Dispatch)
-- [`plot_system_3d()`](https://drosenman.github.io/orbitr/reference/plot_system_3d.md)
+- [`plot_system()`](https://orbit-r.com/reference/plot_system.md) : Plot
+  System Snapshot at a Single Time (Smart 2D/3D Dispatch)
+- [`plot_system_3d()`](https://orbit-r.com/reference/plot_system_3d.md)
   : Plot 3D Interactive System Snapshot at a Single Time
-- [`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
+- [`animate_system()`](https://orbit-r.com/reference/animate_system.md)
   : Animate the System Over Time (Smart 2D/3D Dispatch)
-- [`animate_system_3d()`](https://drosenman.github.io/orbitr/reference/animate_system_3d.md)
+- [`animate_system_3d()`](https://orbit-r.com/reference/animate_system_3d.md)
   : Animate the System Over Time in Interactive 3D
 
 ## Physical Constants
 
 Built-in masses, distances, and orbital speeds
 
-- [`gravitational_constant`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`seconds_per_hour`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`seconds_per_day`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`seconds_per_year`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_earth`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_moon`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_mars`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_jupiter`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_saturn`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_venus`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`mass_mercury`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`distance_earth_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`distance_earth_moon`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`distance_mars_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`distance_jupiter_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`distance_venus_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`distance_mercury_sun`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`speed_earth`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`speed_moon`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`speed_mars`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`speed_jupiter`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`speed_venus`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
-  [`speed_mercury`](https://drosenman.github.io/orbitr/reference/physical_constants.md)
+- [`gravitational_constant`](https://orbit-r.com/reference/physical_constants.md)
+  [`seconds_per_hour`](https://orbit-r.com/reference/physical_constants.md)
+  [`seconds_per_day`](https://orbit-r.com/reference/physical_constants.md)
+  [`seconds_per_year`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_sun`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_earth`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_moon`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_mars`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_jupiter`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_saturn`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_venus`](https://orbit-r.com/reference/physical_constants.md)
+  [`mass_mercury`](https://orbit-r.com/reference/physical_constants.md)
+  [`distance_earth_sun`](https://orbit-r.com/reference/physical_constants.md)
+  [`distance_earth_moon`](https://orbit-r.com/reference/physical_constants.md)
+  [`distance_mars_sun`](https://orbit-r.com/reference/physical_constants.md)
+  [`distance_jupiter_sun`](https://orbit-r.com/reference/physical_constants.md)
+  [`distance_venus_sun`](https://orbit-r.com/reference/physical_constants.md)
+  [`distance_mercury_sun`](https://orbit-r.com/reference/physical_constants.md)
+  [`speed_earth`](https://orbit-r.com/reference/physical_constants.md)
+  [`speed_moon`](https://orbit-r.com/reference/physical_constants.md)
+  [`speed_mars`](https://orbit-r.com/reference/physical_constants.md)
+  [`speed_jupiter`](https://orbit-r.com/reference/physical_constants.md)
+  [`speed_venus`](https://orbit-r.com/reference/physical_constants.md)
+  [`speed_mercury`](https://orbit-r.com/reference/physical_constants.md)
   : Physical Constants for Orbital Mechanics
 
 # Articles
@@ -209,27 +206,24 @@ Built-in masses, distances, and orbital speeds
 ### Getting Started
 
 - [Building Two-Body Orbits From
-  Scratch](https://drosenman.github.io/orbitr/articles/building-two-body-orbits.md):
-- [Examples](https://drosenman.github.io/orbitr/articles/examples.md):
+  Scratch](https://orbit-r.com/articles/building-two-body-orbits.md):
+- [Examples](https://orbit-r.com/articles/examples.md):
 - [Built-In Physical
-  Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md):
+  Constants](https://orbit-r.com/articles/physical-constants.md):
 
 ### Visualization
 
-- [3D
-  Plotting](https://drosenman.github.io/orbitr/articles/plotting-3d.md):
+- [3D Plotting](https://orbit-r.com/articles/plotting-3d.md):
 - [Custom Visualization with ggplot2 and
-  plotly](https://drosenman.github.io/orbitr/articles/custom-visualization.md):
+  plotly](https://orbit-r.com/articles/custom-visualization.md):
 
 ### Understanding the Simulation
 
-- [The
-  Physics](https://drosenman.github.io/orbitr/articles/the-physics.md):
-- [Reference
-  Frames](https://drosenman.github.io/orbitr/articles/reference-frames.md):
+- [The Physics](https://orbit-r.com/articles/the-physics.md):
+- [Reference Frames](https://orbit-r.com/articles/reference-frames.md):
 - [Unstable Orbits and the Three-Body
-  Problem](https://drosenman.github.io/orbitr/articles/unstable-orbits.md):
+  Problem](https://orbit-r.com/articles/unstable-orbits.md):
 
 ### Roadmap
 
-- [Roadmap](https://drosenman.github.io/orbitr/articles/roadmap.md):
+- [Roadmap](https://orbit-r.com/articles/roadmap.md):
