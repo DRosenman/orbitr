@@ -6,18 +6,24 @@ template:
 
 navbar:
   structure:
-    left:  [intro, reference, articles]
+    left:  [intro, get-started, reference, articles]
     right: [search, github]
   components:
+    get-started:
+      text: Get Started
+      href: articles/quick-start.html
     github:
       icon: fa-github
       href: https://github.com/DRosenman/orbitr
 
 articles:
+  - title: internal
+    contents:
+      - quick-start
+
   - title: "Getting Started"
     navbar: "Getting Started"
     contents:
-      - quick-start
       - building-two-body-orbits
       - examples
       - physical-constants
