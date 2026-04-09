@@ -279,7 +279,7 @@ plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
 #' gganimate::anim_save("earth_orbit.gif", anim)
 #' }
 animate_system <- function(sim_data, fps = 20, duration = 10,
-                           trails = TRUE, three_d = FALSE) {
+                           trails = FALSE, three_d = FALSE) {
 
   is_3d <- three_d || any(sim_data$z != 0)
 
@@ -359,7 +359,7 @@ animate_system <- function(sim_data, fps = 20, duration = 10,
 #'   simulate_system(time_step = 3600, duration = 86400 * 30) |>
 #'   animate_system_3d()
 #' }
-animate_system_3d <- function(sim_data, fps = 20, duration = 10, trails = TRUE) {
+animate_system_3d <- function(sim_data, fps = 20, duration = 10, trails = FALSE) {
 
   if (!requireNamespace("plotly", quietly = TRUE)) {
     stop("The 'plotly' package is required for 3D animation. Please install it.")

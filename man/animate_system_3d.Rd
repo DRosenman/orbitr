@@ -4,7 +4,7 @@
 \alias{animate_system_3d}
 \title{Animate the System Over Time in Interactive 3D}
 \usage{
-animate_system_3d(sim_data, fps = 20, duration = 10, trails = TRUE)
+animate_system_3d(sim_data, fps = 20, duration = 10, trails = FALSE)
 }
 \arguments{
 \item{sim_data}{A tibble output from [simulate_system()].}

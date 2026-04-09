@@ -3,6 +3,12 @@
 
 **Tidy N-body orbital mechanics for R.**
 
+> **Early beta** — `orbitr` is functional and the physics engine is
+> stable, but this is an early release. Function names, defaults, and
+> behavior may change between versions. Feedback, bug reports, and
+> contributions are welcome on
+> [GitHub](https://github.com/DRosenman/orbitr).
+
 > Full documentation, examples, and guides at
 > **[drosenman.github.io/orbitr](https://drosenman.github.io/orbitr/)**
 
@@ -13,7 +19,7 @@
 devtools::install_github("DRosenman/orbitr")
 ```
 
-## Five Lines to an Orbit
+## Four Lines to an Orbit
 
 ``` r
 library(orbitr)
@@ -23,13 +29,7 @@ sim <- create_system() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   simulate_system(time_step = 86400, duration = 86400 * 365)
 
-sim |>
-  plot_orbits() +
-  ggplot2::geom_point(
-    data = data.frame(x = 0, y = 0),
-    ggplot2::aes(x = x, y = y),
-    color = "gold", size = 6
-  )
+sim |> plot_orbits()
 ```
 
 ![](man/figures/README-unnamed-chunk-2-1.png)<!-- -->

@@ -4,10 +4,11 @@
 \alias{create_system}
 \title{Initialize an orbitr simulation system}
 \usage{
-create_system(G = 6.6743e-11)
+create_system(G = gravitational_constant)
 }
 \arguments{
-\item{G}{The gravitational constant. Defaults to standard physics (6.6743e-11).
+\item{G}{The gravitational constant. Defaults to the real-world value
+(`gravitational_constant`, 6.6743e-11 m^3 kg^-1 s^-2).
 To simulate a zero-gravity environment (inertia only), set `G = 0`.}
 }
 \value{
@@ -23,7 +24,7 @@ gravitational constant.
 my_universe <- create_system()
 
 # Creates a universe with 10x stronger gravity
-heavy_universe <- create_system(G = 6.6743e-10)
+heavy_universe <- create_system(G = gravitational_constant * 10)
 
 # Creates a zero-gravity sandbox
 floating_universe <- create_system(G = 0)
