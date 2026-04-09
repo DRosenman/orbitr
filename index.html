@@ -31,13 +31,14 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/quick-start.html">Get Started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
-    <li><a class="dropdown-item" href="articles/quick-start.html">Quick Start Guide</a></li>
+    <li><a class="dropdown-item" href="articles/building-two-body-orbits.html">Building Two-Body Orbits From Scratch</a></li>
     <li><a class="dropdown-item" href="articles/examples.html">Examples</a></li>
     <li><a class="dropdown-item" href="articles/physical-constants.html">Built-In Physical Constants</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -52,6 +53,8 @@
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Roadmap</h6></li>
     <li><a class="dropdown-item" href="articles/roadmap.html">Roadmap</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="articles/index.html">More articles...</a></li>
   </ul>
 </li>
       </ul>
@@ -94,7 +97,9 @@
 <p><code><a href="reference/simulate_system.html">simulate_system()</a></code> returns a tidy tibble — one row per body per time step — ready for <code>dplyr</code>, <code>ggplot2</code>, <code>plotly</code>, or any other tool in the R ecosystem.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-sun-earth-plot-1.png"></p>
+<div class="float">
+<img src="reference/figures/README-sun-earth-plot-1.png" alt="Closed elliptical trajectory of Earth orbiting the Sun over one year, rendered by plot_orbits()"><div class="figcaption">Closed elliptical trajectory of Earth orbiting the Sun over one year, rendered by plot_orbits()</div>
+</div>
 <p>You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s a limitation of <code><a href="reference/plot_orbits.html">plot_orbits()</a></code>: it draws trajectories using <code>geom_path()</code>, and the Sun barely moves during the simulation so its path is too small to see at this scale. The Sun <em>does</em> move — Newton’s third law means Earth pulls on the Sun just as the Sun pulls on Earth, causing it to trace a tiny loop around the system’s barycenter. It’s just invisible at this zoom level because the Sun is ~330,000 times more massive than the Earth. This stellar wobble is real, though — it’s exactly the method astronomers use to detect exoplanets.</p>
 <p>By default, <code><a href="reference/plot_orbits.html">plot_orbits()</a></code> returns a standard <code>ggplot</code> object for planar (2D) simulations, and a <code>plotly</code> HTML widget for simulations with any 3D motion. (You can also force 3D rendering on planar data with <code>three_d = TRUE</code>.) Because the 2D case returns a regular ggplot, you can layer additional geoms, scales, themes, and labels onto it with <code>+</code> like any other ggplot. One quick fix for the missing Sun is to drop a marker at the origin:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -107,7 +112,9 @@
 <span>    size <span class="op">=</span> <span class="fl">6</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Earth-Sun Orbit"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-sun-earth-plot-with-sun-1.png"></p>
+<div class="float">
+<img src="reference/figures/README-sun-earth-plot-with-sun-1.png" alt="Same Earth-Sun orbit plot with a gold point added at the origin to mark the Sun’s position"><div class="figcaption">Same Earth-Sun orbit plot with a gold point added at the origin to mark the Sun’s position</div>
+</div>
 <p>This works because the Sun sits essentially at the origin throughout the simulation — the barycenter wobble is well inside the Sun itself. For systems where the central body actually moves a noticeable amount, you’d want to pull its position from the simulation tibble instead of hardcoding <code>(0, 0)</code>.</p>
 <div class="section level3">
 <h3 id="watching-the-orbit-in-motion">Watching the Orbit in Motion<a class="anchor" aria-label="anchor" href="#watching-the-orbit-in-motion"></a>
@@ -115,7 +122,9 @@
 <p>Static plots are nice, but you can also play the simulation forward as an animation with <code><a href="reference/animate_system.html">animate_system()</a></code>. By default each body leaves a fading wake of recent positions behind it:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/animate_system.html">animate_system</a></span><span class="op">(</span><span class="va">sim</span>, fps <span class="op">=</span> <span class="fl">20</span>, duration <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-earth-orbit-anim-1.gif"></p>
+<div class="float">
+<img src="reference/figures/README-earth-orbit-anim-1.gif" alt="Animated GIF of Earth orbiting the Sun, with Earth leaving a fading trail as it moves"><div class="figcaption">Animated GIF of Earth orbiting the Sun, with Earth leaving a fading trail as it moves</div>
+</div>
 <p><code><a href="reference/animate_system.html">animate_system()</a></code> is the animated counterpart to <code><a href="reference/plot_system.html">plot_system()</a></code> — it samples the simulation tibble down to roughly <code>fps * duration</code> evenly spaced frames and renders them as a GIF using <code>gganimate</code>. Like the static plotters, it auto-dispatches to a 3D version (<code><a href="reference/animate_system_3d.html">animate_system_3d()</a></code>, an interactive <code>plotly</code> widget with a play button) the moment any body has non-zero Z motion. The 2D path requires the <code>gganimate</code> and <code>gifski</code> packages — install them with <code>install.packages(c("gganimate", "gifski"))</code>.</p>
 <p>For better 2D plots where you control point markers, axis ranges, and labels, use <code>ggplot2</code> directly on the simulation tibble (see <a href="articles/custom-visualization.html">Custom Visualization</a>). For interactive 3D views where you can zoom in and find the Sun, see <a href="articles/plotting-3d.html">3D Plotting</a>.</p>
 </div>

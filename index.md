@@ -56,7 +56,12 @@ returns a tidy tibble — one row per body per time step — ready for
 sim |> plot_orbits()
 ```
 
-![](reference/figures/README-sun-earth-plot-1.png)
+![Closed elliptical trajectory of Earth orbiting the Sun over one year,
+rendered by
+plot_orbits()](reference/figures/README-sun-earth-plot-1.png)
+
+Closed elliptical trajectory of Earth orbiting the Sun over one year,
+rendered by plot_orbits()
 
 You’ll notice only Earth’s orbit is visible — the Sun is missing. That’s
 a limitation of
@@ -91,7 +96,12 @@ sim |>
   ggplot2::labs(title = "Earth-Sun Orbit")
 ```
 
-![](reference/figures/README-sun-earth-plot-with-sun-1.png)
+![Same Earth-Sun orbit plot with a gold point added at the origin to
+mark the Sun’s
+position](reference/figures/README-sun-earth-plot-with-sun-1.png)
+
+Same Earth-Sun orbit plot with a gold point added at the origin to mark
+the Sun’s position
 
 This works because the Sun sits essentially at the origin throughout the
 simulation — the barycenter wobble is well inside the Sun itself. For
@@ -110,7 +120,11 @@ By default each body leaves a fading wake of recent positions behind it:
 animate_system(sim, fps = 20, duration = 6)
 ```
 
-![](reference/figures/README-earth-orbit-anim-1.gif)
+![Animated GIF of Earth orbiting the Sun, with Earth leaving a fading
+trail as it moves](reference/figures/README-earth-orbit-anim-1.gif)
+
+Animated GIF of Earth orbiting the Sun, with Earth leaving a fading
+trail as it moves
 
 [`animate_system()`](https://drosenman.github.io/orbitr/reference/animate_system.md)
 is the animated counterpart to

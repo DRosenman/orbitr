@@ -2,8 +2,8 @@
 
 ### Getting Started
 
-- [Quick Start
-  Guide](https://drosenman.github.io/orbitr/articles/quick-start.md):
+- [Building Two-Body Orbits From
+  Scratch](https://drosenman.github.io/orbitr/articles/building-two-body-orbits.md):
 - [Examples](https://drosenman.github.io/orbitr/articles/examples.md):
 - [Built-In Physical
   Constants](https://drosenman.github.io/orbitr/articles/physical-constants.md):
