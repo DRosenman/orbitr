@@ -49,12 +49,12 @@ if (FALSE) { # \dontrun{
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365)
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
 # Final state with faint orbit trails
 plot_system(sim)
 
 # State at day 100, no trails
-plot_system(sim, time = 86400 * 100, trails = FALSE)
+plot_system(sim, time = seconds_per_day * 100, trails = FALSE)
 } # }
 ```
