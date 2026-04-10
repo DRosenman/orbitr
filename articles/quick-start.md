@@ -78,7 +78,7 @@ sim |>
   ggplot2::geom_point(
     data = data.frame(x = 0, y = 0),
     ggplot2::aes(x = x, y = y),
-    color = "gold",
+    color = "#00BFC4",
     size = 6
   ) +
   ggplot2::labs(title = "Earth-Sun Orbit")
