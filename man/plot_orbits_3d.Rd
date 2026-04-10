@@ -19,9 +19,10 @@ You can click, drag to rotate, and scroll to zoom in on the trajectories.
 \examples{
 \dontrun{
 create_system() |>
-  add_body("Earth", mass = 5.972e24) |>
-  add_body("Moon", mass = 7.342e22, x = 3.844e8, vy = 1022, vz = 150) |>
-  simulate_system(time_step = 3600, duration = 86400 * 30) |>
+  add_body("Earth", mass = mass_earth) |>
+  add_body("Moon", mass = mass_moon,
+           x = distance_earth_moon, vy = speed_moon, vz = 150) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 30) |>
   plot_orbits_3d()
 }
 }

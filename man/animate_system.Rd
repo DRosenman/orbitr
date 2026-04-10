@@ -59,7 +59,7 @@ is involved, so 3D animations render essentially instantly.
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  simulate_system(time_step = 86400, duration = 86400 * 365)
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
 # 2D fading-wake animation (requires gganimate)
 anim <- animate_system(sim, fps = 20, duration = 8)

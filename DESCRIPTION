@@ -11,10 +11,10 @@ Authors@R: c(
   )
 Description: A lightweight, fully vectorized N-body physics engine built for
     the R ecosystem. Simulate and visualize complex orbital mechanics,
-    celestial trajectories, and gravitational interactions using modern
-    tidyverse principles. Features multiple numerical integration methods,
-    including the energy-conserving Velocity Verlet algorithm, to ensure
-    highly stable orbital propagation.
+    celestial trajectories, and gravitational interactions using tidy data
+    principles. Features multiple numerical integration methods, including
+    the energy-conserving velocity Verlet algorithm, to ensure highly stable
+    orbital propagation.
 URL: https://orbit-r.com/, https://github.com/DRosenman/orbitr
 BugReports: https://github.com/DRosenman/orbitr/issues
 License: MIT + file LICENSE
@@ -30,6 +30,7 @@ Suggests:
     plotly,
     gganimate,
     gifski,
+    magick,
     knitr,
     rmarkdown,
     pkgdown,

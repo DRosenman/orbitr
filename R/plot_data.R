@@ -18,13 +18,11 @@ plot_orbits <- function(sim_data, three_d = FALSE) {
   }
 
   # Fallback / Default: 2D ggplot
-  # (Insert your existing ggplot2 logic here)
-  library(ggplot2)
-  ggplot(sim_data, aes(x = x, y = y, color = id)) +
-    geom_path(linewidth = 1) +
-    coord_equal() +
-    labs(title = "2D Orbital Trajectories", x = "X (m)", y = "Y (m)") +
-    theme_minimal()
+  ggplot2::ggplot(sim_data, ggplot2::aes(x = x, y = y, color = id)) +
+    ggplot2::geom_path(linewidth = 1) +
+    ggplot2::coord_equal() +
+    ggplot2::labs(title = "2D Orbital Trajectories", x = "X (m)", y = "Y (m)") +
+    ggplot2::theme_minimal()
 }
 
 
