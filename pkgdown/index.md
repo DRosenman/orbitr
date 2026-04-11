@@ -85,3 +85,4 @@ create_system() |>
 - **[Unstable Orbits](articles/unstable-orbits.html)** — why most random configurations are chaotic
 - **[Custom Visualization](articles/custom-visualization.html)** — build your own plots with ggplot2 and plotly
 - **[The Physics](articles/the-physics.html)** — gravitational equations, integrators, and the C++ engine
+- **[Interactive Demo](https://daverosenman.shinyapps.io/orbitr/)** — try orbitr in your browser with the Shiny app

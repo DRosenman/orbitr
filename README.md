@@ -140,6 +140,8 @@ create_system() |>
   — build your own plots with ggplot2 and plotly
 - **[API Reference](https://orbit-r.com/reference/index.html)** — full
   function documentation
+- **[Interactive Demo](https://daverosenman.shinyapps.io/orbitr/)** —
+  try orbitr in your browser with the Shiny app
 
 ## License
 
