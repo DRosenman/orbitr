@@ -133,6 +133,8 @@ Animated GIF of Kepler-16b orbiting a binary star system
   — build your own plots with ggplot2 and plotly
 - **[The Physics](https://orbit-r.com/articles/the-physics.md)** —
   gravitational equations, integrators, and the C++ engine
+- **[Interactive Demo](https://daverosenman.shinyapps.io/orbitr/)** —
+  try orbitr in your browser with the Shiny app
 
 # Package index
 
