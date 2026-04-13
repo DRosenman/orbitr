@@ -3,10 +3,10 @@
 #' @param sim_data A tibble output from `simulate_system()`
 #' @param three_d Logical. If TRUE, forces a 3D plot even for 2D data.
 #' @export
-plot_orbits <- function(sim_data, three_d = FALSE) {
+plot_orbits <- function(sim_data, three_d = NULL) {
 
   # Check if there is any movement in the Z dimension
-  is_3d <- three_d || any(sim_data$z != 0)
+  is_3d <- if (is.null(three_d)) any(sim_data$z != 0) else three_d
 
   if (is_3d) {
     # Try to plot in 3D
@@ -112,9 +112,9 @@ plot_orbits_3d <- function(sim_data) {
 #' # State at day 100, no trails
 #' plot_system(sim, time = seconds_per_day * 100, trails = FALSE)
 #' }
-plot_system <- function(sim_data, time = NULL, trails = FALSE, three_d = FALSE) {
+plot_system <- function(sim_data, time = NULL, trails = FALSE, three_d = NULL) {
 
-  is_3d <- three_d || any(sim_data$z != 0)
+  is_3d <- if (is.null(three_d)) any(sim_data$z != 0) else three_d
 
   if (is_3d) {
     if (requireNamespace("plotly", quietly = TRUE)) {
@@ -278,9 +278,9 @@ plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
 #' gganimate::anim_save("earth_orbit.gif", anim)
 #' }
 animate_system <- function(sim_data, fps = 20, duration = 10,
-                           trails = FALSE, three_d = FALSE) {
+                           trails = FALSE, three_d = NULL) {
 
-  is_3d <- three_d || any(sim_data$z != 0)
+  is_3d <- if (is.null(three_d)) any(sim_data$z != 0) else three_d
 
   if (is_3d) {
     if (requireNamespace("plotly", quietly = TRUE)) {
@@ -403,7 +403,7 @@ animate_system_3d <- function(sim_data, fps = 20, duration = 10, trails = FALSE)
     plotly::animation_opts(
       frame = 1000 / fps,
       transition = 0,
-      redraw = FALSE
+      redraw = TRUE
     ) |>
     plotly::layout(
       title = "System Animation",

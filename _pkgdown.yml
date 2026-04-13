@@ -28,6 +28,7 @@ articles:
     navbar: "Getting Started"
     contents:
       - building-two-body-orbits
+      - keplerian-elements
       - examples
       - physical-constants
 
@@ -55,6 +56,9 @@ reference:
     contents:
       - create_system
       - add_body
+      - add_body_keplerian
+      - add_planet
+      - load_solar_system
 
   - title: "Simulation"
     desc: "Run the N-body simulation"

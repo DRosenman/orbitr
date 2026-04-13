@@ -4,7 +4,7 @@
 \alias{plot_orbits}
 \title{Plot Orbital Trajectories (Smart 2D/3D Dispatch)}
 \usage{
-plot_orbits(sim_data, three_d = FALSE)
+plot_orbits(sim_data, three_d = NULL)
 }
 \arguments{
 \item{sim_data}{A tibble output from `simulate_system()`}

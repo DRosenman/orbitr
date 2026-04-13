@@ -15,9 +15,28 @@
 ## Installation
 
 ``` r
+install.packages("orbitr")
+
+# Or the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("DRosenman/orbitr")
 ```
+
+## The Full Solar System in Two Lines
+
+``` r
+library(orbitr)
+
+load_solar_system() |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](man/figures/README-solar-system-1.png)<!-- -->
+
+`load_solar_system()` builds the Sun, all eight planets, the Moon, and
+Pluto with real orbital data from JPL — eccentricities, inclinations,
+and all. One line to build it, one line to simulate and plot.
 
 ## Four Lines to an Orbit
 
@@ -49,33 +68,69 @@ animate_system(sim, fps = 15, duration = 5)
 
 ## More Examples
 
+### Build Your Own System with `add_planet()`
+
+Pick and choose real solar system bodies without looking up any numbers:
+
+``` r
+create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_planet("Earth", parent = "Sun") |>
+  add_planet("Mars",  parent = "Sun") |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+
+Every planet’s mass, eccentricity, inclination, and orbital orientation
+are filled in from JPL data. Override any element to explore “what if”
+scenarios:
+
+``` r
+# What if Mars had a perfectly circular orbit?
+create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_planet("Mars", parent = "Sun", e = 0) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+
 ### Earth-Moon
 
 ``` r
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
-  add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
+  add_planet("Moon", parent = "Earth") |>
   simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
-### Sun-Earth-Moon (from Earth’s Perspective)
+### Keplerian Orbital Elements
+
+For full control, `add_body_keplerian()` lets you specify orbits using
+classical elements — semi-major axis, eccentricity, inclination, and
+orientation angles — instead of raw positions and velocities:
 
 ``` r
+# A comet on a highly eccentric, tilted orbit
 create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
-  add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
-  add_body("Moon",  mass = mass_moon,
-           x = distance_earth_sun + distance_earth_moon,
-           vy = speed_earth + speed_moon) |>
-  simulate_system(time_step = seconds_per_hour, duration = seconds_per_year) |>
-  shift_reference_frame("Earth") |>
+  add_body("Sun", mass = mass_sun) |>
+  add_planet("Earth", parent = "Sun") |>
+  add_body_keplerian(
+    "Comet", mass = 1e13, parent = "Sun",
+    a = 3 * distance_earth_sun, e = 0.85,
+    i = 60, lan = 45, arg_pe = 90, nu = 0
+  ) |>
+  simulate_system(time_step = seconds_per_hour, duration = seconds_per_year * 5) |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 ### Kepler-16: A Real Circumbinary Planet
 
@@ -105,12 +160,17 @@ create_system() |>
   plot_orbits()
 ```
 
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 ## Features
 
 - **Tidy output** — one row per body per time step, works with the whole
   tidyverse
+- **Real solar system data** — `load_solar_system()` and `add_planet()`
+  use JPL orbital elements, no manual setup needed
+- **Keplerian elements** — `add_body_keplerian()` lets you define orbits
+  with semi-major axis, eccentricity, inclination, and orientation
+  angles
 - **Built-in constants** — masses, distances, and speeds for the Sun,
   all eight planets, and the Moon
 - **C++ engine** — compiled via Rcpp with automatic fallback to
@@ -118,7 +178,8 @@ create_system() |>
 - **Three integrators** — Velocity Verlet (default), Euler-Cromer, and
   standard Euler
 - **2D and 3D** — `plot_orbits()` auto-dispatches to interactive plotly
-  when any body has Z-axis motion
+  when any body has Z-axis motion; force either with
+  `three_d = TRUE/FALSE`
 - **Animations** — `animate_system()` renders GIFs with fading trails
   via gganimate
 - **Reference frames** — `shift_reference_frame("Earth")` re-centers
@@ -131,6 +192,9 @@ create_system() |>
 - **[Building Two-Body
   Orbits](https://orbit-r.com/articles/building-two-body-orbits.html)**
   — choosing positions, velocities, and masses
+- **[Keplerian Orbital
+  Elements](https://orbit-r.com/articles/keplerian-elements.html)** —
+  the physics behind `add_body_keplerian()` and `add_planet()`
 - **[Examples](https://orbit-r.com/articles/examples.html)** —
   Earth-Moon, Sun-Earth-Moon, Kepler-16, and more
 - **[The Physics](https://orbit-r.com/articles/the-physics.html)** —

@@ -9,7 +9,7 @@ animate_system(
   fps = 20,
   duration = 10,
   trails = FALSE,
-  three_d = FALSE
+  three_d = NULL
 )
 }
 \arguments{
