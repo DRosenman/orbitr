@@ -1,0 +1,402 @@
+# Keplerian Orbital Elements
+
+``` r
+library(orbitr)
+library(ggplot2)
+library(dplyr)
+```
+
+The [Building Two-Body
+Orbits](https://orbit-r.com/articles/building-two-body-orbits.md) guide
+shows how to set up orbits using Cartesian position and velocity vectors
+— the `x`, `y`, `z`, `vx`, `vy`, `vz` arguments on
+[`add_body()`](https://orbit-r.com/reference/add_body.md). That’s the
+most flexible approach, but it requires you to think in coordinates:
+“place the planet at (1.5e11, 0, 0) with velocity (0, 29780, 0).”
+
+Astronomers have a different language for describing orbits. Instead of
+positions and velocities, they use six numbers called **Keplerian
+orbital elements** that describe the shape, orientation, and current
+position of an orbit in a more intuitive way. These are the inputs to
+[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
+and the data that
+[`add_planet()`](https://orbit-r.com/reference/add_planet.md) looks up
+for you behind the scenes.
+
+This article explains what each element means physically, shows how they
+affect the resulting orbit, and demonstrates how to use them in
+`orbitr`.
+
+## The Six Elements
+
+An orbit in three-dimensional space has six degrees of freedom — the
+same number as a Cartesian state vector (x, y, z, vx, vy, vz). The
+Keplerian elements split those six numbers into three intuitive groups:
+**shape**, **orientation**, and **position**.
+
+### Shape: Semi-Major Axis and Eccentricity
+
+The first two elements define the *geometry* of the ellipse — how big it
+is and how stretched.
+
+**Semi-major axis** ($a$) is the average distance from the orbiting body
+to its parent. Technically it’s half the longest diameter of the
+ellipse. Larger $a$ means a bigger orbit and a longer period. In
+`orbitr`, it’s specified in meters.
+
+**Eccentricity** ($e$) controls the shape. A circle has $e = 0$; as $e$
+increases toward 1, the ellipse becomes more elongated. At any point
+along the orbit, the actual distance from the parent is:
+
+$$r = \frac{a\left( 1 - e^{2} \right)}{1 + e\cos\nu}$$
+
+where $\nu$ is the true anomaly (the body’s current angular position —
+more on that below). At the closest approach (**periapsis**, $\nu = 0$),
+the distance is $r_{\text{peri}} = a(1 - e)$. At the farthest point
+(**apoapsis**, $\nu = 180{^\circ}$), it’s $r_{\text{apo}} = a(1 + e)$.
+
+Let’s see how eccentricity changes the orbit shape:
+
+``` r
+make_ecc_orbit <- function(e, label) {
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_body_keplerian(
+      "Planet", mass = 1e24, parent = "Sun",
+      a = distance_earth_sun, e = e, nu = 0
+    ) |>
+    simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
+    filter(id == "Planet") |>
+    mutate(case = label)
+}
+
+bind_rows(
+  make_ecc_orbit(0.0,  "e = 0.0 (circle)"),
+  make_ecc_orbit(0.2,  "e = 0.2 (Mercury-like)"),
+  make_ecc_orbit(0.5,  "e = 0.5 (comet-like)"),
+  make_ecc_orbit(0.85, "e = 0.85 (Halley-like)")
+) |>
+  ggplot(aes(x = x, y = y, color = case)) +
+  geom_path(linewidth = 0.8) +
+  geom_point(x = 0, y = 0, color = "gold", size = 4, inherit.aes = FALSE) +
+  coord_equal() +
+  theme_minimal() +
+  labs(title = "Same semi-major axis, different eccentricities",
+       color = NULL)
+```
+
+![](keplerian-elements_files/figure-html/eccentricity-comparison-1.png)
+
+All four orbits have the same semi-major axis, so they have the same
+orbital period (Kepler’s Third Law: $T^{2} \propto a^{3}$). But their
+shapes are radically different — from a perfect circle to a narrow
+ellipse that barely misses the Sun at periapsis and swings far out at
+apoapsis.
+
+### Orientation: Inclination, Longitude of Ascending Node, and Argument of Periapsis
+
+The next three elements rotate and tilt the ellipse in 3D space. They’re
+specified in degrees.
+
+**Inclination** ($i$) is the tilt of the orbital plane relative to a
+reference plane (typically the ecliptic — the plane of Earth’s orbit).
+An inclination of $0{^\circ}$ means the orbit lies flat in the reference
+plane. $90{^\circ}$ means the orbit is perpendicular to it.
+
+``` r
+make_inc_orbit <- function(inc, label) {
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_body_keplerian(
+      "Planet", mass = 1e24, parent = "Sun",
+      a = distance_earth_sun, e = 0.1, i = inc, nu = 0
+    ) |>
+    simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+    filter(id == "Planet") |>
+    mutate(case = label)
+}
+
+bind_rows(
+  make_inc_orbit(0,  "i = 0 (flat)"),
+  make_inc_orbit(30, "i = 30"),
+  make_inc_orbit(60, "i = 60"),
+  make_inc_orbit(90, "i = 90 (polar)")
+) |>
+  ggplot(aes(x = x, y = z, color = case)) +
+  geom_path(linewidth = 0.8) +
+  coord_equal() +
+  theme_minimal() +
+  labs(title = "Same orbit, different inclinations (viewed from the side: X vs Z)",
+       x = "X (m)", y = "Z (m)", color = NULL)
+```
+
+![](keplerian-elements_files/figure-html/inclination-comparison-1.png)
+
+The flat orbit ($i = 0$) stays in the XY plane with $z = 0$. As
+inclination increases, the orbit tilts further out of the plane until
+$i = 90{^\circ}$ makes a full polar orbit.
+
+**Longitude of ascending node** ($\Omega$, called `lan` in `orbitr`) is
+the compass direction of the tilt. It measures the angle from a
+reference direction (the vernal equinox in real astronomy) to the point
+where the orbit crosses the reference plane going “upward.” Think of
+inclination as *how much* the orbit tilts, and $\Omega$ as *which
+direction* it tilts toward.
+
+When $i = 0$, the ascending node is undefined and $\Omega$ has no
+effect.
+
+``` r
+make_lan_orbit <- function(lan_val, label) {
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_body_keplerian(
+      "Planet", mass = 1e24, parent = "Sun",
+      a = distance_earth_sun, e = 0.1, i = 45, lan = lan_val, nu = 0
+    ) |>
+    simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+    filter(id == "Planet") |>
+    mutate(case = label)
+}
+
+bind_rows(
+  make_lan_orbit(0,   "LAN = 0"),
+  make_lan_orbit(90,  "LAN = 90"),
+  make_lan_orbit(180, "LAN = 180")
+) |>
+  ggplot(aes(x = x, y = y, color = case)) +
+  geom_path(linewidth = 0.8) +
+  geom_point(x = 0, y = 0, color = "gold", size = 4, inherit.aes = FALSE) +
+  coord_equal() +
+  theme_minimal() +
+  labs(title = "Same orbit tilted in different directions (top-down view)",
+       color = NULL)
+```
+
+![](keplerian-elements_files/figure-html/lan-comparison-1.png)
+
+All three orbits have the same shape and inclination — $\Omega$ just
+rotates the whole tilted plane around the vertical axis.
+
+**Argument of periapsis** ($\omega$, called `arg_pe` in `orbitr`) is the
+angle *within the orbital plane* from the ascending node to the
+closest-approach point (periapsis). It controls where along the orbit
+the body gets closest to its parent.
+
+``` r
+make_argpe_orbit <- function(argpe_val, label) {
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_body_keplerian(
+      "Planet", mass = 1e24, parent = "Sun",
+      a = distance_earth_sun, e = 0.5, arg_pe = argpe_val, nu = 0
+    ) |>
+    simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
+    filter(id == "Planet") |>
+    mutate(case = label)
+}
+
+bind_rows(
+  make_argpe_orbit(0,   "arg_pe = 0"),
+  make_argpe_orbit(90,  "arg_pe = 90"),
+  make_argpe_orbit(180, "arg_pe = 180")
+) |>
+  ggplot(aes(x = x, y = y, color = case)) +
+  geom_path(linewidth = 0.8) +
+  geom_point(x = 0, y = 0, color = "gold", size = 4, inherit.aes = FALSE) +
+  coord_equal() +
+  theme_minimal() +
+  labs(title = "Same ellipse, rotated within the orbital plane",
+       color = NULL)
+```
+
+![](keplerian-elements_files/figure-html/argpe-comparison-1.png)
+
+The ellipse is the same shape every time — $\omega$ just spins it around
+the parent, moving the periapsis to different points along the orbit.
+
+### Position: True Anomaly
+
+The final element pins down *where the body currently is* along its
+orbit.
+
+**True anomaly** ($\nu$, called `nu` in `orbitr`) is the angle measured
+from periapsis to the body’s current position, in the direction of
+orbital motion. $\nu = 0{^\circ}$ means the body starts at periapsis
+(closest point); $\nu = 180{^\circ}$ puts it at apoapsis (farthest
+point).
+
+``` r
+sys_0 <- create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
+                      a = distance_earth_sun, e = 0.3, nu = 0)
+
+sys_90 <- create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
+                      a = distance_earth_sun, e = 0.3, nu = 90)
+
+sys_180 <- create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
+                      a = distance_earth_sun, e = 0.3, nu = 180)
+
+# Plot starting positions
+starts <- bind_rows(
+  sys_0$bodies |> filter(id == "Planet") |> mutate(case = "nu = 0 (periapsis)"),
+  sys_90$bodies |> filter(id == "Planet") |> mutate(case = "nu = 90"),
+  sys_180$bodies |> filter(id == "Planet") |> mutate(case = "nu = 180 (apoapsis)")
+)
+
+# Full orbit for reference
+orbit <- simulate_system(sys_0, time_step = seconds_per_day,
+                         duration = seconds_per_year * 2) |>
+  filter(id == "Planet")
+
+ggplot() +
+  geom_path(data = orbit, aes(x = x, y = y), color = "grey70", linewidth = 0.5) +
+  geom_point(data = starts, aes(x = x, y = y, color = case), size = 4) +
+  geom_point(x = 0, y = 0, color = "gold", size = 4) +
+  coord_equal() +
+  theme_minimal() +
+  labs(title = "Starting position at different true anomaly values",
+       color = NULL)
+```
+
+![](keplerian-elements_files/figure-html/nu-comparison-1.png)
+
+By default,
+[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
+and [`add_planet()`](https://orbit-r.com/reference/add_planet.md) use
+$\nu = 0$ (starting at periapsis). In
+[`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md),
+all planets start at periapsis — if you want to spread them out around
+their orbits for a more realistic snapshot, pass different `nu` values
+to [`add_planet()`](https://orbit-r.com/reference/add_planet.md):
+
+``` r
+# Spread the inner planets around their orbits
+create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_planet("Mercury", parent = "Sun", nu = 30) |>
+  add_planet("Venus",   parent = "Sun", nu = 120) |>
+  add_planet("Earth",   parent = "Sun", nu = 210) |>
+  add_planet("Mars",    parent = "Sun", nu = 300) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](keplerian-elements_files/figure-html/spread-planets-1.png)
+
+## The Conversion: Elements to Cartesian
+
+Under the hood,
+[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
+converts the six elements into a Cartesian state vector (position and
+velocity) through a three-step process. Understanding this isn’t
+necessary for using the function, but it’s useful if you want to verify
+the math or extend it.
+
+**Step 1: Position and velocity in the orbital plane.** The orbit
+equation gives the distance at the current true anomaly:
+
+$$r = \frac{a\left( 1 - e^{2} \right)}{1 + e\cos\nu}$$
+
+Position in the perifocal frame (a coordinate system aligned with the
+orbit, x-axis pointing toward periapsis):
+
+$$x_{\text{pf}} = r\cos\nu,\quad y_{\text{pf}} = r\sin\nu$$
+
+The specific angular momentum $h = \sqrt{\mu a\left( 1 - e^{2} \right)}$
+(where $\mu = GM_{\text{parent}}$) gives the velocity:
+
+$$v_{x,\text{pf}} = - \frac{\mu}{h}\sin\nu,\quad v_{y,\text{pf}} = \frac{\mu}{h}\left( e + \cos\nu \right)$$
+
+**Step 2: Rotate into inertial coordinates.** Three successive rotations
+— by $- \omega$ around the orbit normal, by $- i$ around the node line,
+and by $- \Omega$ around the reference pole — transform from the
+perifocal frame to the inertial reference frame.
+
+**Step 3: Add parent’s state.** The resulting position and velocity are
+relative to the parent body.
+[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
+adds the parent’s current position and velocity to produce absolute
+coordinates in the simulation frame.
+
+## Using `add_planet()` for Quick Setup
+
+For the ten bodies that `orbitr` knows about (Mercury through Neptune,
+plus the Moon and Pluto),
+[`add_planet()`](https://orbit-r.com/reference/add_planet.md) handles
+the element lookup automatically. The full list, with their real
+eccentricities and inclinations:
+
+| Body    | Eccentricity | Inclination | Parent |
+|---------|--------------|-------------|--------|
+| Mercury | 0.2056       | 7.00°       | Sun    |
+| Venus   | 0.0068       | 3.39°       | Sun    |
+| Earth   | 0.0167       | 0.00°       | Sun    |
+| Mars    | 0.0934       | 1.85°       | Sun    |
+| Jupiter | 0.0489       | 1.30°       | Sun    |
+| Saturn  | 0.0565       | 2.49°       | Sun    |
+| Uranus  | 0.0457       | 0.77°       | Sun    |
+| Neptune | 0.0113       | 1.77°       | Sun    |
+| Moon    | 0.0549       | 5.15°       | Earth  |
+| Pluto   | 0.2488       | 17.16°      | Sun    |
+
+Notice the range: Venus has an almost perfectly circular orbit
+($e = 0.007$), while Pluto’s is quite eccentric ($e = 0.25$) and steeply
+tilted ($i = 17{^\circ}$). Mercury is the most eccentric planet
+($e = 0.21$) and the most inclined to the ecliptic ($i = 7{^\circ}$).
+
+Any element can be overridden. This makes
+[`add_planet()`](https://orbit-r.com/reference/add_planet.md) useful for
+thought experiments:
+
+``` r
+# What if Mercury's orbit were circular? How different would it look?
+bind_rows(
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_planet("Mercury", parent = "Sun") |>
+    simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_day * 88) |>
+    filter(id == "Mercury") |>
+    mutate(case = "Real Mercury (e = 0.21)"),
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_planet("Mercury", parent = "Sun", e = 0) |>
+    simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_day * 88) |>
+    filter(id == "Mercury") |>
+    mutate(case = "Circular Mercury (e = 0)")
+) |>
+  ggplot(aes(x = x, y = y, color = case)) +
+  geom_path(linewidth = 0.8) +
+  geom_point(x = 0, y = 0, color = "gold", size = 4, inherit.aes = FALSE) +
+  coord_equal() +
+  theme_minimal() +
+  labs(title = "Mercury: real vs. circular orbit", color = NULL)
+```
+
+![](keplerian-elements_files/figure-html/what-if-mercury-1.png)
+
+## Keplerian vs. Cartesian: When to Use Which
+
+Use **[`add_body()`](https://orbit-r.com/reference/add_body.md) with
+Cartesian vectors** when you’re building a system from physical
+intuition about positions and velocities — binary stars, custom test
+particles, or anything where you’ve worked out the velocity from
+$v = \sqrt{GM/r}$ by hand. The [Building Two-Body
+Orbits](https://orbit-r.com/articles/building-two-body-orbits.md) guide
+covers this approach in depth.
+
+Use
+**[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)**
+when you know the orbital parameters of a real or fictional body, or
+when you want precise control over the orbit’s shape and orientation.
+It’s especially useful for inclined or eccentric orbits where computing
+the right Cartesian velocity by hand would be tedious.
+
+Use **[`add_planet()`](https://orbit-r.com/reference/add_planet.md)**
+when you just want a real solar system body with correct data and don’t
+need to think about any of this.

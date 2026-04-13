@@ -136,6 +136,42 @@ create_system() |>
 Venus completes more than one full orbit in the same time Earth takes to
 go around once — you can see the inner orbit is both smaller and faster.
 
+## The Quick Way: `add_planet()` and `load_solar_system()`
+
+Typing out masses, distances, and velocities for every body gets
+tedious. [`add_planet()`](https://orbit-r.com/reference/add_planet.md)
+knows the real orbital data for all the planets, the Moon, and Pluto —
+just give it a name and a parent:
+
+``` r
+create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_planet("Earth", parent = "Sun") |>
+  add_planet("Mars",  parent = "Sun") |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](quick-start_files/figure-html/unnamed-chunk-5-1.png)
+
+And
+[`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md)
+gives you the whole thing in one call:
+
+``` r
+load_solar_system() |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](quick-start_files/figure-html/unnamed-chunk-6-1.png)
+
+Under the hood, these use Keplerian orbital elements — a way to describe
+orbits by their shape and orientation instead of raw positions and
+velocities. See [Keplerian Orbital
+Elements](https://orbit-r.com/articles/keplerian-elements.md) for the
+full explanation.
+
 ## The Output is Just a Tibble
 
 [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)

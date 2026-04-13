@@ -4,6 +4,8 @@
 
 - [Building Two-Body Orbits From
   Scratch](https://orbit-r.com/articles/building-two-body-orbits.md):
+- [Keplerian Orbital
+  Elements](https://orbit-r.com/articles/keplerian-elements.md):
 - [Examples](https://orbit-r.com/articles/examples.md):
 - [Built-In Physical
   Constants](https://orbit-r.com/articles/physical-constants.md):

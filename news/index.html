@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,6 +22,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
     <li><a class="dropdown-item" href="../articles/building-two-body-orbits.html">Building Two-Body Orbits From Scratch</a></li>
+    <li><a class="dropdown-item" href="../articles/keplerian-elements.html">Keplerian Orbital Elements</a></li>
     <li><a class="dropdown-item" href="../articles/examples.html">Examples</a></li>
     <li><a class="dropdown-item" href="../articles/physical-constants.html">Built-In Physical Constants</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -51,9 +52,23 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/DRosenman/orbitr/blob/v0.1.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/DRosenman/orbitr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="orbitr-020">orbitr 0.2.0<a class="anchor" aria-label="anchor" href="#orbitr-020"></a></h2>
+<div class="section level3">
+<h3 id="new-functions-0-2-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-0-2-0"></a></h3>
+<ul><li><p><code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code>: Add a body to the system using classical Keplerian orbital elements (semi-major axis, eccentricity, inclination, longitude of ascending node, argument of periapsis, true anomaly) instead of raw Cartesian state vectors. The elements are converted to position and velocity relative to a specified parent body.</p></li>
+<li><p><code><a href="../reference/add_planet.html">add_planet()</a></code>: Add a known solar system body by name with real orbital data looked up automatically. Just specify the name and parent — mass, semi-major axis, eccentricity, inclination, and orientation are filled in from JPL DE440 values. Any element can be overridden for “what if” scenarios (e.g., <code>add_planet("Mars", parent = "Sun", e = 0)</code> for a circular Mars).</p></li>
+<li><p><code><a href="../reference/load_solar_system.html">load_solar_system()</a></code>: One-liner that builds a complete solar system — the Sun, all eight planets, the Moon, and optionally Pluto — using real orbital data from the JPL DE440 ephemeris. Returns a ready-to-simulate <code>orbit_system</code>. Use <code>moon = FALSE</code> or <code>pluto = FALSE</code> to exclude those bodies.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-0"></a></h3>
+<ul><li><p><code>three_d</code> parameter on <code><a href="../reference/plot_orbits.html">plot_orbits()</a></code>, <code><a href="../reference/plot_system.html">plot_system()</a></code>, and <code><a href="../reference/animate_system.html">animate_system()</a></code> now supports <code>FALSE</code> to force 2D output even when the data has Z-axis motion. Previously, <code>three_d = FALSE</code> was the default but could not override the auto-detection.</p></li>
+<li><p>Fixed frozen 3D animations in <code><a href="../reference/animate_system_3d.html">animate_system_3d()</a></code> caused by <code>redraw = FALSE</code> in plotly animation options.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="orbitr-010">orbitr 0.1.0<a class="anchor" aria-label="anchor" href="#orbitr-010"></a></h2>
 <p>Initial release.</p>

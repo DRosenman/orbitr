@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
     <li><a class="dropdown-item" href="../articles/building-two-body-orbits.html">Building Two-Body Orbits From Scratch</a></li>
+    <li><a class="dropdown-item" href="../articles/keplerian-elements.html">Keplerian Orbital Elements</a></li>
     <li><a class="dropdown-item" href="../articles/examples.html">Examples</a></li>
     <li><a class="dropdown-item" href="../articles/physical-constants.html">Built-In Physical Constants</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -82,7 +83,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Roadmap</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/DRosenman/orbitr/blob/v0.1.0/vignettes/roadmap.Rmd" class="external-link"><code>vignettes/roadmap.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/DRosenman/orbitr/blob/main/vignettes/roadmap.Rmd" class="external-link"><code>vignettes/roadmap.Rmd</code></a></small>
       <div class="d-none name"><code>roadmap.Rmd</code></div>
     </div>
 
@@ -150,37 +151,21 @@ most users wouldn’t need it.</p>
 <h2 id="setup-helpers">Setup helpers<a class="anchor" aria-label="anchor" href="#setup-helpers"></a>
 </h2>
 <div class="section level3">
-<h3 id="construct-bodies-from-keplerian-orbital-elements">Construct bodies from Keplerian orbital elements<a class="anchor" aria-label="anchor" href="#construct-bodies-from-keplerian-orbital-elements"></a>
+<h3 id="construct-bodies-from-keplerian-orbital-elements-added-in-v0-2-0">
+<del>Construct bodies from Keplerian orbital elements</del> ✅ Added
+in v0.2.0<a class="anchor" aria-label="anchor" href="#construct-bodies-from-keplerian-orbital-elements-added-in-v0-2-0"></a>
 </h3>
-<p>The current <code><a href="../reference/add_body.html">add_body()</a></code> takes raw Cartesian state vectors
-(<code>x</code>, <code>y</code>, <code>z</code>, <code>vx</code>,
-<code>vy</code>, <code>vz</code>). For users who think in classical
-orbital elements — semi-major axis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>,
-eccentricity
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>,
-inclination
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>,
-longitude of ascending node
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>,
-argument of periapsis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>,
-true anomaly
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ν</mi><annotation encoding="application/x-tex">\nu</annotation></semantics></math>
-— a helper that converts those into the right Cartesian inputs would be
-a quality-of-life win:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">add_body_keplerian</span><span class="op">(</span><span class="va">system</span>, <span class="st">"Mars"</span>, mass <span class="op">=</span> <span class="va">mass_mars</span>,</span>
-<span>                   a <span class="op">=</span> <span class="va">distance_mars_sun</span>, e <span class="op">=</span> <span class="fl">0.0934</span>,</span>
-<span>                   i <span class="op">=</span> <span class="fl">1.85</span>, Omega <span class="op">=</span> <span class="fl">49.6</span>, omega <span class="op">=</span> <span class="fl">286.5</span>, nu <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>                   parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span></span></code></pre></div>
+<p>Implemented as <code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code>. See
+<code><a href="../reference/add_body_keplerian.html">?add_body_keplerian</a></code> for details.</p>
 </div>
 <div class="section level3">
-<h3 id="a-load_solar_system-convenience">A <code>load_solar_system()</code> convenience<a class="anchor" aria-label="anchor" href="#a-load_solar_system-convenience"></a>
+<h3 id="a-load_solar_system-convenience-added-in-v0-2-0">
+<del>A <code>load_solar_system()</code> convenience</del> ✅ Added
+in v0.2.0<a class="anchor" aria-label="anchor" href="#a-load_solar_system-convenience-added-in-v0-2-0"></a>
 </h3>
-<p>A one-liner that pre-builds the Sun and all eight planets with real
-ephemeris values, so you can skip straight to interesting experiments
-without typing out a dozen <code><a href="../reference/add_body.html">add_body()</a></code> calls.</p>
+<p>Implemented as <code><a href="../reference/load_solar_system.html">load_solar_system()</a></code>. Builds the Sun, all
+eight planets, the Moon, and Pluto using real Keplerian elements from
+JPL DE440. See <code><a href="../reference/load_solar_system.html">?load_solar_system</a></code> for details.</p>
 </div>
 </div>
 <div class="section level2">

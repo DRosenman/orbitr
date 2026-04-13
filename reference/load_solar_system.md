@@ -1,0 +1,54 @@
+# Load a pre-built solar system
+
+A convenience function that creates a complete solar system with the Sun
+and all eight planets (plus optionally the Moon and Pluto) using real
+orbital data. Bodies are placed using Keplerian orbital elements from
+the JPL DE440 ephemeris (J2000 epoch), giving realistic eccentricities,
+inclinations, and orbital orientations out of the box.
+
+## Usage
+
+``` r
+load_solar_system(moon = TRUE, pluto = TRUE)
+```
+
+## Arguments
+
+- moon:
+
+  Logical. If \`TRUE\` (the default), include the Moon in orbit around
+  Earth.
+
+- pluto:
+
+  Logical. If \`TRUE\` (the default), include Pluto.
+
+## Value
+
+An \`orbit_system\` object containing the Sun and planets, ready for
+simulation.
+
+## Details
+
+This is a quick way to get a physically accurate starting point without
+typing out a dozen \[add_body()\] calls. The returned system is a normal
+\`orbit_system\` that you can modify further — add bodies, change
+parameters, or pipe straight into \[simulate_system()\].
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Simulate the full solar system for one year
+solar <- load_solar_system() |>
+  simulate_system(
+    time_step = seconds_per_day,
+    duration  = seconds_per_year
+  )
+
+plot_orbits(solar)
+
+# Just the Sun and planets, no Moon or Pluto
+load_solar_system(moon = FALSE, pluto = FALSE)
+} # }
+```

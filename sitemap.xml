@@ -5,6 +5,7 @@
 <url><loc>https://orbit-r.com/articles/custom-visualization.html</loc></url>
 <url><loc>https://orbit-r.com/articles/examples.html</loc></url>
 <url><loc>https://orbit-r.com/articles/index.html</loc></url>
+<url><loc>https://orbit-r.com/articles/keplerian-elements.html</loc></url>
 <url><loc>https://orbit-r.com/articles/physical-constants.html</loc></url>
 <url><loc>https://orbit-r.com/articles/plotting-3d.html</loc></url>
 <url><loc>https://orbit-r.com/articles/quick-start.html</loc></url>
@@ -16,10 +17,13 @@
 <url><loc>https://orbit-r.com/index.html</loc></url>
 <url><loc>https://orbit-r.com/news/index.html</loc></url>
 <url><loc>https://orbit-r.com/reference/add_body.html</loc></url>
+<url><loc>https://orbit-r.com/reference/add_body_keplerian.html</loc></url>
+<url><loc>https://orbit-r.com/reference/add_planet.html</loc></url>
 <url><loc>https://orbit-r.com/reference/animate_system.html</loc></url>
 <url><loc>https://orbit-r.com/reference/animate_system_3d.html</loc></url>
 <url><loc>https://orbit-r.com/reference/create_system.html</loc></url>
 <url><loc>https://orbit-r.com/reference/index.html</loc></url>
+<url><loc>https://orbit-r.com/reference/load_solar_system.html</loc></url>
 <url><loc>https://orbit-r.com/reference/physical_constants.html</loc></url>
 <url><loc>https://orbit-r.com/reference/plot_orbits.html</loc></url>
 <url><loc>https://orbit-r.com/reference/plot_orbits_3d.html</loc></url>

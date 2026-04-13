@@ -57,29 +57,22 @@ since most users wouldn’t need it.
 
 ## Setup helpers
 
-### Construct bodies from Keplerian orbital elements
+### ~~Construct bodies from Keplerian orbital elements~~ ✅ Added in v0.2.0
 
-The current [`add_body()`](https://orbit-r.com/reference/add_body.md)
-takes raw Cartesian state vectors (`x`, `y`, `z`, `vx`, `vy`, `vz`). For
-users who think in classical orbital elements — semi-major axis $a$,
-eccentricity $e$, inclination $i$, longitude of ascending node $\Omega$,
-argument of periapsis $\omega$, true anomaly $\nu$ — a helper that
-converts those into the right Cartesian inputs would be a
-quality-of-life win:
+Implemented as
+[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md).
+See
+[`?add_body_keplerian`](https://orbit-r.com/reference/add_body_keplerian.md)
+for details.
 
-``` r
-add_body_keplerian(system, "Mars", mass = mass_mars,
-                   a = distance_mars_sun, e = 0.0934,
-                   i = 1.85, Omega = 49.6, omega = 286.5, nu = 0,
-                   parent = "Sun")
-```
+### ~~A `load_solar_system()` convenience~~ ✅ Added in v0.2.0
 
-### A `load_solar_system()` convenience
-
-A one-liner that pre-builds the Sun and all eight planets with real
-ephemeris values, so you can skip straight to interesting experiments
-without typing out a dozen
-[`add_body()`](https://orbit-r.com/reference/add_body.md) calls.
+Implemented as
+[`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md).
+Builds the Sun, all eight planets, the Moon, and Pluto using real
+Keplerian elements from JPL DE440. See
+[`?load_solar_system`](https://orbit-r.com/reference/load_solar_system.md)
+for details.
 
 ## Quality of life
 

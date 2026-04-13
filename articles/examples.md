@@ -2,22 +2,63 @@
 
 ``` r
 library(orbitr)
+library(ggplot2)
+library(dplyr)
 ```
+
+## The Full Solar System
+
+The fastest way to get a complete solar system simulation:
+
+``` r
+solar <- load_solar_system() |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
+
+solar |> plot_orbits(three_d = FALSE)
+```
+
+![](examples_files/figure-html/full-solar-system-1.png)
+
+All planets start at their periapsis (closest point to the Sun) by
+default, with real eccentricities, inclinations, and orbital
+orientations from JPL. The inner planets complete their orbits quickly
+while the outer planets barely move in a single year.
+
+## The Inner Solar System
+
+Use [`add_planet()`](https://orbit-r.com/reference/add_planet.md) to
+pick specific bodies without looking up any numbers:
+
+``` r
+create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_planet("Mercury", parent = "Sun") |>
+  add_planet("Venus",   parent = "Sun") |>
+  add_planet("Earth",   parent = "Sun") |>
+  add_planet("Mars",    parent = "Sun") |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](examples_files/figure-html/inner-solar-system-1.png)
+
+Notice how Mercury’s orbit is visibly eccentric compared to the
+near-circular orbits of Venus and Earth. Mars also shows some
+elongation.
 
 ## The Earth-Moon System
 
-A standard 28-day lunar orbit. One-hour time steps.
+Using [`add_planet()`](https://orbit-r.com/reference/add_planet.md) for
+the Moon:
 
 ``` r
 earth_moon <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
-  add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
+  add_planet("Moon", parent = "Earth") |>
   simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
 
 earth_moon |> plot_orbits()
 ```
-
-![](examples_files/figure-html/earth-moon-sim-1.png)
 
 And animated, so you can watch the Moon actually swing around:
 
@@ -140,3 +181,61 @@ animate_system(kepler16, fps = 15, duration = 6)
 ```
 
 ![](../reference/figures/examples-kepler16-anim.gif)
+
+## A Comet Crossing the Inner Solar System
+
+[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
+shines for objects with extreme orbits. Here’s a Halley-like comet on a
+highly eccentric, steeply inclined orbit that plunges through the inner
+solar system:
+
+``` r
+create_system() |>
+  add_body("Sun", mass = mass_sun) |>
+  add_planet("Earth", parent = "Sun") |>
+  add_body_keplerian(
+    "Comet", mass = 2.2e14, parent = "Sun",
+    a = 2.5 * distance_earth_sun, e = 0.85,
+    i = 50, lan = 60, arg_pe = 120, nu = 150
+  ) |>
+  simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_year * 3) |>
+  plot_orbits()
+```
+
+The comet’s orbit is tilted 50° out of the ecliptic and has an
+eccentricity of 0.85, meaning its farthest distance from the Sun is over
+12 times its closest approach. Starting at $\nu = 150{^\circ}$ places it
+near apoapsis, heading inward.
+
+## What-If: Circular Mars
+
+One of the nice things about
+[`add_planet()`](https://orbit-r.com/reference/add_planet.md) is that
+you can override individual elements while keeping everything else real.
+What if Mars had a perfectly circular orbit?
+
+``` r
+bind_rows(
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_planet("Mars", parent = "Sun") |>
+    simulate_system(time_step = seconds_per_day,
+                    duration = seconds_per_day * 687) |>
+    filter(id == "Mars") |>
+    mutate(case = "Real Mars (e = 0.093)"),
+  create_system() |>
+    add_body("Sun", mass = mass_sun) |>
+    add_planet("Mars", parent = "Sun", e = 0) |>
+    simulate_system(time_step = seconds_per_day,
+                    duration = seconds_per_day * 687) |>
+    filter(id == "Mars") |>
+    mutate(case = "Circular Mars (e = 0)")
+) |>
+  ggplot2::ggplot(ggplot2::aes(x = x, y = y, color = case)) +
+  ggplot2::geom_path(linewidth = 0.8) +
+  ggplot2::coord_equal() +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(color = NULL)
+```
+
+![](examples_files/figure-html/circular-mars-1.png)

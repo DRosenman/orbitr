@@ -8,6 +8,12 @@ Create a simulation and add bodies
   Initialize an orbitr simulation system
 - [`add_body()`](https://orbit-r.com/reference/add_body.md) : Add a
   physical body to the system
+- [`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
+  : Add a body using Keplerian orbital elements
+- [`add_planet()`](https://orbit-r.com/reference/add_planet.md) : Add a
+  known solar system body by name
+- [`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md)
+  : Load a pre-built solar system
 
 ## Simulation
 

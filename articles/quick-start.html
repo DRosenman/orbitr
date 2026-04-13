@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
     <li><a class="dropdown-item" href="../articles/building-two-body-orbits.html">Building Two-Body Orbits From Scratch</a></li>
+    <li><a class="dropdown-item" href="../articles/keplerian-elements.html">Keplerian Orbital Elements</a></li>
     <li><a class="dropdown-item" href="../articles/examples.html">Examples</a></li>
     <li><a class="dropdown-item" href="../articles/physical-constants.html">Built-In Physical Constants</a></li>
     <li><hr class="dropdown-divider"></li>
@@ -82,7 +83,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Quick Start Guide</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/DRosenman/orbitr/blob/v0.1.0/vignettes/quick-start.Rmd" class="external-link"><code>vignettes/quick-start.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/DRosenman/orbitr/blob/main/vignettes/quick-start.Rmd" class="external-link"><code>vignettes/quick-start.Rmd</code></a></small>
       <div class="d-none name"><code>quick-start.Rmd</code></div>
     </div>
 
@@ -210,12 +211,39 @@ to go around once — you can see the inner orbit is both smaller and
 faster.</p>
 </div>
 <div class="section level2">
+<h2 id="the-quick-way-add_planet-and-load_solar_system">The Quick Way: <code>add_planet()</code> and
+<code>load_solar_system()</code><a class="anchor" aria-label="anchor" href="#the-quick-way-add_planet-and-load_solar_system"></a>
+</h2>
+<p>Typing out masses, distances, and velocities for every body gets
+tedious. <code><a href="../reference/add_planet.html">add_planet()</a></code> knows the real orbital data for all
+the planets, the Moon, and Pluto — just give it a name and a parent:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Sun"</span>, mass <span class="op">=</span> <span class="va">mass_sun</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_planet.html">add_planet</a></span><span class="op">(</span><span class="st">"Earth"</span>, parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_planet.html">add_planet</a></span><span class="op">(</span><span class="st">"Mars"</span>,  parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_day</span>, duration <span class="op">=</span> <span class="va">seconds_per_year</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span>three_d <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="quick-start_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672"></p>
+<p>And <code><a href="../reference/load_solar_system.html">load_solar_system()</a></code> gives you the whole thing in one
+call:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/load_solar_system.html">load_solar_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_day</span>, duration <span class="op">=</span> <span class="va">seconds_per_year</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span>three_d <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="quick-start_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672"></p>
+<p>Under the hood, these use Keplerian orbital elements — a way to
+describe orbits by their shape and orientation instead of raw positions
+and velocities. See <a href="keplerian-elements.html">Keplerian Orbital
+Elements</a> for the full explanation.</p>
+</div>
+<div class="section level2">
 <h2 id="the-output-is-just-a-tibble">The Output is Just a Tibble<a class="anchor" aria-label="anchor" href="#the-output-is-just-a-tibble"></a>
 </h2>
 <p><code><a href="../reference/simulate_system.html">simulate_system()</a></code> returns a standard tidy tibble. You
 can use <code>dplyr</code>, <code>ggplot2</code>, <code>plotly</code>,
 or any other tool on it:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>

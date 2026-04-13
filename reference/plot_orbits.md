@@ -5,7 +5,7 @@ Plot Orbital Trajectories (Smart 2D/3D Dispatch)
 ## Usage
 
 ``` r
-plot_orbits(sim_data, three_d = FALSE)
+plot_orbits(sim_data, three_d = NULL)
 ```
 
 ## Arguments
