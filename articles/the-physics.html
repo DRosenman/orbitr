@@ -233,6 +233,145 @@ into the orbit.</p>
 </div>
 </div>
 <div class="section level2">
+<h2 id="keplerian-orbital-elements">Keplerian Orbital Elements<a class="anchor" aria-label="anchor" href="#keplerian-orbital-elements"></a>
+</h2>
+<p>Everything above describes how <code>orbitr</code> <em>simulates</em>
+— stepping positions and velocities forward using Newton’s law. But
+there’s an older, more elegant description of orbits that predates
+Newton by decades: <strong>Kepler’s laws</strong>. Johannes Kepler
+showed in 1609 that planetary orbits are ellipses with the Sun at one
+focus, and that they sweep out equal areas in equal times. These
+geometric properties lead to a compact way of describing any orbit with
+just six numbers, called the <strong>Keplerian orbital
+elements</strong>.</p>
+<p>The six elements split into three groups:</p>
+<p><strong>Shape</strong> — <em>how big and how stretched is the
+ellipse?</em></p>
+<ul>
+<li>
+<strong>Semi-major axis</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>):
+half the longest diameter of the ellipse. Determines the orbital period
+through Kepler’s Third Law:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>2</mn><mi>π</mi><msqrt><mrow><msup><mi>a</mi><mn>3</mn></msup><mi>/</mi><mi>μ</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">T = 2\pi\sqrt{a^3 / \mu}</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mi>G</mi><mi>M</mi></mrow><annotation encoding="application/x-tex">\mu = GM</annotation></semantics></math>
+is the gravitational parameter of the parent body.</li>
+<li>
+<strong>Eccentricity</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>):
+how elongated the ellipse is.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">e = 0</annotation></semantics></math>
+is a circle;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>&lt;</mo><mi>e</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 &lt; e &lt; 1</annotation></semantics></math>
+is an ellipse. At any point, the distance from the parent is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mo>cos</mo><mi>ν</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">r = a(1-e^2)/(1 + e\cos\nu)</annotation></semantics></math>.</li>
+</ul>
+<p><strong>Orientation</strong> — <em>how is the ellipse tilted and
+rotated in 3D space?</em></p>
+<ul>
+<li>
+<strong>Inclination</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>):
+the angle between the orbital plane and a reference plane (the ecliptic
+for solar system orbits).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">0°</annotation></semantics></math>
+is flat;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">90°</annotation></semantics></math>
+is a polar orbit.</li>
+<li>
+<strong>Longitude of ascending node</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>):
+the direction the tilt points. Measured from a reference direction to
+where the orbit crosses the reference plane going “upward.”</li>
+<li>
+<strong>Argument of periapsis</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>):
+the angle within the orbital plane from the ascending node to the
+closest-approach point. Rotates the ellipse around the parent within its
+own plane.</li>
+</ul>
+<p><strong>Position</strong> — <em>where is the body right now?</em></p>
+<ul>
+<li>
+<strong>True anomaly</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ν</mi><annotation encoding="application/x-tex">\nu</annotation></semantics></math>):
+the angle from periapsis to the body’s current position along the orbit.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">0°</annotation></semantics></math>
+is at periapsis (closest);
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>180</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">180°</annotation></semantics></math>
+is at apoapsis (farthest).</li>
+</ul>
+<div class="section level3">
+<h3 id="from-elements-to-cartesian-state-vectors">From Elements to Cartesian State Vectors<a class="anchor" aria-label="anchor" href="#from-elements-to-cartesian-state-vectors"></a>
+</h3>
+<p><code>orbitr</code>’s simulation engine works entirely in Cartesian
+coordinates — positions
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(x, y, z)</annotation></semantics></math>
+and velocities
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo>,</mo><msub><mi>v</mi><mi>y</mi></msub><mo>,</mo><msub><mi>v</mi><mi>z</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(v_x, v_y, v_z)</annotation></semantics></math>.
+The function <code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code> converts Keplerian
+elements to Cartesian through a standard three-step procedure:</p>
+<p><strong>Step 1: Solve the orbit equation in the orbital
+plane.</strong> The distance from the parent at true anomaly
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ν</mi><annotation encoding="application/x-tex">\nu</annotation></semantics></math>
+is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mo>cos</mo><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1-e^2)}{1 + e\cos\nu}</annotation></semantics></math></p>
+<p>The position in the <strong>perifocal frame</strong> (a coordinate
+system where the x-axis points toward periapsis and the y-axis is 90°
+ahead in the direction of motion):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mo>cos</mo><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>y</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mo>sin</mo><mi>ν</mi></mrow><annotation encoding="application/x-tex">x_{\text{pf}} = r\cos\nu, \quad y_{\text{pf}} = r\sin\nu</annotation></semantics></math></p>
+<p><strong>Step 2: Compute velocity from the vis-viva relation.</strong>
+The specific angular momentum
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><msqrt><mrow><mi>μ</mi><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mrow><annotation encoding="application/x-tex">h = \sqrt{\mu a(1 - e^2)}</annotation></semantics></math>
+gives the velocity components in the perifocal frame:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mrow><mi>x</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mo>−</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mo>sin</mo><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>v</mi><mrow><mi>y</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>e</mi><mo>+</mo><mo>cos</mo><mi>ν</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">v_{x,\text{pf}} = -\frac{\mu}{h}\sin\nu, \quad v_{y,\text{pf}} = \frac{\mu}{h}(e + \cos\nu)</annotation></semantics></math></p>
+<p>These follow from conservation of angular momentum
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><mi>r</mi><msub><mi>v</mi><mo>⊥</mo></msub></mrow><annotation encoding="application/x-tex">h = rv_\perp</annotation></semantics></math>)
+and the vis-viva equation
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>v</mi><mn>2</mn></msup><mo>=</mo><mi>μ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>/</mi><mi>r</mi><mo>−</mo><mn>1</mn><mi>/</mi><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">v^2 = \mu(2/r - 1/a)</annotation></semantics></math>.</p>
+<p><strong>Step 3: Rotate into the inertial frame.</strong> Three Euler
+rotations transform from the perifocal frame to the simulation’s
+inertial frame:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><msub><mi>R</mi><mi>z</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>Ω</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><msub><mi>R</mi><mi>x</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>i</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><msub><mi>R</mi><mi>z</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>ω</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">R = R_z(-\Omega) \cdot R_x(-i) \cdot R_z(-\omega)</annotation></semantics></math></p>
+<p>This sequence first rotates by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">-\omega</annotation></semantics></math>
+to align periapsis with the ascending node, then tilts by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">-i</annotation></semantics></math>
+to incline the orbital plane, and finally rotates by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>Ω</mi></mrow><annotation encoding="application/x-tex">-\Omega</annotation></semantics></math>
+to orient the node line. The resulting position and velocity are added
+to the parent body’s state to get absolute coordinates.</p>
+</div>
+<div class="section level3">
+<h3 id="keplers-laws-and-the-simulation">Kepler’s Laws and the Simulation<a class="anchor" aria-label="anchor" href="#keplers-laws-and-the-simulation"></a>
+</h3>
+<p>An interesting property of the Keplerian description is that it’s
+<em>exact</em> for two-body problems — a single planet orbiting a single
+star will follow a perfect ellipse forever. The elements are constants
+of motion.</p>
+<p>In an N-body simulation like <code>orbitr</code>, however, the
+elements are only approximate because the gravitational pulls of other
+bodies perturb the orbit. Jupiter slightly tugs on Earth, Mars slightly
+tugs on Venus, and so on. Over long timescales, these perturbations
+cause the elements to drift —
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+precesses,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
+oscillates, inclinations wobble. This is real physics: the precession of
+Mercury’s perihelion was one of the first tests of General
+Relativity.</p>
+<p>The Keplerian elements in <code><a href="../reference/add_planet.html">add_planet()</a></code> and
+<code><a href="../reference/load_solar_system.html">load_solar_system()</a></code> define the <em>initial conditions</em>
+at the start of the simulation. Once <code><a href="../reference/simulate_system.html">simulate_system()</a></code>
+takes over, the full N-body dynamics handles all the perturbations
+automatically.</p>
+<p>For a thorough walkthrough of each element with visual examples, see
+the <a href="keplerian-elements.html">Keplerian Orbital Elements</a>
+vignette.</p>
+</div>
+</div>
+<div class="section level2">
 <h2 id="the-c-engine">The C++ Engine<a class="anchor" aria-label="anchor" href="#the-c-engine"></a>
 </h2>
 <p>The inner acceleration loop is the computational bottleneck of any
