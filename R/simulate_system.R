@@ -22,7 +22,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' my_universe <- create_system() |>
 #'   add_body("Earth", mass = mass_earth) |>
 #'   add_body("Moon", mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>

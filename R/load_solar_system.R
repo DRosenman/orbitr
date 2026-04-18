@@ -20,7 +20,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Simulate the full solar system for one year
 #' solar <- load_solar_system() |>
 #'   simulate_system(

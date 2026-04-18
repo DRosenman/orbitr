@@ -41,7 +41,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Build the inner solar system
 #' create_system() |>
 #'   add_body("Sun", mass = mass_sun) |>

@@ -70,7 +70,7 @@ add_planet("Mars", parent = "Sun", e = 0)
 ```
 }
 \examples{
-\dontrun{
+\donttest{
 # Build the inner solar system
 create_system() |>
   add_body("Sun", mass = mass_sun) |>

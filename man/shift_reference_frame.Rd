@@ -23,7 +23,7 @@ target body. This effectively "anchors the camera" to the chosen body, placing
 it at the origin (0, 0, 0) for all time steps.
 }
 \examples{
-\dontrun{
+\donttest{
 # Simulate Sun-Earth-Moon
 orbit_data <- create_system() |>
   add_body("Sun", mass = mass_sun) |>

@@ -165,6 +165,12 @@ create_system() |>
 - **[API Reference](https://orbit-r.com/reference/index.html)** — full function documentation
 - **[Interactive Demo](https://daverosenman.shinyapps.io/orbitr/)** — try orbitr in your browser with the Shiny app
 
+## Acknowledgments & Further Reading
+
+The physics and numerics in `orbitr` were informed by *Classical Dynamics of Particles and Systems* by Thornton & Marion, *Computational Physics* by Mark Newman, and *Data Structures & Algorithms in Python* by Canning, Broder & Lafore. The C++ engine was built with help from the official [Rcpp documentation on CRAN](https://cran.r-project.org/package=Rcpp). See the full [Further Reading](https://orbit-r.com/articles/further-reading.html) article for details on how each resource was used.
+
+Shoutout to The College of New Jersey, where I first got hooked on this stuff. Go Lions.
+
 ## License
 
 MIT

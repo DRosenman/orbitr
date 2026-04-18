@@ -17,7 +17,7 @@ Generates an interactive 3D visualization of the orbital system using plotly.
 You can click, drag to rotate, and scroll to zoom in on the trajectories.
 }
 \examples{
-\dontrun{
+\donttest{
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon", mass = mass_moon,

@@ -13,8 +13,10 @@ Description: A lightweight, fully vectorized N-body physics engine built for
     the R ecosystem. Simulate and visualize complex orbital mechanics,
     celestial trajectories, and gravitational interactions using tidy data
     principles. Features multiple numerical integration methods, including
-    the energy-conserving velocity Verlet algorithm, to ensure highly stable
-    orbital propagation.
+    the energy-conserving velocity Verlet algorithm
+    (Verlet (1967) <doi:10.1103/PhysRev.159.98>), to ensure highly stable
+    orbital propagation. Gravitational N-body methods follow
+    Aarseth (2003, ISBN:0-521-43272-3).
 URL: https://orbit-r.com/, https://github.com/DRosenman/orbitr
 BugReports: https://github.com/DRosenman/orbitr/issues
 License: MIT + file LICENSE

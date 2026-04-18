@@ -18,6 +18,7 @@ navbar:
     github:
       icon: fa-github
       href: https://github.com/DRosenman/orbitr
+      aria-label: GitHub repository
 
 articles:
   - title: internal
@@ -49,6 +50,11 @@ articles:
     navbar: "Roadmap"
     contents:
       - roadmap
+
+  - title: "Resources"
+    navbar: "Resources"
+    contents:
+      - further-reading
 
 reference:
   - title: "System Setup"

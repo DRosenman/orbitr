@@ -26,7 +26,7 @@ the bodies as moving markers and an interactive Play / Pause control plus a
 time slider. Optionally shows the full orbit paths drawn faintly behind.
 }
 \examples{
-\dontrun{
+\donttest{
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon,

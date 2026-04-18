@@ -24,7 +24,7 @@ chosen time as a sphere in an interactive plotly scene, optionally with the
 full orbital trajectories shown faintly behind.
 }
 \examples{
-\dontrun{
+\donttest{
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon,

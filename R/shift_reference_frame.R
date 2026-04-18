@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Simulate Sun-Earth-Moon
 #' orbit_data <- create_system() |>
 #'   add_body("Sun", mass = mass_sun) |>

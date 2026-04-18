@@ -34,7 +34,7 @@ You must provide a unique identifier and its mass. By default, the body will be
 placed at the origin (0, 0, 0) with zero initial velocity unless specified.
 }
 \examples{
-\dontrun{
+\donttest{
 my_universe <- create_system() |>
   add_body(id = "Earth", mass = 5.97e24) |>
   add_body(id = "Moon", mass = 7.34e22, x = 3.84e8, vy = 1022)

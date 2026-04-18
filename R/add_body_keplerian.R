@@ -42,7 +42,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Earth orbiting the Sun with real orbital elements
 #' system <- create_system() |>
 #'   add_body("Sun", mass = mass_sun) |>

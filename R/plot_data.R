@@ -2,6 +2,9 @@
 #'
 #' @param sim_data A tibble output from `simulate_system()`
 #' @param three_d Logical. If TRUE, forces a 3D plot even for 2D data.
+#'
+#' @return A `ggplot` object (2D) or a `plotly` HTML widget (3D) showing the
+#'   orbital trajectories of all bodies in the simulation.
 #' @export
 plot_orbits <- function(sim_data, three_d = NULL) {
 
@@ -37,7 +40,7 @@ plot_orbits <- function(sim_data, three_d = NULL) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' create_system() |>
 #'   add_body("Earth", mass = mass_earth) |>
 #'   add_body("Moon", mass = mass_moon,
@@ -100,7 +103,7 @@ plot_orbits_3d <- function(sim_data) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sim <- create_system() |>
 #'   add_body("Sun",   mass = mass_sun) |>
 #'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -159,7 +162,7 @@ plot_system <- function(sim_data, time = NULL, trails = FALSE, three_d = NULL) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' create_system() |>
 #'   add_body("Earth", mass = mass_earth) |>
 #'   add_body("Moon",  mass = mass_moon,
@@ -264,7 +267,7 @@ plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' sim <- create_system() |>
 #'   add_body("Sun",   mass = mass_sun) |>
 #'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -275,7 +278,7 @@ plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
 #' anim
 #'
 #' # Save to disk
-#' gganimate::anim_save("earth_orbit.gif", anim)
+#' gganimate::anim_save(file.path(tempdir(), "earth_orbit.gif"), anim)
 #' }
 animate_system <- function(sim_data, fps = 20, duration = 10,
                            trails = FALSE, three_d = NULL) {
@@ -350,7 +353,7 @@ animate_system <- function(sim_data, fps = 20, duration = 10,
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' create_system() |>
 #'   add_body("Earth", mass = mass_earth) |>
 #'   add_body("Moon",  mass = mass_moon,

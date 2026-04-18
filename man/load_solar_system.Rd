@@ -30,7 +30,7 @@ typing out a dozen [add_body()] calls. The returned system is a normal
 or pipe straight into [simulate_system()].
 }
 \examples{
-\dontrun{
+\donttest{
 # Simulate the full solar system for one year
 solar <- load_solar_system() |>
   simulate_system(

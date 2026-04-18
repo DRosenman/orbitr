@@ -1,0 +1,36 @@
+---
+title: "Further Reading"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Further Reading}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+These are the books and resources I found most useful while building `orbitr`. If you want to go deeper on the physics, the numerics, or the engineering behind the package, these are where I'd start.
+
+## Books
+
+### Classical Dynamics of Particles and Systems — Stephen T. Thornton & Jerry B. Marion (5th ed., 2004, Brooks/Cole)
+
+This was my primary reference for the gravitational physics at the heart of the simulation engine. Thornton and Marion's treatment of central-force problems and two-body/multi-body gravitational interactions gave me the framework for implementing the N-body force law and understanding how acceleration vectors compose when multiple bodies are pulling on each other simultaneously.
+
+### Computational Physics — Mark Newman (2012, CreateSpace)
+
+Newman's coverage of numerical integration is where I learned to think carefully about the tradeoffs between integration methods. His discussion of energy conservation in numerical schemes directly shaped the three options in `simulate()` — basic Euler, symplectic Euler-Cromer, and the Velocity Verlet algorithm that `orbitr` defaults to for stable long-duration orbits.
+
+### Data Structures & Algorithms in Python — John Canning, Alan Broder & Robert Lafore (2022, Addison-Wesley)
+
+Even though `orbitr` is an R package, the algorithmic thinking in this book influenced how I structured the simulation loop and the vectorized acceleration calculations. The emphasis on pre-allocation, efficient iteration patterns, and choosing the right data layout for the problem carried over directly into the design of the simulation engine.
+
+## Online Documentation
+
+### Rcpp Documentation — [CRAN](https://cran.r-project.org/package=Rcpp)
+
+The official Rcpp package documentation on CRAN, including the vignettes and the API reference, was what I kept open while writing the C++ acceleration kernel (`calc_acceleration_cpp`). The vignettes walk through how to pass R vectors into C++, return structured results via `Rcpp::List`, and register compiled functions — all of which `orbitr` relies on for its performance on larger N-body systems.
+
+## Acknowledgments
+
+Shoutout to The College of New Jersey, where I first got hooked on this stuff. Go Lions.
+
+This package was built with the help of [Claude Code](https://claude.ai/claude-code), which handled a lot of the boilerplate, scaffolding, and iteration that would have otherwise slowed things down. The physics, the design decisions, and the mistakes are all mine — but Claude made it possible to move from idea to working package much faster than I could have on my own.

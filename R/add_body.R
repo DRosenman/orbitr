@@ -18,7 +18,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' my_universe <- create_system() |>
 #'   add_body(id = "Earth", mass = 5.97e24) |>
 #'   add_body(id = "Moon", mass = 7.34e22, x = 3.84e8, vy = 1022)

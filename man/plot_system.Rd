@@ -31,7 +31,7 @@ If any body has non-zero motion in the Z dimension (or `three_d = TRUE`),
 [plot_system_3d()] is used; otherwise a 2D `ggplot2` plot is returned.
 }
 \examples{
-\dontrun{
+\donttest{
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
