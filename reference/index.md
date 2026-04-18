@@ -6,6 +6,8 @@ Create a simulation and add bodies
 
 - [`create_system()`](https://orbit-r.com/reference/create_system.md) :
   Initialize an orbitr simulation system
+- [`add_sun()`](https://orbit-r.com/reference/add_sun.md) : Add the Sun
+  to the system
 - [`add_body()`](https://orbit-r.com/reference/add_body.md) : Add a
   physical body to the system
 - [`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)

@@ -31,7 +31,7 @@ pick specific bodies without looking up any numbers:
 
 ``` r
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Mercury", parent = "Sun") |>
   add_planet("Venus",   parent = "Sun") |>
   add_planet("Earth",   parent = "Sun") |>
@@ -74,7 +74,7 @@ A full year with daily time steps.
 
 ``` r
 create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
   plot_orbits()
@@ -94,7 +94,7 @@ into the Earth-Moon subsystem:
 
 ``` r
 create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
@@ -113,7 +113,7 @@ Moon’s path *from Earth’s perspective*, pipe the results through
 
 ``` r
 sun_earth_moon <- create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
@@ -191,7 +191,7 @@ solar system:
 
 ``` r
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Earth", parent = "Sun") |>
   add_body_keplerian(
     "Comet", mass = 2.2e14, parent = "Sun",
@@ -217,14 +217,14 @@ What if Mars had a perfectly circular orbit?
 ``` r
 bind_rows(
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mars", parent = "Sun") |>
     simulate_system(time_step = seconds_per_day,
                     duration = seconds_per_day * 687) |>
     filter(id == "Mars") |>
     mutate(case = "Real Mars (e = 0.093)"),
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mars", parent = "Sun", e = 0) |>
     simulate_system(time_step = seconds_per_day,
                     duration = seconds_per_day * 687) |>

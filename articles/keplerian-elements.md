@@ -60,7 +60,7 @@ Let’s see how eccentricity changes the orbit shape:
 ``` r
 make_ecc_orbit <- function(e, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = e, nu = 0
@@ -106,7 +106,7 @@ plane. $90{^\circ}$ means the orbit is perpendicular to it.
 ``` r
 make_inc_orbit <- function(inc, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = 0.1, i = inc, nu = 0
@@ -149,7 +149,7 @@ effect.
 ``` r
 make_lan_orbit <- function(lan_val, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = 0.1, i = 45, lan = lan_val, nu = 0
@@ -186,7 +186,7 @@ the body gets closest to its parent.
 ``` r
 make_argpe_orbit <- function(argpe_val, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = 0.5, arg_pe = argpe_val, nu = 0
@@ -228,17 +228,17 @@ point).
 
 ``` r
 sys_0 <- create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
                       a = distance_earth_sun, e = 0.3, nu = 0)
 
 sys_90 <- create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
                       a = distance_earth_sun, e = 0.3, nu = 90)
 
 sys_180 <- create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
                       a = distance_earth_sun, e = 0.3, nu = 180)
 
@@ -278,7 +278,7 @@ to [`add_planet()`](https://orbit-r.com/reference/add_planet.md):
 ``` r
 # Spread the inner planets around their orbits
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Mercury", parent = "Sun", nu = 30) |>
   add_planet("Venus",   parent = "Sun", nu = 120) |>
   add_planet("Earth",   parent = "Sun", nu = 210) |>
@@ -358,13 +358,13 @@ thought experiments:
 # What if Mercury's orbit were circular? How different would it look?
 bind_rows(
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mercury", parent = "Sun") |>
     simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_day * 88) |>
     filter(id == "Mercury") |>
     mutate(case = "Real Mercury (e = 0.21)"),
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mercury", parent = "Sun", e = 0) |>
     simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_day * 88) |>
     filter(id == "Mercury") |>
