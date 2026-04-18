@@ -33,7 +33,7 @@ A tidy \`tibble\` with updated \`x\`, \`y\`, \`z\`, \`vx\`, \`vy\`, and
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Simulate Sun-Earth-Moon
 orbit_data <- create_system() |>
   add_body("Sun", mass = mass_sun) |>
@@ -46,5 +46,6 @@ orbit_data <- create_system() |>
 orbit_data |>
   shift_reference_frame(center_id = "Earth") |>
   plot_orbits()
-} # }
+
+# }
 ```

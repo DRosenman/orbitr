@@ -109,7 +109,7 @@ Six numbers fully describe a Keplerian orbit:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Earth orbiting the Sun with real orbital elements
 system <- create_system() |>
   add_body("Sun", mass = mass_sun) |>
@@ -127,5 +127,5 @@ system <- system |>
     lan = 49.6, arg_pe = 286.5, nu = 0,
     parent = "Sun"
   )
-} # }
+# }
 ```

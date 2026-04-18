@@ -26,3 +26,7 @@
 ### Roadmap
 
 - [Roadmap](https://orbit-r.com/articles/roadmap.md):
+
+### Resources
+
+- [Further Reading](https://orbit-r.com/articles/further-reading.md):

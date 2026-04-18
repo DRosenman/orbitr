@@ -45,7 +45,7 @@ is returned.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -54,7 +54,9 @@ sim <- create_system() |>
 # Final state with faint orbit trails
 plot_system(sim)
 
+
 # State at day 100, no trails
 plot_system(sim, time = seconds_per_day * 100, trails = FALSE)
-} # }
+
+# }
 ```

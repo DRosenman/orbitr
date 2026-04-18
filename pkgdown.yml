@@ -5,6 +5,7 @@ articles:
   building-two-body-orbits: building-two-body-orbits.html
   custom-visualization: custom-visualization.html
   examples: examples.html
+  further-reading: further-reading.html
   keplerian-elements: keplerian-elements.html
   physical-constants: physical-constants.html
   plotting-3d: plotting-3d.html
@@ -13,7 +14,7 @@ articles:
   roadmap: roadmap.html
   the-physics: the-physics.html
   unstable-orbits: unstable-orbits.html
-last_built: 2026-04-13T07:05Z
+last_built: 2026-04-18T04:41Z
 urls:
   reference: https://orbit-r.com/reference
   article: https://orbit-r.com/articles

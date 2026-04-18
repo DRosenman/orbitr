@@ -62,10 +62,10 @@ z, vx, vy, vz) of every body at every time step.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 my_universe <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon", mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
   simulate_system(time_step = seconds_per_hour, duration = seconds_per_day * 28)
-} # }
+# }
 ```

@@ -69,7 +69,7 @@ instantly.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 sim <- create_system() |>
   add_body("Sun",   mass = mass_sun) |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -80,6 +80,6 @@ anim <- animate_system(sim, fps = 20, duration = 8)
 anim
 
 # Save to disk
-gganimate::anim_save("earth_orbit.gif", anim)
-} # }
+gganimate::anim_save(file.path(tempdir(), "earth_orbit.gif"), anim)
+# }
 ```
