@@ -75,7 +75,7 @@ Six numbers fully describe a Keplerian orbit:
 \donttest{
 # Earth orbiting the Sun with real orbital elements
 system <- create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_body_keplerian(
     "Earth", mass = mass_earth,
     a = distance_earth_sun, e = 0.0167, i = 0.00005,

@@ -61,6 +61,7 @@ reference:
     desc: "Create a simulation and add bodies"
     contents:
       - create_system
+      - add_sun
       - add_body
       - add_body_keplerian
       - add_planet

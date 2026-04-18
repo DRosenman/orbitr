@@ -3,6 +3,7 @@
 export(add_body)
 export(add_body_keplerian)
 export(add_planet)
+export(add_sun)
 export(animate_system)
 export(animate_system_3d)
 export(create_system)

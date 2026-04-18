@@ -58,7 +58,7 @@ A common annoyance is that the central body in a two-body system can be invisibl
 
 ```{r sun-earth-plot-with-sun, message = FALSE}
 sim <- create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
@@ -93,7 +93,7 @@ Since `orbitr` is a full N-body engine, you can add as many bodies as you want. 
 
 ```{r}
 create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Venus", mass = mass_venus, x = distance_venus_sun, vy = speed_venus) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
@@ -108,7 +108,7 @@ Typing out masses, distances, and velocities for every body gets tedious. `add_p
 
 ```{r}
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Earth", parent = "Sun") |>
   add_planet("Mars",  parent = "Sun") |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>

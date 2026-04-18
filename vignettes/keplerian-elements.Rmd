@@ -49,7 +49,7 @@ Let's see how eccentricity changes the orbit shape:
 ```{r eccentricity-comparison}
 make_ecc_orbit <- function(e, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = e, nu = 0
@@ -85,7 +85,7 @@ The next three elements rotate and tilt the ellipse in 3D space. They're specifi
 ```{r inclination-comparison}
 make_inc_orbit <- function(inc, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = 0.1, i = inc, nu = 0
@@ -118,7 +118,7 @@ When $i = 0$, the ascending node is undefined and $\Omega$ has no effect.
 ```{r lan-comparison}
 make_lan_orbit <- function(lan_val, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = 0.1, i = 45, lan = lan_val, nu = 0
@@ -149,7 +149,7 @@ All three orbits have the same shape and inclination — $\Omega$ just rotates t
 ```{r argpe-comparison}
 make_argpe_orbit <- function(argpe_val, label) {
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_body_keplerian(
       "Planet", mass = 1e24, parent = "Sun",
       a = distance_earth_sun, e = 0.5, arg_pe = argpe_val, nu = 0
@@ -183,17 +183,17 @@ The final element pins down *where the body currently is* along its orbit.
 
 ```{r nu-comparison}
 sys_0 <- create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
                       a = distance_earth_sun, e = 0.3, nu = 0)
 
 sys_90 <- create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
                       a = distance_earth_sun, e = 0.3, nu = 90)
 
 sys_180 <- create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
                       a = distance_earth_sun, e = 0.3, nu = 180)
 
@@ -224,7 +224,7 @@ By default, `add_body_keplerian()` and `add_planet()` use $\nu = 0$ (starting at
 ```{r spread-planets}
 # Spread the inner planets around their orbits
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Mercury", parent = "Sun", nu = 30) |>
   add_planet("Venus",   parent = "Sun", nu = 120) |>
   add_planet("Earth",   parent = "Sun", nu = 210) |>
@@ -278,13 +278,13 @@ Any element can be overridden. This makes `add_planet()` useful for thought expe
 # What if Mercury's orbit were circular? How different would it look?
 bind_rows(
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mercury", parent = "Sun") |>
     simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_day * 88) |>
     filter(id == "Mercury") |>
     mutate(case = "Real Mercury (e = 0.21)"),
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mercury", parent = "Sun", e = 0) |>
     simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_day * 88) |>
     filter(id == "Mercury") |>

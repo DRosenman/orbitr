@@ -56,7 +56,7 @@ the name and parent:
 \details{
 ```
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Earth", parent = "Sun") |>
   add_planet("Moon", parent = "Earth")
 ```
@@ -73,7 +73,7 @@ add_planet("Mars", parent = "Sun", e = 0)
 \donttest{
 # Build the inner solar system
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Mercury", parent = "Sun") |>
   add_planet("Venus",   parent = "Sun") |>
   add_planet("Earth",   parent = "Sun") |>

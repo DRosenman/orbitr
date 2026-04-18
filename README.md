@@ -15,9 +15,7 @@
 ## Installation
 
 ``` r
-install.packages("orbitr")
-
-# Or the development version from GitHub:
+# Development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("DRosenman/orbitr")
 ```
@@ -44,7 +42,7 @@ and all. One line to build it, one line to simulate and plot.
 library(orbitr)
 
 sim <- create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
@@ -74,7 +72,7 @@ Pick and choose real solar system bodies without looking up any numbers:
 
 ``` r
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Earth", parent = "Sun") |>
   add_planet("Mars",  parent = "Sun") |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
@@ -90,7 +88,7 @@ scenarios:
 ``` r
 # What if Mars had a perfectly circular orbit?
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Mars", parent = "Sun", e = 0) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
   plot_orbits(three_d = FALSE)
@@ -119,7 +117,7 @@ orientation angles — instead of raw positions and velocities:
 ``` r
 # A comet on a highly eccentric, tilted orbit
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Earth", parent = "Sun") |>
   add_body_keplerian(
     "Comet", mass = 1e13, parent = "Sun",

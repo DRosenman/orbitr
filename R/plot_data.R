@@ -105,7 +105,7 @@ plot_orbits_3d <- function(sim_data) {
 #' @examples
 #' \donttest{
 #' sim <- create_system() |>
-#'   add_body("Sun",   mass = mass_sun) |>
+#'   add_sun() |>
 #'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
 #'   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 #'
@@ -269,7 +269,7 @@ plot_system_3d <- function(sim_data, time = NULL, trails = FALSE) {
 #' @examples
 #' \donttest{
 #' sim <- create_system() |>
-#'   add_body("Sun",   mass = mass_sun) |>
+#'   add_sun() |>
 #'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
 #'   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 #'

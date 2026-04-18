@@ -16,7 +16,7 @@
 #' \donttest{
 #' # Simulate Sun-Earth-Moon
 #' orbit_data <- create_system() |>
-#'   add_body("Sun", mass = mass_sun) |>
+#'   add_sun() |>
 #'   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
 #'   add_body("Moon", mass = mass_moon, x = distance_earth_sun + distance_earth_moon,
 #'            vy = speed_earth + speed_moon) |>

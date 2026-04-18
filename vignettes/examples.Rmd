@@ -41,7 +41,7 @@ Use `add_planet()` to pick specific bodies without looking up any numbers:
 
 ```{r inner-solar-system}
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Mercury", parent = "Sun") |>
   add_planet("Venus",   parent = "Sun") |>
   add_planet("Earth",   parent = "Sun") |>
@@ -79,7 +79,7 @@ A full year with daily time steps.
 
 ```{r}
 create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
   plot_orbits()
@@ -91,7 +91,7 @@ Because `orbitr` uses N-body gravity, nested hierarchies require no special setu
 
 ```{r}
 create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
@@ -106,7 +106,7 @@ The three-body plot above is heliocentric (Sun at center). To see the Moon's pat
 
 ```{r sun-earth-moon-sim}
 sun_earth_moon <- create_system() |>
-  add_body("Sun",   mass = mass_sun) |>
+  add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
   add_body("Moon",  mass = mass_moon,
            x = distance_earth_sun + distance_earth_moon,
@@ -171,7 +171,7 @@ animate_system(kepler16, fps = 15, duration = 6)
 
 ```{r comet}
 create_system() |>
-  add_body("Sun", mass = mass_sun) |>
+  add_sun() |>
   add_planet("Earth", parent = "Sun") |>
   add_body_keplerian(
     "Comet", mass = 2.2e14, parent = "Sun",
@@ -191,14 +191,14 @@ One of the nice things about `add_planet()` is that you can override individual 
 ```{r circular-mars}
 bind_rows(
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mars", parent = "Sun") |>
     simulate_system(time_step = seconds_per_day,
                     duration = seconds_per_day * 687) |>
     filter(id == "Mars") |>
     mutate(case = "Real Mars (e = 0.093)"),
   create_system() |>
-    add_body("Sun", mass = mass_sun) |>
+    add_sun() |>
     add_planet("Mars", parent = "Sun", e = 0) |>
     simulate_system(time_step = seconds_per_day,
                     duration = seconds_per_day * 687) |>
