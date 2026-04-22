@@ -60,7 +60,9 @@
 #'   plot_orbits()
 #'
 #' # What if Jupiter were twice as massive?
-#' add_planet("Jupiter", parent = "Sun", mass = mass_jupiter * 2)
+#' create_system() |>
+#'   add_sun() |>
+#'   add_planet("Jupiter", parent = "Sun", mass = mass_jupiter * 2)
 #' }
 add_planet <- function(system, name, parent, nu = 0,
                        a = NULL, e = NULL, i = NULL,
