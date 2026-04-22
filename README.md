@@ -15,12 +15,15 @@
 ## Installation
 
 ``` r
-# Development version from GitHub:
+# Install from CRAN:
+install.packages("orbitr")
+
+# Or install the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("DRosenman/orbitr")
 ```
 
-## The Full Solar System in Two Lines
+## The Full Solar System in A Few Lines
 
 ``` r
 library(orbitr)
