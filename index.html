@@ -95,16 +95,34 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<code class="sourceCode R"><span><span class="co"># Install from CRAN:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"orbitr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or install the development version from GitHub:</span></span>
+<span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"DRosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="four-lines-to-an-orbit">Four Lines to an Orbit<a class="anchor" aria-label="anchor" href="#four-lines-to-an-orbit"></a>
 </h2>
+<p>For solar system bodies like the Sun and planets, you can use convenience functions like <code><a href="reference/add_sun.html">add_sun()</a></code> and <code><a href="reference/add_planet.html">add_planet()</a></code> — they use real masses and orbital data from JPL automatically:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://orbit-r.com/">orbitr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/add_sun.html">add_sun</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/add_planet.html">add_planet</a></span><span class="op">(</span><span class="st">"Earth"</span>, parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/add_planet.html">add_planet</a></span><span class="op">(</span><span class="st">"Mars"</span>,  parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_day</span>, duration <span class="op">=</span> <span class="va">seconds_per_year</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Or build the whole solar system in one line with <code><a href="reference/load_solar_system.html">load_solar_system()</a></code>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/load_solar_system.html">load_solar_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_day</span>, duration <span class="op">=</span> <span class="va">seconds_per_year</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>You can also specify positions and velocities manually with <code><a href="reference/add_body.html">add_body()</a></code> — useful for custom or fictional systems, or when you want full control:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_sun.html">add_sun</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>, x <span class="op">=</span> <span class="va">distance_earth_sun</span>, vy <span class="op">=</span> <span class="va">speed_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_day</span>, duration <span class="op">=</span> <span class="va">seconds_per_year</span><span class="op">)</span></span>
@@ -114,7 +132,7 @@
 <img src="reference/figures/README-sun-earth-plot-1.png" alt="Closed elliptical trajectory of Earth orbiting the Sun over one year"><div class="figcaption">Closed elliptical trajectory of Earth orbiting the Sun over one year</div>
 </div>
 <p>And animated:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/animate_system.html">animate_system</a></span><span class="op">(</span><span class="va">sim</span>, fps <span class="op">=</span> <span class="fl">15</span>, duration <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
 <img src="reference/figures/README-earth-orbit-anim-1.gif" alt="Animated GIF of Earth orbiting the Sun, with Earth leaving a fading trail as it moves"><div class="figcaption">Animated GIF of Earth orbiting the Sun, with Earth leaving a fading trail as it moves</div>
@@ -144,7 +162,7 @@
 <h2 id="kepler-16-a-real-circumbinary-planet">Kepler-16: A Real Circumbinary Planet<a class="anchor" aria-label="anchor" href="#kepler-16-a-real-circumbinary-planet"></a>
 </h2>
 <p>Kepler-16b orbits two stars — a real-life Tatooine. <code>orbitr</code> handles multi-body gravitational interactions natively, no special setup needed:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">G</span>  <span class="op">&lt;-</span> <span class="va">gravitational_constant</span></span>
 <span><span class="va">AU</span> <span class="op">&lt;-</span> <span class="va">distance_earth_sun</span></span>
 <span></span>

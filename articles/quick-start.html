@@ -96,8 +96,12 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"daverosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Install from CRAN:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"orbitr"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or install the development version from GitHub:</span></span>
+<span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"DRosenman/orbitr"</span><span class="op">)</span></span></code></pre></div>
 <p>For 3D interactive plotting, you’ll also want:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"plotly"</span><span class="op">)</span></span></code></pre></div>
@@ -200,7 +204,11 @@ with <code>install.packages(c("gganimate", "gifski"))</code>.</p>
 </h2>
 <p>Since <code>orbitr</code> is a full N-body engine, you can add as
 many bodies as you want. Each one gravitationally interacts with every
-other. Here’s the Sun with both Earth and Venus for a full year:</p>
+other.</p>
+<p>For real solar system bodies, there are two ways to add them:</p>
+<p><strong>The manual way</strong> — use <code><a href="../reference/add_body.html">add_body()</a></code> with
+explicit positions and velocities. This gives you full control and works
+for any body, real or fictional:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_sun.html">add_sun</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -212,14 +220,10 @@ other. Here’s the Sun with both Earth and Venus for a full year:</p>
 <p>Venus completes more than one full orbit in the same time Earth takes
 to go around once — you can see the inner orbit is both smaller and
 faster.</p>
-</div>
-<div class="section level2">
-<h2 id="the-quick-way-add_planet-and-load_solar_system">The Quick Way: <code>add_planet()</code> and
-<code>load_solar_system()</code><a class="anchor" aria-label="anchor" href="#the-quick-way-add_planet-and-load_solar_system"></a>
-</h2>
-<p>Typing out masses, distances, and velocities for every body gets
-tedious. <code><a href="../reference/add_planet.html">add_planet()</a></code> knows the real orbital data for all
-the planets, the Moon, and Pluto — just give it a name and a parent:</p>
+<p><strong>The easy way</strong> — use <code><a href="../reference/add_sun.html">add_sun()</a></code> and
+<code><a href="../reference/add_planet.html">add_planet()</a></code>, which use real masses and orbital data from
+JPL automatically. Any orbital element can be overridden for “what if”
+scenarios:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_sun.html">add_sun</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>

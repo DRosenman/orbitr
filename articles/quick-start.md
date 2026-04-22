@@ -3,8 +3,12 @@
 ## Installation
 
 ``` r
+# Install from CRAN:
+install.packages("orbitr")
+
+# Or install the development version from GitHub:
 # install.packages("devtools")
-devtools::install_github("daverosenman/orbitr")
+devtools::install_github("DRosenman/orbitr")
 ```
 
 For 3D interactive plotting, you’ll also want:
@@ -119,8 +123,14 @@ packages — install them with
 ## Adding More Bodies
 
 Since `orbitr` is a full N-body engine, you can add as many bodies as
-you want. Each one gravitationally interacts with every other. Here’s
-the Sun with both Earth and Venus for a full year:
+you want. Each one gravitationally interacts with every other.
+
+For real solar system bodies, there are two ways to add them:
+
+**The manual way** — use
+[`add_body()`](https://orbit-r.com/reference/add_body.md) with explicit
+positions and velocities. This gives you full control and works for any
+body, real or fictional:
 
 ``` r
 create_system() |>
@@ -136,12 +146,11 @@ create_system() |>
 Venus completes more than one full orbit in the same time Earth takes to
 go around once — you can see the inner orbit is both smaller and faster.
 
-## The Quick Way: `add_planet()` and `load_solar_system()`
-
-Typing out masses, distances, and velocities for every body gets
-tedious. [`add_planet()`](https://orbit-r.com/reference/add_planet.md)
-knows the real orbital data for all the planets, the Moon, and Pluto —
-just give it a name and a parent:
+**The easy way** — use
+[`add_sun()`](https://orbit-r.com/reference/add_sun.md) and
+[`add_planet()`](https://orbit-r.com/reference/add_planet.md), which use
+real masses and orbital data from JPL automatically. Any orbital element
+can be overridden for “what if” scenarios:
 
 ``` r
 create_system() |>
