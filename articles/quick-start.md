@@ -181,6 +181,27 @@ velocities. See [Keplerian Orbital
 Elements](https://orbit-r.com/articles/keplerian-elements.md) for the
 full explanation.
 
+## Removing Bodies
+
+You can drop bodies from a system with
+[`remove_body()`](https://orbit-r.com/reference/remove_body.md). This is
+handy when you want to start from
+[`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md)
+but don’t need every body:
+
+``` r
+load_solar_system() |>
+  remove_body(c("Pluto", "Moon")) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits(three_d = FALSE)
+```
+
+![](quick-start_files/figure-html/unnamed-chunk-7-1.png)
+
+[`remove_body()`](https://orbit-r.com/reference/remove_body.md) accepts
+a single name or a character vector and works anywhere in the pipe chain
+— before or after adding bodies, but always before simulating.
+
 ## The Output is Just a Tibble
 
 [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
