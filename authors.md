@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/DRosenman/orbitr/blob/v0.2.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/DRosenman/orbitr/blob/main/DESCRIPTION)
 
 Rosenman D (2026). *orbitr: A Tidy Physics Engine for Building and
 Visualizing Orbital Simulations*. R package version 0.2.0,
