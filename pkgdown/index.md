@@ -10,15 +10,40 @@
 ## Installation
 
 ```r
+# Install from CRAN:
+install.packages("orbitr")
+
+# Or install the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("DRosenman/orbitr")
 ```
 
 ## Four Lines to an Orbit
 
+For solar system bodies like the Sun and planets, you can use convenience functions like `add_sun()` and `add_planet()` — they use real masses and orbital data from JPL automatically:
+
 ```r
 library(orbitr)
 
+create_system() |>
+  add_sun() |>
+  add_planet("Earth", parent = "Sun") |>
+  add_planet("Mars",  parent = "Sun") |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year * 2) |>
+  plot_orbits()
+```
+
+Or build the whole solar system in one line with `load_solar_system()`:
+
+```r
+load_solar_system() |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits()
+```
+
+You can also specify positions and velocities manually with `add_body()` — useful for custom or fictional systems, or when you want full control:
+
+```r
 sim <- create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
