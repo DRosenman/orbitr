@@ -131,6 +131,19 @@ load_solar_system() |>
 
 Under the hood, these use Keplerian orbital elements — a way to describe orbits by their shape and orientation instead of raw positions and velocities. See [Keplerian Orbital Elements](keplerian-elements.html) for the full explanation.
 
+## Removing Bodies
+
+You can drop bodies from a system with `remove_body()`. This is handy when you want to start from `load_solar_system()` but don't need every body:
+
+```{r}
+load_solar_system() |>
+  remove_body(c("Pluto", "Moon")) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits(three_d = FALSE)
+```
+
+`remove_body()` accepts a single name or a character vector and works anywhere in the pipe chain — before or after adding bodies, but always before simulating.
+
 ## The Output is Just a Tibble
 
 `simulate_system()` returns a standard tidy tibble. You can use `dplyr`, `ggplot2`, `plotly`, or any other tool on it:

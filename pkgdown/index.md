@@ -41,6 +41,15 @@ load_solar_system() |>
   plot_orbits()
 ```
 
+Don't need every body? Use `remove_body()` to drop them:
+
+```r
+load_solar_system() |>
+  remove_body(c("Pluto", "Moon")) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits()
+```
+
 You can also specify positions and velocities manually with `add_body()` — useful for custom or fictional systems, or when you want full control:
 
 ```r

@@ -63,6 +63,7 @@ reference:
       - create_system
       - add_sun
       - add_body
+      - remove_body
       - add_body_keplerian
       - add_planet
       - load_solar_system
