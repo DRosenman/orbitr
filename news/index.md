@@ -2,6 +2,8 @@
 
 ## orbitr 0.2.0
 
+CRAN release: 2026-04-21
+
 ### New functions
 
 - [`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md):
