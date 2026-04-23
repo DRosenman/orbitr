@@ -67,6 +67,7 @@ reference:
       - add_body_keplerian
       - add_planet
       - load_solar_system
+      - get_bodies
 
   - title: "Simulation"
     desc: "Run the N-body simulation"
@@ -83,6 +84,13 @@ reference:
       - plot_system_3d
       - animate_system
       - animate_system_3d
+
+  - title: "Save & Export"
+    desc: "Save systems and export body data"
+    contents:
+      - save_system
+      - load_system
+      - export_bodies
 
   - title: "Physical Constants"
     desc: "Built-in masses, distances, and orbital speeds"
