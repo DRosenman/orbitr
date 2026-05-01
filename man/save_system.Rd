@@ -7,18 +7,18 @@
 save_system(system, path)
 }
 \arguments{
-\item{system}{An \code{orbit_system} object.}
+\item{system}{An `orbit_system` object.}
 
-\item{path}{File path to save to. Should end in \code{.rds}.}
+\item{path}{File path to save to. Should end in `.rds`.}
 }
 \value{
-\code{system}, invisibly.
+`system`, invisibly.
 }
 \description{
-Saves the full \code{orbit_system} object (bodies, forces, and time) to an
-\code{.rds} file so it can be restored later with \code{\link[=load_system]{load_system()}}. This
-preserves everything \u2014 the gravitational constant, body states, and
-class \u2014 exactly as it was.
+Saves the full `orbit_system` object (bodies, forces, and time) to an
+`.rds` file so it can be restored later with [load_system()]. This
+preserves everything — the gravitational constant, body states, and
+class — exactly as it was.
 }
 \examples{
 \donttest{

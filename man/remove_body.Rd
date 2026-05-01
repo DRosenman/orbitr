@@ -7,23 +7,25 @@
 remove_body(system, id)
 }
 \arguments{
-\item{system}{An \code{orbit_system} object.}
+\item{system}{An `orbit_system` object.}
 
 \item{id}{A character vector of body names to remove. All names must exist
 in the system.}
 }
 \value{
-The updated \code{orbit_system} with the specified bodies removed.
+The updated `orbit_system` with the specified bodies removed.
 }
 \description{
-Drops bodies by name from an \code{orbit_system}. This is the counterpart to
-\code{\link[=add_body]{add_body()}} \u2014 use it to strip out bodies you no longer need before
-simulating, or to prune a system built with \code{\link[=load_solar_system]{load_solar_system()}}.
-
-\preformatted{load_solar_system() |>
+Drops bodies by name from an `orbit_system`. This is the counterpart to
+[add_body()] — use it to strip out bodies you no longer need before
+simulating, or to prune a system built with [load_solar_system()].
+}
+\details{
+```
+load_solar_system() |>
   remove_body(c("Pluto", "Moon")) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
-}
+```
 }
 \examples{
 # Remove a single body

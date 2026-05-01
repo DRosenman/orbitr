@@ -7,13 +7,13 @@
 load_system(path)
 }
 \arguments{
-\item{path}{File path to an \code{.rds} file created by \code{\link[=save_system]{save_system()}}.}
+\item{path}{File path to an `.rds` file created by [save_system()].}
 }
 \value{
-An \code{orbit_system} object.
+An `orbit_system` object.
 }
 \description{
-Restores an \code{orbit_system} previously saved with \code{\link[=save_system]{save_system()}}.
+Restores an `orbit_system` previously saved with [save_system()].
 }
 \examples{
 \donttest{

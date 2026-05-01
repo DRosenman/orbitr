@@ -7,14 +7,14 @@
 get_bodies(system)
 }
 \arguments{
-\item{system}{An \code{orbit_system} object.}
+\item{system}{An `orbit_system` object.}
 }
 \value{
-A tibble with columns \code{id}, \code{mass}, \code{x}, \code{y}, \code{z}, \code{vx}, \code{vy},
-\code{vz}.
+A tibble with columns `id`, `mass`, `x`, `y`, `z`, `vx`, `vy`,
+  `vz`.
 }
 \description{
-Returns the bodies in an \code{orbit_system} as a standalone tibble. Useful
+Returns the bodies in an `orbit_system` as a standalone tibble. Useful
 when you want to inspect, filter, or save the body states without
 dealing with the full system object.
 }

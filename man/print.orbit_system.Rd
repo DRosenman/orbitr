@@ -7,15 +7,15 @@
 \method{print}{orbit_system}(x, ...)
 }
 \arguments{
-\item{x}{An \code{orbit_system} object.}
+\item{x}{An `orbit_system` object.}
 
 \item{...}{Additional arguments (ignored).}
 }
 \value{
-\code{x}, invisibly.
+`x`, invisibly.
 }
 \description{
-Displays a compact, human-readable summary of an \code{orbit_system} showing
+Displays a compact, human-readable summary of an `orbit_system` showing
 the gravitational constant and a tibble of body states.
 }
 \examples{

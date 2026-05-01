@@ -1,3 +1,26 @@
+# orbitr 0.3.0
+
+## New functions
+
+- `remove_body()`: Remove one or more bodies from a system by name. Accepts
+  a single name or a character vector for removing multiple bodies at once.
+
+- `get_bodies()`: Extract the bodies tibble from an `orbit_system`. Useful
+  for inspecting, filtering, or saving body states without reaching into the
+  object's internals.
+
+- `save_system()` / `load_system()`: Save a full `orbit_system` to an `.rds`
+  file and restore it later. Preserves everything — bodies, gravitational
+  constant, and class.
+
+- `export_bodies()`: Write the body table (id, mass, position, velocity) to
+  a CSV file for sharing with collaborators or loading into other tools like
+  Python or Excel.
+
+- `print.orbit_system()`: Custom print method that displays a clean summary
+  with a header line and the bodies as a tibble, instead of dumping the raw
+  list structure.
+
 # orbitr 0.2.0
 
 ## New functions

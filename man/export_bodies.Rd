@@ -7,21 +7,18 @@
 export_bodies(system, path)
 }
 \arguments{
-\item{system}{An \code{orbit_system} object.}
+\item{system}{An `orbit_system` object.}
 
-\item{path}{File path to save to. Should end in \code{.csv}.}
+\item{path}{File path to save to. Should end in `.csv`.}
 }
 \value{
-\code{system}, invisibly.
+`system`, invisibly.
 }
 \description{
 Writes the body table (id, mass, position, and velocity) from an
-\code{orbit_system} to a CSV file. This is useful for sharing initial
+`orbit_system` to a CSV file. This is useful for sharing initial
 conditions with collaborators or loading them into other tools like
 Python or Excel.
-
-To reimport the CSV back into orbitr, read it with
-\code{\link[utils:read.csv]{utils::read.csv()}} and add bodies manually with \code{\link[=add_body]{add_body()}}.
 }
 \examples{
 \donttest{

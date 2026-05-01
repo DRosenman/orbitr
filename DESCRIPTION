@@ -1,7 +1,7 @@
 Package: orbitr
 Type: Package
 Title: A Tidy Physics Engine for Building and Visualizing Orbital Simulations
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(
     person(
       "Dave", "Rosenman",

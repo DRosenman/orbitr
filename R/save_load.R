@@ -62,8 +62,6 @@ load_system <- function(path) {
 #' conditions with collaborators or loading them into other tools like
 #' Python or Excel.
 #'
-#' To reimport the CSV back into orbitr, read it with
-#' [utils::read.csv()] and add bodies manually with [add_body()].
 #'
 #' @param system An `orbit_system` object.
 #' @param path File path to save to. Should end in `.csv`.

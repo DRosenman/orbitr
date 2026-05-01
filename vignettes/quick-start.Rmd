@@ -159,6 +159,23 @@ sim
 
 Each row is one body at one point in time, with columns for position (`x`, `y`, `z`), velocity (`vx`, `vy`, `vz`), mass, body ID, and time.
 
+## Saving and Sharing Systems
+
+You can save a full system to disk and restore it later:
+
+```{r eval = FALSE}
+save_system(sys, "my_system.rds")
+restored <- load_system("my_system.rds")
+```
+
+To share body data as a CSV — for collaborators, Python, or Excel — use `export_bodies()`:
+
+```{r eval = FALSE}
+export_bodies(sys, "bodies.csv")
+```
+
+`save_system()` / `load_system()` preserves everything (bodies, gravitational constant, class) as an R object. `export_bodies()` writes a plain CSV with just the body table, which anyone can open.
+
 ## Next Steps
 
 - **[The Physics](the-physics.html)** — Understand the math behind the simulation
