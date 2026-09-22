@@ -1,6 +1,7 @@
 # Custom Visualization with ggplot2 and plotly
 
 ``` r
+
 library(orbitr)
 ```
 
@@ -18,6 +19,7 @@ other visualization tool directly on the output.
 Here’s what the simulation tibble looks like:
 
 ``` r
+
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
@@ -53,6 +55,7 @@ roughly the same scale. A more useful visualization might plot each
 body’s distance from the barycenter over time:
 
 ``` r
+
 library(ggplot2)
 
 sim |>
@@ -74,6 +77,7 @@ Or plot the Moon’s path relative to Earth with a color gradient showing
 the passage of time:
 
 ``` r
+
 sim |>
   shift_reference_frame("Earth", keep_center = FALSE) |>
   ggplot(aes(x = x, y = y, color = time / seconds_per_day)) +
@@ -99,6 +103,7 @@ as well with `plotly` as it does with `ggplot2`.
 For example, you could color trajectories by speed rather than by body:
 
 ``` r
+
 library(plotly)
 #> 
 #> Attaching package: 'plotly'

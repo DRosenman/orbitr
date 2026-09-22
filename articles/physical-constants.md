@@ -1,6 +1,7 @@
 # Built-In Physical Constants
 
 ``` r
+
 library(orbitr)
 ```
 
@@ -11,6 +12,7 @@ so you don’t have to Google them every time. All values are in SI units
 ## Masses
 
 ``` r
+
 mass_sun          # 1.989e30 kg
 mass_earth        # 5.972e24 kg
 mass_moon         # 7.342e22 kg
@@ -24,6 +26,7 @@ mass_mercury      # 3.301e23 kg
 ## Orbital Distances (Semi-Major Axes)
 
 ``` r
+
 distance_earth_sun    # 1.496e11 m  (~149.6 million km)
 distance_earth_moon   # 3.844e8  m  (~384,400 km)
 distance_mars_sun     # 2.279e11 m
@@ -35,6 +38,7 @@ distance_mercury_sun  # 5.791e10 m
 ## Mean Orbital Speeds
 
 ``` r
+
 speed_earth       # 29,780 m/s
 speed_moon        #  1,022 m/s
 speed_mars        # 24,070 m/s
@@ -48,6 +52,7 @@ speed_mercury     # 47,360 m/s
 This means the Earth-Moon example can be written as:
 
 ``` r
+
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>

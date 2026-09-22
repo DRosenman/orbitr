@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Keplerian Orbital Elements">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,18 +140,18 @@ as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
 increases toward 1, the ellipse becomes more elongated. At any point
 along the orbit, the actual distance from the parent is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mo>cos</mo><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1 - e^2)}{1 + e \cos\nu}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1 - e^2)}{1 + e \cos\nu}</annotation></semantics></math></p>
 <p>where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ν</mi><annotation encoding="application/x-tex">\nu</annotation></semantics></math>
 is the true anomaly (the body’s current angular position — more on that
 below). At the closest approach (<strong>periapsis</strong>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\nu = 0</annotation></semantics></math>),
 the distance is
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mtext mathvariant="normal">peri</mtext></msub><mo>=</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">r_{\text{peri}} = a(1-e)</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mtext mathvariant="normal">peri</mtext></msub><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>e</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">r_{\text{peri}} = a(1-e)</annotation></semantics></math>.
 At the farthest point (<strong>apoapsis</strong>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><mn>180</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">\nu = 180°</annotation></semantics></math>),
 it’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mtext mathvariant="normal">apo</mtext></msub><mo>=</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">r_{\text{apo}} = a(1+e)</annotation></semantics></math>.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mtext mathvariant="normal">apo</mtext></msub><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">r_{\text{apo}} = a(1+e)</annotation></semantics></math>.</p>
 <p>Let’s see how eccentricity changes the orbit shape:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">make_ecc_orbit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span>, <span class="va">label</span><span class="op">)</span> <span class="op">{</span></span>
@@ -235,18 +235,18 @@ As inclination increases, the orbit tilts further out of the plane until
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>90</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">i = 90°</annotation></semantics></math>
 makes a full polar orbit.</p>
 <p><strong>Longitude of ascending node</strong>
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>,
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>,
 called <code>lan</code> in <code>orbitr</code>) is the compass direction
 of the tilt. It measures the angle from a reference direction (the
 vernal equinox in real astronomy) to the point where the orbit crosses
 the reference plane going “upward.” Think of inclination as <em>how
 much</em> the orbit tilts, and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>
 as <em>which direction</em> it tilts toward.</p>
 <p>When
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">i = 0</annotation></semantics></math>,
 the ascending node is undefined and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>
 has no effect.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">make_lan_orbit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lan_val</span>, <span class="va">label</span><span class="op">)</span> <span class="op">{</span></span>
@@ -275,7 +275,7 @@ has no effect.</p>
 <span>       color <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="keplerian-elements_files/figure-html/lan-comparison-1.png" class="r-plt" alt="" width="672"></p>
 <p>All three orbits have the same shape and inclination —
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>
 just rotates the whole tilted plane around the vertical axis.</p>
 <p><strong>Argument of periapsis</strong>
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ω</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>,
@@ -395,23 +395,23 @@ function, but it’s useful if you want to verify the math or extend
 it.</p>
 <p><strong>Step 1: Position and velocity in the orbital plane.</strong>
 The orbit equation gives the distance at the current true anomaly:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mo>cos</mo><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1-e^2)}{1 + e\cos\nu}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1-e^2)}{1 + e\cos\nu}</annotation></semantics></math></p>
 <p>Position in the perifocal frame (a coordinate system aligned with the
 orbit, x-axis pointing toward periapsis):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mo>cos</mo><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>y</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mo>sin</mo><mi>ν</mi></mrow><annotation encoding="application/x-tex">x_{\text{pf}} = r\cos\nu, \quad y_{\text{pf}} = r\sin\nu</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>y</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mi>ν</mi></mrow><annotation encoding="application/x-tex">x_{\text{pf}} = r\cos\nu, \quad y_{\text{pf}} = r\sin\nu</annotation></semantics></math></p>
 <p>The specific angular momentum
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><msqrt><mrow><mi>μ</mi><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mrow><annotation encoding="application/x-tex">h = \sqrt{\mu a(1-e^2)}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><msqrt><mrow><mi>μ</mi><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow></msqrt></mrow><annotation encoding="application/x-tex">h = \sqrt{\mu a(1-e^2)}</annotation></semantics></math>
 (where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mi>G</mi><msub><mi>M</mi><mtext mathvariant="normal">parent</mtext></msub></mrow><annotation encoding="application/x-tex">\mu = GM_{\text{parent}}</annotation></semantics></math>)
 gives the velocity:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mrow><mi>x</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mo>−</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mo>sin</mo><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>v</mi><mrow><mi>y</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>e</mi><mo>+</mo><mo>cos</mo><mi>ν</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">v_{x,\text{pf}} = -\frac{\mu}{h}\sin\nu, \quad v_{y,\text{pf}} = \frac{\mu}{h}(e + \cos\nu)</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mrow><mi>x</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mi>−</mi><mfrac><mi>μ</mi><mi>h</mi></mfrac><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>v</mi><mrow><mi>y</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mo stretchy="false" form="prefix">(</mo><mi>e</mi><mo>+</mo><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">v_{x,\text{pf}} = -\frac{\mu}{h}\sin\nu, \quad v_{y,\text{pf}} = \frac{\mu}{h}(e + \cos\nu)</annotation></semantics></math></p>
 <p><strong>Step 2: Rotate into inertial coordinates.</strong> Three
 successive rotations — by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">-\omega</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>ω</mi></mrow><annotation encoding="application/x-tex">-\omega</annotation></semantics></math>
 around the orbit normal, by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">-i</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">-i</annotation></semantics></math>
 around the node line, and by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>Ω</mi></mrow><annotation encoding="application/x-tex">-\Omega</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi mathvariant="normal">Ω</mi></mrow><annotation encoding="application/x-tex">-\Omega</annotation></semantics></math>
 around the reference pole — transform from the perifocal frame to the
 inertial reference frame.</p>
 <p><strong>Step 3: Add parent’s state.</strong> The resulting position
@@ -562,7 +562,7 @@ any of this.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

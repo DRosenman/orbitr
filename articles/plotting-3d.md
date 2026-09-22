@@ -1,6 +1,7 @@
 # 3D Plotting
 
 ``` r
+
 library(orbitr)
 ```
 
@@ -35,6 +36,7 @@ The Moon’s real orbit is inclined about 5° to the ecliptic. You can
 approximate this by giving the Moon a small `vz` component:
 
 ``` r
+
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon,
@@ -56,6 +58,7 @@ Even if your system is entirely planar, you can opt into the interactive
 3D viewer:
 
 ``` r
+
 create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>

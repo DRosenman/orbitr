@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="A Tidy Physics Engine for Building and Visualizing Orbital Simulations">
 <meta name="description" content="A lightweight, fully vectorized N-body physics engine built for the R ecosystem. Simulate and visualize complex orbital mechanics, celestial trajectories, and gravitational interactions using tidy data principles. Features multiple numerical integration methods, including the energy-conserving velocity Verlet algorithm (Verlet (1967) &lt;doi:10.1103/PhysRev.159.98&gt;), to ensure highly stable orbital propagation. Gravitational N-body methods follow Aarseth (2003, ISBN:0-521-43272-3).">
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -153,7 +153,7 @@
 <li>
 <strong>Built-in physical constants</strong> — real-world masses, distances, and orbital speeds for the Sun, all eight planets, and the Moon, so you don’t have to look anything up. See <a href="articles/physical-constants.html">Physical Constants</a>.</li>
 <li>
-<strong>C++ engine</strong> — a compiled <code>Rcpp</code> acceleration kernel handles the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math> gravity loop, with automatic fallback to vectorized R if the compiled code isn’t available.</li>
+<strong>C++ engine</strong> — a compiled <code>Rcpp</code> acceleration kernel handles the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math> gravity loop, with automatic fallback to vectorized R if the compiled code isn’t available.</li>
 <li>
 <strong>Three integrators</strong> — Velocity Verlet (default, symplectic, energy-conserving), Euler-Cromer (fast preview), and standard Euler (educational comparison). See <a href="articles/the-physics.html">The Physics</a>.</li>
 <li>
@@ -162,6 +162,8 @@
 <strong>Animations</strong> — <code><a href="reference/animate_system.html">animate_system()</a></code> renders orbits as GIFs with fading trails via <code>gganimate</code>, or as interactive 3D animations with <code>plotly</code>.</li>
 <li>
 <strong>Reference frame shifting</strong> — <code>shift_reference_frame("Earth")</code> re-centers the simulation on any body, turning a heliocentric view into a geocentric one. See <a href="articles/reference-frames.html">Reference Frames</a>.</li>
+<li>
+<strong>Save and share</strong> — <code><a href="reference/save_system.html">save_system()</a></code> / <code><a href="reference/load_system.html">load_system()</a></code> round-trip a full system to an <code>.rds</code> file, and <code><a href="reference/export_bodies.html">export_bodies()</a></code> writes the body table to CSV for collaborators, Python, or Excel.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -259,7 +261,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

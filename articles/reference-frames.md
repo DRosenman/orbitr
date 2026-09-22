@@ -1,6 +1,7 @@
 # Reference Frames
 
 ``` r
+
 library(orbitr)
 ```
 
@@ -18,6 +19,7 @@ Consider the Sun-Earth-Moon system. The obvious way to set it up is
 heliocentric (Sun at the origin):
 
 ``` r
+
 sim <- create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -46,13 +48,16 @@ fixes this by applying a Galilean coordinate transformation. At every
 time step, it subtracts the position and velocity of a chosen body from
 all other bodies:
 
-$$\overset{\rightarrow}{r}\prime_{i}(t) = {\overset{\rightarrow}{r}}_{i}(t) - {\overset{\rightarrow}{r}}_{\text{center}}(t)\qquad\overset{\rightarrow}{v}\prime_{i}(t) = {\overset{\rightarrow}{v}}_{i}(t) - {\overset{\rightarrow}{v}}_{\text{center}}(t)$$
+``` math
+\vec{r}'_i(t) = \vec{r}_i(t) - \vec{r}_{\text{center}}(t) \qquad \vec{v}'_i(t) = \vec{v}_i(t) - \vec{v}_{\text{center}}(t)
+```
 
 The chosen body ends up fixed at the origin, and every other body’s
 trajectory shows its motion *relative to that body*. No physics changes
 — same forces, same accelerations — you’re just moving the camera.
 
 ``` r
+
 sim |>
   shift_reference_frame("Earth") |>
   plot_orbits()
@@ -69,14 +74,15 @@ geocentric view — the same system, seen from a different place.
 The function signature is:
 
 ``` r
+
 shift_reference_frame(sim_data, center_id, keep_center = TRUE)
 ```
 
-| Parameter     | Type        | Default | Description                                                                         |
-|---------------|-------------|---------|-------------------------------------------------------------------------------------|
-| `sim_data`    | `tibble`    | —       | Output from [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md) |
-| `center_id`   | `character` | —       | ID of the body to place at (0, 0, 0)                                                |
-| `keep_center` | `logical`   | `TRUE`  | Keep the center body in the output?                                                 |
+| Parameter | Type | Default | Description |
+|----|----|----|----|
+| `sim_data` | `tibble` | — | Output from [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md) |
+| `center_id` | `character` | — | ID of the body to place at (0, 0, 0) |
+| `keep_center` | `logical` | `TRUE` | Keep the center body in the output? |
 
 The transformation operates on all six phase-space coordinates (`x`,
 `y`, `z`, `vx`, `vy`, `vz`) simultaneously. At each time step, the
@@ -96,6 +102,7 @@ better choice when you’re feeding the shifted data into a custom
 visualization or analysis pipeline and don’t need a point stuck at zero:
 
 ``` r
+
 library(ggplot2)
 
 sim |>
@@ -121,6 +128,7 @@ different viewpoints. There’s no need to re-run
 [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md).
 
 ``` r
+
 # Same simulation, three different perspectives
 
 # 1. From the Sun (original frame, but explicit)
@@ -132,6 +140,7 @@ sim |>
 ![](reference-frames_files/figure-html/unnamed-chunk-6-1.png)
 
 ``` r
+
 # 2. From the Earth
 sim |>
   shift_reference_frame("Earth") |>
@@ -141,6 +150,7 @@ sim |>
 ![](reference-frames_files/figure-html/unnamed-chunk-7-1.png)
 
 ``` r
+
 # 3. From the Moon
 sim |>
   shift_reference_frame("Moon") |>
@@ -163,6 +173,7 @@ transformation. After shifting to Earth’s frame, the velocity columns
 can use this to study how the Moon’s orbital speed varies over time:
 
 ``` r
+
 library(ggplot2)
 
 sim |>
@@ -189,6 +200,7 @@ center on any body in the system. Here’s Kepler-16b — a real
 circumbinary planet — looking back at its two parent stars:
 
 ``` r
+
 AU <- distance_earth_sun
 
 m_A <- 0.68 * mass_sun
@@ -215,6 +227,7 @@ From the default (barycentric) frame, you see the planet’s wide orbit
 and the stars’ tight inner dance:
 
 ``` r
+
 kepler16 |> plot_orbits()
 ```
 
@@ -223,6 +236,7 @@ kepler16 |> plot_orbits()
 Now shift to the planet’s perspective:
 
 ``` r
+
 kepler16 |>
   shift_reference_frame("Kepler-16b", keep_center = FALSE) |>
   plot_orbits()
@@ -255,6 +269,7 @@ distance between two bodies over time, or track how relative velocity
 evolves:
 
 ``` r
+
 # Distance between Earth and Moon over time
 sim |>
   shift_reference_frame("Earth", keep_center = FALSE) |>

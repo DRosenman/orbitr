@@ -18,6 +18,7 @@ pure-R implementation.
 ## Installation
 
 ``` r
+
 # Install from CRAN:
 install.packages("orbitr")
 
@@ -35,6 +36,7 @@ convenience functions like
 real masses and orbital data from JPL automatically:
 
 ``` r
+
 library(orbitr)
 
 create_system() |>
@@ -49,6 +51,7 @@ Or build the whole solar system in one line with
 [`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md):
 
 ``` r
+
 load_solar_system() |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
   plot_orbits()
@@ -59,6 +62,7 @@ Don’t need every body? Use
 them:
 
 ``` r
+
 load_solar_system() |>
   remove_body(c("Pluto", "Moon")) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
@@ -70,6 +74,7 @@ You can also specify positions and velocities manually with
 custom or fictional systems, or when you want full control:
 
 ``` r
+
 sim <- create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -86,6 +91,7 @@ Closed elliptical trajectory of Earth orbiting the Sun over one year
 And animated:
 
 ``` r
+
 animate_system(sim, fps = 15, duration = 5)
 ```
 
@@ -106,8 +112,8 @@ trail as it moves
   don’t have to look anything up. See [Physical
   Constants](https://orbit-r.com/articles/physical-constants.md).
 - **C++ engine** — a compiled `Rcpp` acceleration kernel handles the
-  $O\left( n^{2} \right)$ gravity loop, with automatic fallback to
-  vectorized R if the compiled code isn’t available.
+  $`O(n^2)`$ gravity loop, with automatic fallback to vectorized R if
+  the compiled code isn’t available.
 - **Three integrators** — Velocity Verlet (default, symplectic,
   energy-conserving), Euler-Cromer (fast preview), and standard Euler
   (educational comparison). See [The
@@ -125,6 +131,12 @@ trail as it moves
   re-centers the simulation on any body, turning a heliocentric view
   into a geocentric one. See [Reference
   Frames](https://orbit-r.com/articles/reference-frames.md).
+- **Save and share** —
+  [`save_system()`](https://orbit-r.com/reference/save_system.md) /
+  [`load_system()`](https://orbit-r.com/reference/load_system.md)
+  round-trip a full system to an `.rds` file, and
+  [`export_bodies()`](https://orbit-r.com/reference/export_bodies.md)
+  writes the body table to CSV for collaborators, Python, or Excel.
 
 ## Kepler-16: A Real Circumbinary Planet
 
@@ -132,6 +144,7 @@ Kepler-16b orbits two stars — a real-life Tatooine. `orbitr` handles
 multi-body gravitational interactions natively, no special setup needed:
 
 ``` r
+
 G  <- gravitational_constant
 AU <- distance_earth_sun
 

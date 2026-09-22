@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Quick Start Guide">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -261,12 +261,46 @@ vector and works anywhere in the pipe chain — before or after adding
 bodies, but always before simulating.</p>
 </div>
 <div class="section level2">
+<h2 id="inspecting-a-system">Inspecting a System<a class="anchor" aria-label="anchor" href="#inspecting-a-system"></a>
+</h2>
+<p>Printing a system shows the gravitational constant it uses and a
+tibble of the bodies in it:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_sun.html">add_sun</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_planet.html">add_planet</a></span><span class="op">(</span><span class="st">"Earth"</span>, parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_planet.html">add_planet</a></span><span class="op">(</span><span class="st">"Mars"</span>,  parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sys</span></span>
+<span><span class="co">#&gt; ───────────────────────────────── orbit_system ───────────────────────────────── </span></span>
+<span><span class="co">#&gt; G: 6.6743e-11 (standard)</span></span>
+<span><span class="co">#&gt; Bodies: 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
+<span><span class="co">#&gt;   id       mass             x             y            z      vx     vy    vz</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sun   1.99<span style="color: #949494;">e</span>30            0             0            0       0      0     0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Earth 5.97<span style="color: #949494;">e</span>24 -<span style="color: #BB0000; text-decoration: underline;">32</span><span style="color: #BB0000;">965</span><span style="color: #BB0000; text-decoration: underline;">585</span><span style="color: #BB0000;">121.</span> <span style="text-decoration: underline;">143</span>360<span style="text-decoration: underline;">295</span>956.           0  -<span style="color: #BB0000; text-decoration: underline;">29</span><span style="color: #BB0000;">520.</span> -<span style="color: #BB0000; text-decoration: underline;">6</span><span style="color: #BB0000;">788.</span>    0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Mars  6.42<span style="color: #949494;">e</span>23 <span style="text-decoration: underline;">188</span>789<span style="text-decoration: underline;">951</span>360. -<span style="color: #BB0000; text-decoration: underline;">83</span><span style="color: #BB0000;">706</span><span style="color: #BB0000; text-decoration: underline;">961</span><span style="color: #BB0000;">610.</span> -<span style="color: #BB0000; text-decoration: underline;">6</span><span style="color: #BB0000;">395</span><span style="color: #BB0000; text-decoration: underline;">443</span><span style="color: #BB0000;">036.</span>  <span style="text-decoration: underline;">10</span>750. <span style="text-decoration: underline;">24</span>226.  243.</span></span></code></pre></div>
+<p><code><a href="../reference/get_bodies.html">get_bodies()</a></code> returns that bodies tibble directly, so you
+can filter, inspect, or save it without reaching into the object’s
+internals:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_bodies.html">get_bodies</a></span><span class="op">(</span><span class="va">sys</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
+<span><span class="co">#&gt;   id       mass             x             y            z      vx     vy    vz</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Sun   1.99<span style="color: #949494;">e</span>30            0             0            0       0      0     0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Earth 5.97<span style="color: #949494;">e</span>24 -<span style="color: #BB0000; text-decoration: underline;">32</span><span style="color: #BB0000;">965</span><span style="color: #BB0000; text-decoration: underline;">585</span><span style="color: #BB0000;">121.</span> <span style="text-decoration: underline;">143</span>360<span style="text-decoration: underline;">295</span>956.           0  -<span style="color: #BB0000; text-decoration: underline;">29</span><span style="color: #BB0000;">520.</span> -<span style="color: #BB0000; text-decoration: underline;">6</span><span style="color: #BB0000;">788.</span>    0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Mars  6.42<span style="color: #949494;">e</span>23 <span style="text-decoration: underline;">188</span>789<span style="text-decoration: underline;">951</span>360. -<span style="color: #BB0000; text-decoration: underline;">83</span><span style="color: #BB0000;">706</span><span style="color: #BB0000; text-decoration: underline;">961</span><span style="color: #BB0000;">610.</span> -<span style="color: #BB0000; text-decoration: underline;">6</span><span style="color: #BB0000;">395</span><span style="color: #BB0000; text-decoration: underline;">443</span><span style="color: #BB0000;">036.</span>  <span style="text-decoration: underline;">10</span>750. <span style="text-decoration: underline;">24</span>226.  243.</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="the-output-is-just-a-tibble">The Output is Just a Tibble<a class="anchor" aria-label="anchor" href="#the-output-is-just-a-tibble"></a>
 </h2>
 <p><code><a href="../reference/simulate_system.html">simulate_system()</a></code> returns a standard tidy tibble. You
 can use <code>dplyr</code>, <code>ggplot2</code>, <code>plotly</code>,
 or any other tool on it:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_body.html">add_body</a></span><span class="op">(</span><span class="st">"Moon"</span>,  mass <span class="op">=</span> <span class="va">mass_moon</span>, x <span class="op">=</span> <span class="va">distance_earth_moon</span>, vy <span class="op">=</span> <span class="va">speed_moon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -291,6 +325,22 @@ or any other tool on it:</p>
 (<code>x</code>, <code>y</code>, <code>z</code>), velocity
 (<code>vx</code>, <code>vy</code>, <code>vz</code>), mass, body ID, and
 time.</p>
+</div>
+<div class="section level2">
+<h2 id="saving-and-sharing-systems">Saving and Sharing Systems<a class="anchor" aria-label="anchor" href="#saving-and-sharing-systems"></a>
+</h2>
+<p>You can save a full system to disk and restore it later:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/save_system.html">save_system</a></span><span class="op">(</span><span class="va">sys</span>, <span class="st">"my_system.rds"</span><span class="op">)</span></span>
+<span><span class="va">restored</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_system.html">load_system</a></span><span class="op">(</span><span class="st">"my_system.rds"</span><span class="op">)</span></span></code></pre></div>
+<p>To share body data as a CSV — for collaborators, Python, or Excel —
+use <code><a href="../reference/export_bodies.html">export_bodies()</a></code>:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/export_bodies.html">export_bodies</a></span><span class="op">(</span><span class="va">sys</span>, <span class="st">"bodies.csv"</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="../reference/save_system.html">save_system()</a></code> / <code><a href="../reference/load_system.html">load_system()</a></code> preserves
+everything (bodies, gravitational constant, class) as an R object.
+<code><a href="../reference/export_bodies.html">export_bodies()</a></code> writes a plain CSV with just the body
+table, which anyone can open.</p>
 </div>
 <div class="section level2">
 <h2 id="next-steps">Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
@@ -331,7 +381,7 @@ considered for future versions, plus a place to suggest your own</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

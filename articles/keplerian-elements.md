@@ -1,6 +1,7 @@
 # Keplerian Orbital Elements
 
 ``` r
+
 library(orbitr)
 library(ggplot2)
 library(dplyr)
@@ -39,25 +40,29 @@ Keplerian elements split those six numbers into three intuitive groups:
 The first two elements define the *geometry* of the ellipse — how big it
 is and how stretched.
 
-**Semi-major axis** ($a$) is the average distance from the orbiting body
-to its parent. Technically it’s half the longest diameter of the
-ellipse. Larger $a$ means a bigger orbit and a longer period. In
+**Semi-major axis** ($`a`$) is the average distance from the orbiting
+body to its parent. Technically it’s half the longest diameter of the
+ellipse. Larger $`a`$ means a bigger orbit and a longer period. In
 `orbitr`, it’s specified in meters.
 
-**Eccentricity** ($e$) controls the shape. A circle has $e = 0$; as $e$
-increases toward 1, the ellipse becomes more elongated. At any point
-along the orbit, the actual distance from the parent is:
+**Eccentricity** ($`e`$) controls the shape. A circle has $`e = 0`$; as
+$`e`$ increases toward 1, the ellipse becomes more elongated. At any
+point along the orbit, the actual distance from the parent is:
 
-$$r = \frac{a\left( 1 - e^{2} \right)}{1 + e\cos\nu}$$
+``` math
+r = \frac{a(1 - e^2)}{1 + e \cos\nu}
+```
 
-where $\nu$ is the true anomaly (the body’s current angular position —
-more on that below). At the closest approach (**periapsis**, $\nu = 0$),
-the distance is $r_{\text{peri}} = a(1 - e)$. At the farthest point
-(**apoapsis**, $\nu = 180{^\circ}$), it’s $r_{\text{apo}} = a(1 + e)$.
+where $`\nu`$ is the true anomaly (the body’s current angular position —
+more on that below). At the closest approach (**periapsis**,
+$`\nu = 0`$), the distance is $`r_{\text{peri}} = a(1-e)`$. At the
+farthest point (**apoapsis**, $`\nu = 180°`$), it’s
+$`r_{\text{apo}} = a(1+e)`$.
 
 Let’s see how eccentricity changes the orbit shape:
 
 ``` r
+
 make_ecc_orbit <- function(e, label) {
   create_system() |>
     add_sun() |>
@@ -88,7 +93,7 @@ bind_rows(
 ![](keplerian-elements_files/figure-html/eccentricity-comparison-1.png)
 
 All four orbits have the same semi-major axis, so they have the same
-orbital period (Kepler’s Third Law: $T^{2} \propto a^{3}$). But their
+orbital period (Kepler’s Third Law: $`T^2 \propto a^3`$). But their
 shapes are radically different — from a perfect circle to a narrow
 ellipse that barely misses the Sun at periapsis and swings far out at
 apoapsis.
@@ -98,12 +103,13 @@ apoapsis.
 The next three elements rotate and tilt the ellipse in 3D space. They’re
 specified in degrees.
 
-**Inclination** ($i$) is the tilt of the orbital plane relative to a
+**Inclination** ($`i`$) is the tilt of the orbital plane relative to a
 reference plane (typically the ecliptic — the plane of Earth’s orbit).
-An inclination of $0{^\circ}$ means the orbit lies flat in the reference
-plane. $90{^\circ}$ means the orbit is perpendicular to it.
+An inclination of $`0°`$ means the orbit lies flat in the reference
+plane. $`90°`$ means the orbit is perpendicular to it.
 
 ``` r
+
 make_inc_orbit <- function(inc, label) {
   create_system() |>
     add_sun() |>
@@ -132,21 +138,22 @@ bind_rows(
 
 ![](keplerian-elements_files/figure-html/inclination-comparison-1.png)
 
-The flat orbit ($i = 0$) stays in the XY plane with $z = 0$. As
+The flat orbit ($`i = 0`$) stays in the XY plane with $`z = 0`$. As
 inclination increases, the orbit tilts further out of the plane until
-$i = 90{^\circ}$ makes a full polar orbit.
+$`i = 90°`$ makes a full polar orbit.
 
-**Longitude of ascending node** ($\Omega$, called `lan` in `orbitr`) is
-the compass direction of the tilt. It measures the angle from a
+**Longitude of ascending node** ($`\Omega`$, called `lan` in `orbitr`)
+is the compass direction of the tilt. It measures the angle from a
 reference direction (the vernal equinox in real astronomy) to the point
 where the orbit crosses the reference plane going “upward.” Think of
-inclination as *how much* the orbit tilts, and $\Omega$ as *which
+inclination as *how much* the orbit tilts, and $`\Omega`$ as *which
 direction* it tilts toward.
 
-When $i = 0$, the ascending node is undefined and $\Omega$ has no
+When $`i = 0`$, the ascending node is undefined and $`\Omega`$ has no
 effect.
 
 ``` r
+
 make_lan_orbit <- function(lan_val, label) {
   create_system() |>
     add_sun() |>
@@ -175,15 +182,16 @@ bind_rows(
 
 ![](keplerian-elements_files/figure-html/lan-comparison-1.png)
 
-All three orbits have the same shape and inclination — $\Omega$ just
+All three orbits have the same shape and inclination — $`\Omega`$ just
 rotates the whole tilted plane around the vertical axis.
 
-**Argument of periapsis** ($\omega$, called `arg_pe` in `orbitr`) is the
-angle *within the orbital plane* from the ascending node to the
+**Argument of periapsis** ($`\omega`$, called `arg_pe` in `orbitr`) is
+the angle *within the orbital plane* from the ascending node to the
 closest-approach point (periapsis). It controls where along the orbit
 the body gets closest to its parent.
 
 ``` r
+
 make_argpe_orbit <- function(argpe_val, label) {
   create_system() |>
     add_sun() |>
@@ -212,21 +220,22 @@ bind_rows(
 
 ![](keplerian-elements_files/figure-html/argpe-comparison-1.png)
 
-The ellipse is the same shape every time — $\omega$ just spins it around
-the parent, moving the periapsis to different points along the orbit.
+The ellipse is the same shape every time — $`\omega`$ just spins it
+around the parent, moving the periapsis to different points along the
+orbit.
 
 ### Position: True Anomaly
 
 The final element pins down *where the body currently is* along its
 orbit.
 
-**True anomaly** ($\nu$, called `nu` in `orbitr`) is the angle measured
-from periapsis to the body’s current position, in the direction of
-orbital motion. $\nu = 0{^\circ}$ means the body starts at periapsis
-(closest point); $\nu = 180{^\circ}$ puts it at apoapsis (farthest
-point).
+**True anomaly** ($`\nu`$, called `nu` in `orbitr`) is the angle
+measured from periapsis to the body’s current position, in the direction
+of orbital motion. $`\nu = 0°`$ means the body starts at periapsis
+(closest point); $`\nu = 180°`$ puts it at apoapsis (farthest point).
 
 ``` r
+
 sys_0 <- create_system() |>
   add_sun() |>
   add_body_keplerian("Planet", mass = 1e24, parent = "Sun",
@@ -269,13 +278,14 @@ ggplot() +
 By default,
 [`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
 and [`add_planet()`](https://orbit-r.com/reference/add_planet.md) use
-$\nu = 0$ (starting at periapsis). In
+$`\nu = 0`$ (starting at periapsis). In
 [`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md),
 all planets start at periapsis — if you want to spread them out around
 their orbits for a more realistic snapshot, pass different `nu` values
 to [`add_planet()`](https://orbit-r.com/reference/add_planet.md):
 
 ``` r
+
 # Spread the inner planets around their orbits
 create_system() |>
   add_sun() |>
@@ -301,21 +311,27 @@ the math or extend it.
 **Step 1: Position and velocity in the orbital plane.** The orbit
 equation gives the distance at the current true anomaly:
 
-$$r = \frac{a\left( 1 - e^{2} \right)}{1 + e\cos\nu}$$
+``` math
+r = \frac{a(1-e^2)}{1 + e\cos\nu}
+```
 
 Position in the perifocal frame (a coordinate system aligned with the
 orbit, x-axis pointing toward periapsis):
 
-$$x_{\text{pf}} = r\cos\nu,\quad y_{\text{pf}} = r\sin\nu$$
+``` math
+x_{\text{pf}} = r\cos\nu, \quad y_{\text{pf}} = r\sin\nu
+```
 
-The specific angular momentum $h = \sqrt{\mu a\left( 1 - e^{2} \right)}$
-(where $\mu = GM_{\text{parent}}$) gives the velocity:
+The specific angular momentum $`h = \sqrt{\mu a(1-e^2)}`$ (where
+$`\mu = GM_{\text{parent}}`$) gives the velocity:
 
-$$v_{x,\text{pf}} = - \frac{\mu}{h}\sin\nu,\quad v_{y,\text{pf}} = \frac{\mu}{h}\left( e + \cos\nu \right)$$
+``` math
+v_{x,\text{pf}} = -\frac{\mu}{h}\sin\nu, \quad v_{y,\text{pf}} = \frac{\mu}{h}(e + \cos\nu)
+```
 
 **Step 2: Rotate into inertial coordinates.** Three successive rotations
-— by $- \omega$ around the orbit normal, by $- i$ around the node line,
-and by $- \Omega$ around the reference pole — transform from the
+— by $`-\omega`$ around the orbit normal, by $`-i`$ around the node
+line, and by $`-\Omega`$ around the reference pole — transform from the
 perifocal frame to the inertial reference frame.
 
 **Step 3: Add parent’s state.** The resulting position and velocity are
@@ -346,15 +362,16 @@ eccentricities and inclinations:
 | Pluto   | 0.2488       | 17.16°      | Sun    |
 
 Notice the range: Venus has an almost perfectly circular orbit
-($e = 0.007$), while Pluto’s is quite eccentric ($e = 0.25$) and steeply
-tilted ($i = 17{^\circ}$). Mercury is the most eccentric planet
-($e = 0.21$) and the most inclined to the ecliptic ($i = 7{^\circ}$).
+($`e = 0.007`$), while Pluto’s is quite eccentric ($`e = 0.25`$) and
+steeply tilted ($`i = 17°`$). Mercury is the most eccentric planet
+($`e = 0.21`$) and the most inclined to the ecliptic ($`i = 7°`$).
 
 Any element can be overridden. This makes
 [`add_planet()`](https://orbit-r.com/reference/add_planet.md) useful for
 thought experiments:
 
 ``` r
+
 # What if Mercury's orbit were circular? How different would it look?
 bind_rows(
   create_system() |>
@@ -386,7 +403,7 @@ Use **[`add_body()`](https://orbit-r.com/reference/add_body.md) with
 Cartesian vectors** when you’re building a system from physical
 intuition about positions and velocities — binary stars, custom test
 particles, or anything where you’ve worked out the velocity from
-$v = \sqrt{GM/r}$ by hand. The [Building Two-Body
+$`v = \sqrt{GM/r}`$ by hand. The [Building Two-Body
 Orbits](https://orbit-r.com/articles/building-two-body-orbits.md) guide
 covers this approach in depth.
 

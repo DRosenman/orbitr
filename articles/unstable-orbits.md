@@ -1,6 +1,7 @@
 # Unstable Orbits and the Three-Body Problem
 
 ``` r
+
 library(orbitr)
 ```
 
@@ -23,6 +24,7 @@ interesting dance, but the asymmetry compounds and eventually one or
 more stars get ejected:
 
 ``` r
+
 three_body <- create_system() |>
   add_body("Star A", mass = 1e30, x = 1e11, y = 0, vx = 0, vy = 15000) |>
   add_body("Star B", mass = 1e30, x = -5e10, y = 8.66e10, vx = -12990, vy = -7500) |>
@@ -39,6 +41,7 @@ sense of *when* anything happens. Animating it makes the chaos legible.
 Watch the slingshot ejection unfold in real time:
 
 ``` r
+
 animate_system(three_body, fps = 15, duration = 6)
 ```
 
@@ -54,9 +57,9 @@ process is called gravitational slingshot ejection.
 If your simulations are producing messy, diverging trajectories, here
 are a few things to check before assuming something is wrong:
 
-**Velocity too high or too low.** At a given distance $r$ from a central
-mass $M$, the circular orbit speed is $v = \sqrt{GM/r}$. Deviating
-significantly from this produces eccentric orbits or escape
+**Velocity too high or too low.** At a given distance $`r`$ from a
+central mass $`M`$, the circular orbit speed is $`v = \sqrt{GM/r}`$.
+Deviating significantly from this produces eccentric orbits or escape
 trajectories.
 
 **Bodies too close together.** Close encounters produce extreme

@@ -1,6 +1,7 @@
 # Building Two-Body Orbits From Scratch
 
 ``` r
+
 library(orbitr)
 library(ggplot2)
 library(dplyr)
@@ -62,14 +63,17 @@ but it makes the geometry much easier to reason about.
 
 ## The Circular Orbit Velocity
 
-At distance $r$ from a central mass $M$, the speed that produces a
+At distance $`r`$ from a central mass $`M`$, the speed that produces a
 perfect circle is:
 
-$$v_{\text{circ}} = \sqrt{\frac{G\, M}{r}}$$
+``` math
+v_{\text{circ}} = \sqrt{\frac{G \, M}{r}}
+```
 
 In code:
 
 ``` r
+
 M    <- 1e30         # central mass (kg)
 r    <- 1e11         # starting distance (m)
 
@@ -81,6 +85,7 @@ v_circ
 Plug that into the planet’s `vy` and you get a circle:
 
 ``` r
+
 create_system() |>
   add_body("Star",   mass = M) |>
   add_body("Planet", mass = 1e24, x = r, vy = v_circ) |>
@@ -101,6 +106,7 @@ question is: what does the orbit look like when `vy` *isn’t* exactly
 `v_circ`? Let’s sweep through a few values and find out.
 
 ``` r
+
 make_sim <- function(v, label) {
   create_system() |>
     add_body("Star",   mass = M) |>
@@ -137,7 +143,7 @@ A few things to notice:
   ellipse whose *near* side is the starting distance, and the *far* side
   swings out much further. The starting point is perihelion (closest
   point).
-- **At or above $\sqrt{2} \cdot v_{\text{circ}}$**, the orbit is no
+- **At or above $`\sqrt{2} \cdot v_{\text{circ}}`$**, the orbit is no
   longer bound — the planet escapes on a parabolic or hyperbolic
   trajectory and never comes back. We’ll see this in the next section.
 
@@ -151,9 +157,12 @@ adding a softening length for anything that passes close to the center.
 If you push `vy` hard enough, the planet’s kinetic energy exceeds the
 gravitational binding energy and it leaves forever. The threshold is:
 
-$$v_{\text{esc}} = \sqrt{\frac{2\, G\, M}{r}} = \sqrt{2} \cdot v_{\text{circ}}$$
+``` math
+v_{\text{esc}} = \sqrt{\frac{2 \, G \, M}{r}} = \sqrt{2} \cdot v_{\text{circ}}
+```
 
 ``` r
+
 v_esc <- sqrt(2) * v_circ
 
 bind_rows(
@@ -182,10 +191,11 @@ The sign of `vy` sets the direction of travel. Starting on the +x axis:
 
 - `vy > 0` → the planet moves in the +y direction initially →
   **counterclockwise** orbit (viewed from +z).
-- `vy < 0` → the planet moves in the $-$y direction initially →
+- `vy < 0` → the planet moves in the $`-`$y direction initially →
   **clockwise** orbit.
 
 ``` r
+
 bind_rows(
   make_sim(  v_circ, "vy = +v_circ (counterclockwise)"),
   make_sim(- v_circ, "vy = -v_circ (clockwise)")
@@ -210,6 +220,7 @@ planet on the +y axis, you just swap: position goes in `y`, velocity
 goes in `vx` (with the opposite sign convention for direction).
 
 ``` r
+
 create_system() |>
   add_body("Star",   mass = M) |>
   add_body("Planet", mass = 1e24, y = r, vx = -v_circ) |>
@@ -228,7 +239,7 @@ deliberate deviation from it (for an ellipse).
 
 Everything above assumed the star is so heavy that it doesn’t move
 appreciably. That’s a fine approximation when the mass ratio is
-$\gtrsim 10^{4}$ (Sun/Earth is $\sim 3 \times 10^{5}$), but it breaks
+$`\gtrsim 10^4`$ (Sun/Earth is $`\sim 3 \times 10^5`$), but it breaks
 down for binary stars, Pluto-Charon, or any system where the two masses
 are comparable.
 
@@ -252,11 +263,11 @@ single-body approach in this guide is all you need.
 
 To build a stable two-body orbit from scratch:
 
-1.  Pick a central mass $M$ and place it at the origin with zero
+1.  Pick a central mass $`M`$ and place it at the origin with zero
     velocity.
-2.  Pick a starting distance $r$ for the orbiter and place it on one
+2.  Pick a starting distance $`r`$ for the orbiter and place it on one
     axis (e.g. `x = r, y = 0, z = 0`).
-3.  Compute $v_{\text{circ}} = \sqrt{GM/r}$.
+3.  Compute $`v_{\text{circ}} = \sqrt{GM/r}`$.
 4.  Give the orbiter a velocity perpendicular to its position vector
     (e.g. `vy = v_circ, vx = 0`). Use exactly `v_circ` for a circle,
     less for an inward ellipse, more for an outward ellipse,

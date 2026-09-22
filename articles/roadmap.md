@@ -76,11 +76,16 @@ for details.
 
 ## Quality of life
 
-### Save and load simulation state
+### ~~Save and load simulation state~~ ✅ Added in v0.3.0
 
-Functions to serialize an `orbit_system` (or a completed simulation
-tibble) to disk and reload it later. Useful for long-running simulations
-and for sharing reproducible setups.
+Implemented as
+[`save_system()`](https://orbit-r.com/reference/save_system.md) /
+[`load_system()`](https://orbit-r.com/reference/load_system.md), which
+write a full `orbit_system` to an `.rds` file and restore it later, and
+[`export_bodies()`](https://orbit-r.com/reference/export_bodies.md),
+which writes the body table to CSV for use outside R. See
+[`?save_system`](https://orbit-r.com/reference/save_system.md) for
+details.
 
 ### Progress bar for long simulations
 

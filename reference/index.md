@@ -18,6 +18,10 @@ Create a simulation and add bodies
   known solar system body by name
 - [`load_solar_system()`](https://orbit-r.com/reference/load_solar_system.md)
   : Load a pre-built solar system
+- [`get_bodies()`](https://orbit-r.com/reference/get_bodies.md) :
+  Extract the body table from a system
+- [`print(`*`<orbit_system>`*`)`](https://orbit-r.com/reference/print.orbit_system.md)
+  : Print an orbit_system
 
 ## Simulation
 
@@ -44,6 +48,17 @@ Transform and plot results
   : Animate the System Over Time (Smart 2D/3D Dispatch)
 - [`animate_system_3d()`](https://orbit-r.com/reference/animate_system_3d.md)
   : Animate the System Over Time in Interactive 3D
+
+## Save & Export
+
+Save systems and export body data
+
+- [`save_system()`](https://orbit-r.com/reference/save_system.md) : Save
+  an orbit_system to disk
+- [`load_system()`](https://orbit-r.com/reference/load_system.md) : Load
+  an orbit_system from disk
+- [`export_bodies()`](https://orbit-r.com/reference/export_bodies.md) :
+  Export body states to CSV
 
 ## Physical Constants
 

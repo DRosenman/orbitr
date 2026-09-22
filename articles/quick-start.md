@@ -3,6 +3,7 @@
 ## Installation
 
 ``` r
+
 # Install from CRAN:
 install.packages("orbitr")
 
@@ -14,6 +15,7 @@ devtools::install_github("DRosenman/orbitr")
 For 3D interactive plotting, you’ll also want:
 
 ``` r
+
 install.packages("plotly")
 ```
 
@@ -23,6 +25,7 @@ install.packages("plotly")
 system, add bodies, simulate, and plot.
 
 ``` r
+
 library(orbitr)
 
 create_system() |>
@@ -72,6 +75,7 @@ example — it’s there, but its loop around the barycenter is well inside
 the Sun itself. The simplest fix is to drop a marker at the origin:
 
 ``` r
+
 sim <- create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -103,6 +107,7 @@ an animation with
 By default each body leaves a fading wake of recent positions behind it:
 
 ``` r
+
 animate_system(sim, fps = 15, duration = 5)
 ```
 
@@ -133,6 +138,7 @@ positions and velocities. This gives you full control and works for any
 body, real or fictional:
 
 ``` r
+
 create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -153,6 +159,7 @@ real masses and orbital data from JPL automatically. Any orbital element
 can be overridden for “what if” scenarios:
 
 ``` r
+
 create_system() |>
   add_sun() |>
   add_planet("Earth", parent = "Sun") |>
@@ -168,6 +175,7 @@ And
 gives you the whole thing in one call:
 
 ``` r
+
 load_solar_system() |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
   plot_orbits(three_d = FALSE)
@@ -190,6 +198,7 @@ handy when you want to start from
 but don’t need every body:
 
 ``` r
+
 load_solar_system() |>
   remove_body(c("Pluto", "Moon")) |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
@@ -202,6 +211,46 @@ load_solar_system() |>
 a single name or a character vector and works anywhere in the pipe chain
 — before or after adding bodies, but always before simulating.
 
+## Inspecting a System
+
+Printing a system shows the gravitational constant it uses and a tibble
+of the bodies in it:
+
+``` r
+
+sys <- create_system() |>
+  add_sun() |>
+  add_planet("Earth", parent = "Sun") |>
+  add_planet("Mars",  parent = "Sun")
+
+sys
+#> ───────────────────────────────── orbit_system ───────────────────────────────── 
+#> G: 6.6743e-11 (standard)
+#> Bodies: 3
+#> 
+#> # A tibble: 3 × 8
+#>   id       mass             x             y            z      vx     vy    vz
+#>   <chr>   <dbl>         <dbl>         <dbl>        <dbl>   <dbl>  <dbl> <dbl>
+#> 1 Sun   1.99e30            0             0            0       0      0     0 
+#> 2 Earth 5.97e24 -32965585121. 143360295956.           0  -29520. -6788.    0 
+#> 3 Mars  6.42e23 188789951360. -83706961610. -6395443036.  10750. 24226.  243.
+```
+
+[`get_bodies()`](https://orbit-r.com/reference/get_bodies.md) returns
+that bodies tibble directly, so you can filter, inspect, or save it
+without reaching into the object’s internals:
+
+``` r
+
+get_bodies(sys)
+#> # A tibble: 3 × 8
+#>   id       mass             x             y            z      vx     vy    vz
+#>   <chr>   <dbl>         <dbl>         <dbl>        <dbl>   <dbl>  <dbl> <dbl>
+#> 1 Sun   1.99e30            0             0            0       0      0     0 
+#> 2 Earth 5.97e24 -32965585121. 143360295956.           0  -29520. -6788.    0 
+#> 3 Mars  6.42e23 188789951360. -83706961610. -6395443036.  10750. 24226.  243.
+```
+
 ## The Output is Just a Tibble
 
 [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
@@ -209,6 +258,7 @@ returns a standard tidy tibble. You can use `dplyr`, `ggplot2`,
 `plotly`, or any other tool on it:
 
 ``` r
+
 sim <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_body("Moon",  mass = mass_moon, x = distance_earth_moon, vy = speed_moon) |>
@@ -233,6 +283,31 @@ sim
 
 Each row is one body at one point in time, with columns for position
 (`x`, `y`, `z`), velocity (`vx`, `vy`, `vz`), mass, body ID, and time.
+
+## Saving and Sharing Systems
+
+You can save a full system to disk and restore it later:
+
+``` r
+
+save_system(sys, "my_system.rds")
+restored <- load_system("my_system.rds")
+```
+
+To share body data as a CSV — for collaborators, Python, or Excel — use
+[`export_bodies()`](https://orbit-r.com/reference/export_bodies.md):
+
+``` r
+
+export_bodies(sys, "bodies.csv")
+```
+
+[`save_system()`](https://orbit-r.com/reference/save_system.md) /
+[`load_system()`](https://orbit-r.com/reference/load_system.md)
+preserves everything (bodies, gravitational constant, class) as an R
+object.
+[`export_bodies()`](https://orbit-r.com/reference/export_bodies.md)
+writes a plain CSV with just the body table, which anyone can open.
 
 ## Next Steps
 

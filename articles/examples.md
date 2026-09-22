@@ -1,6 +1,7 @@
 # Examples
 
 ``` r
+
 library(orbitr)
 library(ggplot2)
 library(dplyr)
@@ -11,6 +12,7 @@ library(dplyr)
 The fastest way to get a complete solar system simulation:
 
 ``` r
+
 solar <- load_solar_system() |>
   simulate_system(time_step = seconds_per_day, duration = seconds_per_year)
 
@@ -30,6 +32,7 @@ Use [`add_planet()`](https://orbit-r.com/reference/add_planet.md) to
 pick specific bodies without looking up any numbers:
 
 ``` r
+
 create_system() |>
   add_sun() |>
   add_planet("Mercury", parent = "Sun") |>
@@ -52,6 +55,7 @@ Using [`add_planet()`](https://orbit-r.com/reference/add_planet.md) for
 the Moon:
 
 ``` r
+
 earth_moon <- create_system() |>
   add_body("Earth", mass = mass_earth) |>
   add_planet("Moon", parent = "Earth") |>
@@ -63,6 +67,7 @@ earth_moon |> plot_orbits()
 And animated, so you can watch the Moon actually swing around:
 
 ``` r
+
 animate_system(earth_moon, fps = 15, duration = 5)
 ```
 
@@ -73,6 +78,7 @@ animate_system(earth_moon, fps = 15, duration = 5)
 A full year with daily time steps.
 
 ``` r
+
 create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -93,6 +99,7 @@ compared to the Earth-Sun distance (~150 million km). Use
 into the Earth-Moon subsystem:
 
 ``` r
+
 create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -112,6 +119,7 @@ Moon’s path *from Earth’s perspective*, pipe the results through
 [`shift_reference_frame()`](https://orbit-r.com/reference/shift_reference_frame.md):
 
 ``` r
+
 sun_earth_moon <- create_system() |>
   add_sun() |>
   add_body("Earth", mass = mass_earth, x = distance_earth_sun, vy = speed_earth) |>
@@ -130,6 +138,7 @@ Animating the Earth-frame view makes the Moon’s monthly loops around
 Earth obvious as the Sun drifts across the background:
 
 ``` r
+
 animate_system(sun_earth_moon, fps = 15, duration = 6)
 ```
 
@@ -143,6 +152,7 @@ an M-type star (0.20 solar masses) orbiting each other every ~41 days,
 with a Saturn-sized planet orbiting the pair at about 0.7 AU.
 
 ``` r
+
 AU <- distance_earth_sun
 
 # Star masses
@@ -177,6 +187,7 @@ tightly around their common center while the planet traces a much wider,
 slower loop around the pair:
 
 ``` r
+
 animate_system(kepler16, fps = 15, duration = 6)
 ```
 
@@ -190,6 +201,7 @@ highly eccentric, steeply inclined orbit that plunges through the inner
 solar system:
 
 ``` r
+
 create_system() |>
   add_sun() |>
   add_planet("Earth", parent = "Sun") |>
@@ -204,8 +216,8 @@ create_system() |>
 
 The comet’s orbit is tilted 50° out of the ecliptic and has an
 eccentricity of 0.85, meaning its farthest distance from the Sun is over
-12 times its closest approach. Starting at $\nu = 150{^\circ}$ places it
-near apoapsis, heading inward.
+12 times its closest approach. Starting at $`\nu = 150°`$ places it near
+apoapsis, heading inward.
 
 ## What-If: Circular Mars
 
@@ -215,6 +227,7 @@ you can override individual elements while keeping everything else real.
 What if Mars had a perfectly circular orbit?
 
 ``` r
+
 bind_rows(
   create_system() |>
     add_sun() |>

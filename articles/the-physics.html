@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="The Physics">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,8 +165,8 @@ coordinates.</p>
 <p>A second-order symplectic integrator. It conserves energy over long
 timescales, making it the gold standard for orbital mechanics. Orbits
 stay closed and stable indefinitely.</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi><mo>+</mo><mfrac displaystyle="false"><mn>1</mn><mn>2</mn></mfrac><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><msup><mi>t</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t + \tfrac{1}{2} \vec{a}_t \, \Delta t^2</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><mfrac displaystyle="false"><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{v}_{t+\Delta t} = \vec{v}_t + \tfrac{1}{2} \left( \vec{a}_t + \vec{a}_{t+\Delta t} \right) \Delta t</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi mathvariant="normal">Δ</mi><mi>t</mi><mo>+</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi mathvariant="normal">Δ</mi><msup><mi>t</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t + \tfrac{1}{2} \vec{a}_t \, \Delta t^2</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{v}_{t+\Delta t} = \vec{v}_t + \tfrac{1}{2} \left( \vec{a}_t + \vec{a}_{t+\Delta t} \right) \Delta t</annotation></semantics></math></p>
 <p>The position is advanced first, then the acceleration is recalculated
 at the new position, and finally the velocity is updated using the
 average of the old and new accelerations. This requires
@@ -179,8 +179,8 @@ but the payoff in stability is enormous.</p>
 <p>A first-order symplectic method. It updates velocity first, then uses
 the <em>new</em> velocity to update position. This small reordering
 prevents the systematic energy drift that plagues standard Euler:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_{t+\Delta t} \, \Delta t</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mspace width="0.167em"></mspace><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_{t+\Delta t} \, \Delta t</annotation></semantics></math></p>
 <p>Faster than Verlet (one acceleration evaluation per step) but less
 accurate. Good for quick previews.</p>
 </div>
@@ -189,8 +189,8 @@ accurate. Good for quick previews.</p>
 </h3>
 <p>The classical textbook method. Position and velocity are both updated
 using values from the <em>current</em> time step:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t</annotation></semantics></math></p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi>Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>x</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{x}_{t+\Delta t} = \vec{x}_t + \vec{v}_t \, \Delta t</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mrow><mi>t</mi><mo>+</mo><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mover><mi>v</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mo>+</mo><msub><mover><mi>a</mi><mo accent="true">→</mo></mover><mi>t</mi></msub><mspace width="0.167em"></mspace><mi mathvariant="normal">Δ</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\vec{v}_{t+\Delta t} = \vec{v}_t + \vec{a}_t \, \Delta t</annotation></semantics></math></p>
 <p>This artificially pumps energy into the system, causing orbits to
 spiral outward over time. Included primarily for educational comparison
 — use Verlet for real work.</p>
@@ -268,7 +268,7 @@ how elongated the ellipse is.
 is a circle;
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>&lt;</mo><mi>e</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 &lt; e &lt; 1</annotation></semantics></math>
 is an ellipse. At any point, the distance from the parent is
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mo>cos</mo><mi>ν</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">r = a(1-e^2)/(1 + e\cos\nu)</annotation></semantics></math>.</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>e</mi><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">r = a(1-e^2)/(1 + e\cos\nu)</annotation></semantics></math>.</li>
 </ul>
 <p><strong>Orientation</strong> — <em>how is the ellipse tilted and
 rotated in 3D space?</em></p>
@@ -284,7 +284,7 @@ is flat;
 is a polar orbit.</li>
 <li>
 <strong>Longitude of ascending node</strong>
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>):
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Ω</mi><annotation encoding="application/x-tex">\Omega</annotation></semantics></math>):
 the direction the tilt points. Measured from a reference direction to
 where the orbit crosses the reference plane going “upward.”</li>
 <li>
@@ -310,39 +310,39 @@ is at apoapsis (farthest).</li>
 </h3>
 <p><code>orbitr</code>’s simulation engine works entirely in Cartesian
 coordinates — positions
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(x, y, z)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(x, y, z)</annotation></semantics></math>
 and velocities
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo>,</mo><msub><mi>v</mi><mi>y</mi></msub><mo>,</mo><msub><mi>v</mi><mi>z</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(v_x, v_y, v_z)</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>v</mi><mi>x</mi></msub><mo>,</mo><msub><mi>v</mi><mi>y</mi></msub><mo>,</mo><msub><mi>v</mi><mi>z</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(v_x, v_y, v_z)</annotation></semantics></math>.
 The function <code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code> converts Keplerian
 elements to Cartesian through a standard three-step procedure:</p>
 <p><strong>Step 1: Solve the orbit equation in the orbital
 plane.</strong> The distance from the parent at true anomaly
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ν</mi><annotation encoding="application/x-tex">\nu</annotation></semantics></math>
 is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mo>cos</mo><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1-e^2)}{1 + e\cos\nu}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1-e^2)}{1 + e\cos\nu}</annotation></semantics></math></p>
 <p>The position in the <strong>perifocal frame</strong> (a coordinate
 system where the x-axis points toward periapsis and the y-axis is 90°
 ahead in the direction of motion):</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mo>cos</mo><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>y</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mo>sin</mo><mi>ν</mi></mrow><annotation encoding="application/x-tex">x_{\text{pf}} = r\cos\nu, \quad y_{\text{pf}} = r\sin\nu</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>y</mi><mtext mathvariant="normal">pf</mtext></msub><mo>=</mo><mi>r</mi><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mi>ν</mi></mrow><annotation encoding="application/x-tex">x_{\text{pf}} = r\cos\nu, \quad y_{\text{pf}} = r\sin\nu</annotation></semantics></math></p>
 <p><strong>Step 2: Compute velocity from the vis-viva relation.</strong>
 The specific angular momentum
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><msqrt><mrow><mi>μ</mi><mi>a</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msqrt></mrow><annotation encoding="application/x-tex">h = \sqrt{\mu a(1 - e^2)}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><msqrt><mrow><mi>μ</mi><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow></msqrt></mrow><annotation encoding="application/x-tex">h = \sqrt{\mu a(1 - e^2)}</annotation></semantics></math>
 gives the velocity components in the perifocal frame:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mrow><mi>x</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mo>−</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mo>sin</mo><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>v</mi><mrow><mi>y</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>e</mi><mo>+</mo><mo>cos</mo><mi>ν</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">v_{x,\text{pf}} = -\frac{\mu}{h}\sin\nu, \quad v_{y,\text{pf}} = \frac{\mu}{h}(e + \cos\nu)</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>v</mi><mrow><mi>x</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mi>−</mi><mfrac><mi>μ</mi><mi>h</mi></mfrac><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mi>ν</mi><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>v</mi><mrow><mi>y</mi><mo>,</mo><mtext mathvariant="normal">pf</mtext></mrow></msub><mo>=</mo><mfrac><mi>μ</mi><mi>h</mi></mfrac><mo stretchy="false" form="prefix">(</mo><mi>e</mi><mo>+</mo><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">v_{x,\text{pf}} = -\frac{\mu}{h}\sin\nu, \quad v_{y,\text{pf}} = \frac{\mu}{h}(e + \cos\nu)</annotation></semantics></math></p>
 <p>These follow from conservation of angular momentum
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><mi>r</mi><msub><mi>v</mi><mo>⊥</mo></msub></mrow><annotation encoding="application/x-tex">h = rv_\perp</annotation></semantics></math>)
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo>=</mo><mi>r</mi><msub><mi>v</mi><mo>⟂</mo></msub></mrow><annotation encoding="application/x-tex">h = rv_\perp</annotation></semantics></math>)
 and the vis-viva equation
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>v</mi><mn>2</mn></msup><mo>=</mo><mi>μ</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>2</mn><mi>/</mi><mi>r</mi><mo>−</mo><mn>1</mn><mi>/</mi><mi>a</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">v^2 = \mu(2/r - 1/a)</annotation></semantics></math>.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>v</mi><mn>2</mn></msup><mo>=</mo><mi>μ</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>/</mi><mi>r</mi><mo>−</mo><mn>1</mn><mi>/</mi><mi>a</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">v^2 = \mu(2/r - 1/a)</annotation></semantics></math>.</p>
 <p><strong>Step 3: Rotate into the inertial frame.</strong> Three Euler
 rotations transform from the perifocal frame to the simulation’s
 inertial frame:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><msub><mi>R</mi><mi>z</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>Ω</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><msub><mi>R</mi><mi>x</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>i</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>⋅</mo><msub><mi>R</mi><mi>z</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>ω</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">R = R_z(-\Omega) \cdot R_x(-i) \cdot R_z(-\omega)</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><msub><mi>R</mi><mi>z</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mi mathvariant="normal">Ω</mi><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><msub><mi>R</mi><mi>x</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mi>i</mi><mo stretchy="false" form="postfix">)</mo><mo>⋅</mo><msub><mi>R</mi><mi>z</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mi>ω</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">R = R_z(-\Omega) \cdot R_x(-i) \cdot R_z(-\omega)</annotation></semantics></math></p>
 <p>This sequence first rotates by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>ω</mi></mrow><annotation encoding="application/x-tex">-\omega</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>ω</mi></mrow><annotation encoding="application/x-tex">-\omega</annotation></semantics></math>
 to align periapsis with the ascending node, then tilts by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">-i</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">-i</annotation></semantics></math>
 to incline the orbital plane, and finally rotates by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>Ω</mi></mrow><annotation encoding="application/x-tex">-\Omega</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mi mathvariant="normal">Ω</mi></mrow><annotation encoding="application/x-tex">-\Omega</annotation></semantics></math>
 to orient the node line. The resulting position and velocity are added
 to the parent body’s state to get absolute coordinates.</p>
 </div>
@@ -380,7 +380,7 @@ vignette.</p>
 <p>The inner acceleration loop is the computational bottleneck of any
 N-body simulation. <code>orbitr</code> ships a compiled C++ kernel (via
 <code>Rcpp</code>) that computes the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>
 pairwise interactions in a tight nested loop. When the package is
 installed from source with a working C++ toolchain,
 <code><a href="../reference/simulate_system.html">simulate_system()</a></code> automatically dispatches to this engine.
@@ -403,7 +403,7 @@ path is significantly faster for systems with many bodies.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

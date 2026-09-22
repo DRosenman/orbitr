@@ -1,5 +1,34 @@
 # Changelog
 
+## orbitr 0.3.0
+
+CRAN release: 2026-05-03
+
+### New functions
+
+- [`remove_body()`](https://orbit-r.com/reference/remove_body.md):
+  Remove one or more bodies from a system by name. Accepts a single name
+  or a character vector for removing multiple bodies at once.
+
+- [`get_bodies()`](https://orbit-r.com/reference/get_bodies.md): Extract
+  the bodies tibble from an `orbit_system`. Useful for inspecting,
+  filtering, or saving body states without reaching into the object’s
+  internals.
+
+- [`save_system()`](https://orbit-r.com/reference/save_system.md) /
+  [`load_system()`](https://orbit-r.com/reference/load_system.md): Save
+  a full `orbit_system` to an `.rds` file and restore it later.
+  Preserves everything — bodies, gravitational constant, and class.
+
+- [`export_bodies()`](https://orbit-r.com/reference/export_bodies.md):
+  Write the body table (id, mass, position, velocity) to a CSV file for
+  sharing with collaborators or loading into other tools like Python or
+  Excel.
+
+- [`print.orbit_system()`](https://orbit-r.com/reference/print.orbit_system.md):
+  Custom print method that displays a clean summary with a header line
+  and the bodies as a tibble, instead of dumping the raw list structure.
+
 ## orbitr 0.2.0
 
 CRAN release: 2026-04-21
