@@ -80,6 +80,7 @@ animate_system(sim, fps = 15, duration = 5)
 - **2D and 3D plotting** — `plot_orbits()` returns a `ggplot` for planar sims and auto-dispatches to an interactive `plotly` widget when any body has Z-axis motion. See [3D Plotting](articles/plotting-3d.html).
 - **Animations** — `animate_system()` renders orbits as GIFs with fading trails via `gganimate`, or as interactive 3D animations with `plotly`.
 - **Reference frame shifting** — `shift_reference_frame("Earth")` re-centers the simulation on any body, turning a heliocentric view into a geocentric one. See [Reference Frames](articles/reference-frames.html).
+- **Save and share** — `save_system()` / `load_system()` round-trip a full system to an `.rds` file, and `export_bodies()` writes the body table to CSV for collaborators, Python, or Excel.
 
 ## Kepler-16: A Real Circumbinary Planet
 

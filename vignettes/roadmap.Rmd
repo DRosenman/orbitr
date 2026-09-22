@@ -50,9 +50,9 @@ Implemented as `load_solar_system()`. Builds the Sun, all eight planets, the Moo
 
 ## Quality of life
 
-### Save and load simulation state
+### ~~Save and load simulation state~~ ✅ Added in v0.3.0
 
-Functions to serialize an `orbit_system` (or a completed simulation tibble) to disk and reload it later. Useful for long-running simulations and for sharing reproducible setups.
+Implemented as `save_system()` / `load_system()`, which write a full `orbit_system` to an `.rds` file and restore it later, and `export_bodies()`, which writes the body table to CSV for use outside R. See `?save_system` for details.
 
 ### Progress bar for long simulations
 

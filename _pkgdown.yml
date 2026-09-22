@@ -68,6 +68,7 @@ reference:
       - add_planet
       - load_solar_system
       - get_bodies
+      - print.orbit_system
 
   - title: "Simulation"
     desc: "Run the N-body simulation"

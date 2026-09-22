@@ -39,6 +39,15 @@ load_solar_system() |>
 Pluto with real orbital data from JPL — eccentricities, inclinations,
 and all. One line to build it, one line to simulate and plot.
 
+Don’t need every body? Drop them with `remove_body()`:
+
+``` r
+load_solar_system() |>
+  remove_body(c("Pluto", "Moon")) |>
+  simulate_system(time_step = seconds_per_day, duration = seconds_per_year) |>
+  plot_orbits(three_d = FALSE)
+```
+
 ## Four Lines to an Orbit
 
 ``` r
@@ -185,6 +194,8 @@ create_system() |>
   via gganimate
 - **Reference frames** — `shift_reference_frame("Earth")` re-centers
   everything on any body
+- **Save and share** — `save_system()` / `load_system()` round-trip a
+  system to `.rds`; `export_bodies()` writes the body table to CSV
 
 ## Learn More
 

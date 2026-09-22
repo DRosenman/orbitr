@@ -144,6 +144,25 @@ load_solar_system() |>
 
 `remove_body()` accepts a single name or a character vector and works anywhere in the pipe chain — before or after adding bodies, but always before simulating.
 
+## Inspecting a System
+
+Printing a system shows the gravitational constant it uses and a tibble of the bodies in it:
+
+```{r}
+sys <- create_system() |>
+  add_sun() |>
+  add_planet("Earth", parent = "Sun") |>
+  add_planet("Mars",  parent = "Sun")
+
+sys
+```
+
+`get_bodies()` returns that bodies tibble directly, so you can filter, inspect, or save it without reaching into the object's internals:
+
+```{r}
+get_bodies(sys)
+```
+
 ## The Output is Just a Tibble
 
 `simulate_system()` returns a standard tidy tibble. You can use `dplyr`, `ggplot2`, `plotly`, or any other tool on it:
