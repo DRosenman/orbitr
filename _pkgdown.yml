@@ -6,12 +6,15 @@ template:
 
 navbar:
   structure:
-    left:  [intro, get-started, reference, articles, demo]
+    left:  [intro, get-started, reference, articles, book, demo]
     right: [search, github]
   components:
     get-started:
       text: Get Started
       href: articles/quick-start.html
+    book:
+      text: Book
+      href: https://book.orbit-r.com/
     demo:
       text: Interactive Demo
       href: https://daverosenman.shinyapps.io/orbitr/

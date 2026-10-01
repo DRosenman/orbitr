@@ -3,6 +3,11 @@
 
 **Tidy N-body orbital mechanics for R.**
 
+> **New: the orbitr book.** *[Orbital Mechanics with
+> R](https://book.orbit-r.com/)* — simulating planets, binary stars,
+> chaotic systems, and the N-body problem with orbitr. Free to read
+> online at **[book.orbit-r.com](https://book.orbit-r.com/)**.
+
 > **Version 1.0** — the function names, arguments, and defaults are now
 > stable; anything that changes in a future version will be deprecated
 > first. Feedback, bug reports, and contributions are welcome on
