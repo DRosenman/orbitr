@@ -9,3 +9,5 @@
 /.Rproj.user/shared
 /.Rproj.user/shared/noteboo
 docs/
+/.quarto/
+**/*.quarto_ipynb
