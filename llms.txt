@@ -3,10 +3,14 @@
 **A tidy physics engine for building and visualizing orbital simulations
 in R.**
 
-> **Early beta** — `orbitr` is functional and the physics engine is
-> stable, but this is an early release. Function names, defaults, and
-> behavior may change between versions. Feedback, bug reports, and
-> contributions are welcome on
+> **New: the orbitr book.** *[Orbital Mechanics with
+> R](https://book.orbit-r.com/)* — simulating planets, binary stars,
+> chaotic systems, and the N-body problem with orbitr. Free to read
+> online at **[book.orbit-r.com](https://book.orbit-r.com/)**.
+
+> **Version 1.0** — the function names, arguments, and defaults are now
+> stable; anything that changes in a future version will be deprecated
+> first. Feedback, bug reports, and contributions are welcome on
 > [GitHub](https://github.com/DRosenman/orbitr).
 
 `orbitr` is a lightweight N-body gravitational simulator built for the R
