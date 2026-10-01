@@ -18,7 +18,9 @@
 #'   for better performance. Falls back to vectorized R if the C++ code is not available.
 #'
 #' @return A tidy `tibble` containing the physical state (time, id, mass, x, y, z, vx, vy, vz)
-#'   of every body at every time step.
+#'   of every body at every time step. The run's settings are recorded as
+#'   attributes (`"G"`, `"softening"`, `"method"`, `"time_step"`), which
+#'   [get_energy()], [conserved_quantities()], and [continue_simulation()] use as defaults.
 #' @export
 #'
 #' @examples
@@ -143,5 +145,13 @@ simulate_system <- function(system, time_step = seconds_per_hour, duration = sec
     }
   }
 
-  dplyr::bind_rows(results)
+  out <- dplyr::bind_rows(results)
+
+  # Record the run's settings so downstream functions (conservation
+  # diagnostics, continuing a run) can pick them up without being told.
+  attr(out, "G")         <- G
+  attr(out, "softening") <- softening
+  attr(out, "method")    <- method
+  attr(out, "time_step") <- time_step
+  out
 }

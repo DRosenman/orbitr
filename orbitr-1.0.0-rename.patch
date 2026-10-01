@@ -1,0 +1,870 @@
+diff --git a/NAMESPACE b/NAMESPACE
+index d44d2bb..4b334af 100644
+--- a/NAMESPACE
++++ b/NAMESPACE
+@@ -7,7 +7,7 @@ export(add_planet)
+ export(add_sun)
+ export(animate_system)
+ export(animate_system_3d)
+-export(conservation_diagnostics)
++export(conserved_quantities)
+ export(continue_simulation)
+ export(create_system)
+ export(distance_earth_moon)
+@@ -21,7 +21,10 @@ export(distance_saturn_sun)
+ export(distance_uranus_sun)
+ export(distance_venus_sun)
+ export(export_bodies)
++export(get_angular_momentum)
+ export(get_bodies)
++export(get_energy)
++export(get_momentum)
+ export(get_orbital_elements)
+ export(gravitational_constant)
+ export(load_solar_system)
+diff --git a/NEWS.md b/NEWS.md
+index 0a9dc87..c86c8da 100644
+--- a/NEWS.md
++++ b/NEWS.md
+@@ -6,12 +6,16 @@ deprecated first, not made silently.
+ 
+ ## New functions
+ 
+-- `conservation_diagnostics()`: Total energy, linear momentum, and angular
+-  momentum at every time step of a simulation, with relative errors against
+-  the initial values. Verlet and Euler-Cromer keep momentum and angular
+-  momentum to rounding error; energy error is the integrator's report card.
+-  Reads `G` and `softening` from the simulation output so the energy is
+-  computed with the same force law that produced the run.
++- `get_energy()`, `get_momentum()`, `get_angular_momentum()`: Total kinetic
++  and potential energy, total linear momentum, and total angular momentum of
++  the system at every time step of a simulation. `get_energy()` reads `G`
++  and `softening` from the simulation output so the potential is computed
++  with the same force law that produced the run.
++
++- `conserved_quantities()`: The three quantities above joined into one
++  tibble with their relative errors against the initial values. Verlet and
++  Euler-Cromer keep momentum and angular momentum to rounding error; the
++  energy error is the integrator's report card.
+ 
+ - `get_orbital_elements()`: The inverse of `add_body_keplerian()`. Recovers
+   the osculating Keplerian elements (a, e, i, lan, arg_pe, nu) and period of
+diff --git a/R/conservation_diagnostics.R b/R/conservation_diagnostics.R
+deleted file mode 100644
+index 53f9894..0000000
+--- a/R/conservation_diagnostics.R
++++ /dev/null
+@@ -1,145 +0,0 @@
+-#' Conservation diagnostics for a simulation
+-#'
+-#' Computes the total energy, total linear momentum, and total angular momentum
+-#' of the system at every time step of a simulation, together with each
+-#' quantity's relative error against its initial value. In exact Newtonian
+-#' gravity all three are constant, so how far a run departs from constancy is a
+-#' direct measure of integration error.
+-#'
+-#' @param sim_data A tibble output from [simulate_system()].
+-#' @param G The gravitational constant the simulation was run with. Defaults
+-#'   to the value recorded by [simulate_system()] in the `"G"` attribute of
+-#'   `sim_data`, or to [gravitational_constant] if that attribute is absent.
+-#' @param softening The softening length (in meters) the simulation was run
+-#'   with. The potential energy is computed with the same softened distance,
+-#'   `sqrt(r^2 + softening^2)`, that the force used; if the two do not match,
+-#'   the energy will appear to drift when it has not. Defaults to the value
+-#'   recorded by [simulate_system()], or 0.
+-#'
+-#' @details
+-#' At each time step the function computes
+-#'
+-#' * `kinetic`: \eqn{\sum_j \tfrac{1}{2} m_j v_j^2},
+-#' * `potential`: \eqn{-\sum_{j<k} G m_j m_k / \sqrt{r_{jk}^2 + \varepsilon^2}},
+-#' * `energy`: their sum,
+-#' * `px`, `py`, `pz`: the components of \eqn{\sum_j m_j \mathbf{v}_j},
+-#' * `Lx`, `Ly`, `Lz`: the components of \eqn{\sum_j m_j \mathbf{r}_j \times \mathbf{v}_j},
+-#'
+-#' and three relative errors: `energy_error` is \eqn{(E - E_0)/|E_0|};
+-#' `momentum_error` is \eqn{|\mathbf{P} - \mathbf{P}_0|} divided by
+-#' \eqn{\sum_j m_j |\mathbf{v}_j|} at the first step (the total momentum is
+-#' often exactly zero, so it cannot be its own scale); `angular_momentum_error`
+-#' is \eqn{|\mathbf{L} - \mathbf{L}_0| / |\mathbf{L}_0|}. An error is `NA`
+-#' when its scale is zero (for example, angular momentum for bodies that all
+-#' start at rest).
+-#'
+-#' @section What to expect:
+-#' The Velocity Verlet and Euler-Cromer integrators are built from "kicks"
+-#' and "drifts" that conserve linear and angular momentum exactly, so for
+-#' `method = "verlet"` or `"euler_cromer"` those two errors should stay at the
+-#' level of floating-point rounding (around 1e-15) for any time step. Energy
+-#' is conserved only approximately: with Verlet its error oscillates once per
+-#' orbit within a band whose width scales as the square of the time step, and
+-#' does not grow. A steady drift in energy means the time step is too large
+-#' for the fastest or most eccentric orbit in the system, or that
+-#' `method = "euler"` was used. A sudden jump marks a close encounter the step
+-#' could not resolve. A drift in momentum or angular momentum under Verlet
+-#' points to a problem in the setup rather than the integrator.
+-#'
+-#' @return A tibble with one row per time step and columns `time`, `kinetic`,
+-#'   `potential`, `energy`, `px`, `py`, `pz`, `Lx`, `Ly`, `Lz`,
+-#'   `energy_error`, `momentum_error`, and `angular_momentum_error`.
+-#' @export
+-#'
+-#' @examples
+-#' \donttest{
+-#' sim <- create_system() |>
+-#'   add_body("Star", mass = 1e30) |>
+-#'   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
+-#'   simulate_system(time_step = seconds_per_hour * 6,
+-#'                   duration = seconds_per_year * 2)
+-#'
+-#' diag <- conservation_diagnostics(sim)
+-#'
+-#' # Verlet: bounded energy error, momentum and angular momentum at rounding level
+-#' range(diag$energy_error)
+-#' max(diag$angular_momentum_error)
+-#'
+-#' # Plot the energy error over time
+-#' plot(diag$time / seconds_per_day, diag$energy_error, type = "l",
+-#'      xlab = "Day", ylab = "Relative energy error")
+-#' }
+-conservation_diagnostics <- function(sim_data, G = NULL, softening = NULL) {
+-  check_sim_data(sim_data)
+-
+-  if (is.null(G)) {
+-    G <- attr(sim_data, "G")
+-    if (is.null(G)) G <- gravitational_constant
+-  }
+-  if (is.null(softening)) {
+-    softening <- attr(sim_data, "softening")
+-    if (is.null(softening)) softening <- 0
+-  }
+-
+-  per_step <- sim_data |>
+-    dplyr::group_by(time) |>
+-    dplyr::summarise(
+-      kinetic   = sum(0.5 * mass * (vx^2 + vy^2 + vz^2)),
+-      potential = pair_potential(x, y, z, mass, G, softening),
+-      px = sum(mass * vx),
+-      py = sum(mass * vy),
+-      pz = sum(mass * vz),
+-      Lx = sum(mass * (y * vz - z * vy)),
+-      Ly = sum(mass * (z * vx - x * vz)),
+-      Lz = sum(mass * (x * vy - y * vx)),
+-      p_scale = sum(mass * sqrt(vx^2 + vy^2 + vz^2)),
+-      .groups = "drop"
+-    ) |>
+-    dplyr::arrange(time) |>
+-    dplyr::mutate(energy = kinetic + potential)
+-
+-  E0  <- per_step$energy[1]
+-  P0  <- c(per_step$px[1], per_step$py[1], per_step$pz[1])
+-  L0  <- c(per_step$Lx[1], per_step$Ly[1], per_step$Lz[1])
+-  p_scale0 <- per_step$p_scale[1]
+-  L_scale0 <- sqrt(sum(L0^2))
+-
+-  safe_divide <- function(numerator, scale) {
+-    if (!is.finite(scale) || scale == 0) return(rep(NA_real_, length(numerator)))
+-    numerator / scale
+-  }
+-
+-  per_step |>
+-    dplyr::mutate(
+-      energy_error = safe_divide(energy - E0, abs(E0)),
+-      momentum_error = safe_divide(
+-        sqrt((px - P0[1])^2 + (py - P0[2])^2 + (pz - P0[3])^2), p_scale0),
+-      angular_momentum_error = safe_divide(
+-        sqrt((Lx - L0[1])^2 + (Ly - L0[2])^2 + (Lz - L0[3])^2), L_scale0)
+-    ) |>
+-    dplyr::select(time, kinetic, potential, energy, px, py, pz, Lx, Ly, Lz,
+-                  energy_error, momentum_error, angular_momentum_error)
+-}
+-
+-# Internal: potential energy of one snapshot, summed over unordered pairs,
+-# using the same softened distance as the force calculation.
+-pair_potential <- function(x, y, z, mass, G, softening) {
+-  n <- length(x)
+-  if (n < 2 || G == 0) return(0)
+-  dx <- outer(x, x, "-")
+-  dy <- outer(y, y, "-")
+-  dz <- outer(z, z, "-")
+-  r  <- sqrt(dx^2 + dy^2 + dz^2 + softening^2)
+-  mm <- outer(mass, mass)
+-  -G * sum((mm / r)[upper.tri(r)])
+-}
+-
+-# Internal: validate a simulation tibble.
+-check_sim_data <- function(sim_data) {
+-  needed <- c("id", "mass", "x", "y", "z", "vx", "vy", "vz", "time")
+-  if (!is.data.frame(sim_data) || !all(needed %in% names(sim_data))) {
+-    stop("`sim_data` must be the output of `simulate_system()` ",
+-         "(a tibble with columns id, mass, x, y, z, vx, vy, vz, time).")
+-  }
+-  invisible(TRUE)
+-}
+diff --git a/R/conserved_quantities.R b/R/conserved_quantities.R
+new file mode 100644
+index 0000000..a06bd81
+--- /dev/null
++++ b/R/conserved_quantities.R
+@@ -0,0 +1,238 @@
++#' Total energy of a simulated system
++#'
++#' Computes the total kinetic energy, total gravitational potential energy,
++#' and their sum at every time step of a simulation. In exact Newtonian
++#' gravity the total is constant; with a numerical integrator it is not, and
++#' how far it wanders is a direct measure of integration error (see
++#' [conserved_quantities()] for the error itself).
++#'
++#' @param sim_data A tibble output from [simulate_system()].
++#' @param G The gravitational constant the simulation was run with. Defaults
++#'   to the value recorded by [simulate_system()] in the `"G"` attribute of
++#'   `sim_data`, or to [gravitational_constant] if that attribute is absent.
++#' @param softening The softening length (in meters) the simulation was run
++#'   with. The potential energy is computed with the same softened distance,
++#'   `sqrt(r^2 + softening^2)`, that the force used; if the two do not match,
++#'   the energy will appear to drift when it has not. Defaults to the value
++#'   recorded by [simulate_system()], or 0.
++#'
++#' @details
++#' At each time step,
++#' `kinetic` is \eqn{\sum_j \tfrac{1}{2} m_j v_j^2},
++#' `potential` is \eqn{-\sum_{j<k} G m_j m_k / \sqrt{r_{jk}^2 + \varepsilon^2}}
++#' summed over every unordered pair of bodies, and `energy` is their sum.
++#' Potential energy is a property of pairs, not of individual bodies, which
++#' is why the function reports system totals only.
++#'
++#' @return A tibble with one row per time step and columns `time`,
++#'   `kinetic`, `potential`, and `energy`, all in joules.
++#' @export
++#'
++#' @examples
++#' \donttest{
++#' sim <- create_system() |>
++#'   add_body("Star", mass = 1e30) |>
++#'   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
++#'   simulate_system(time_step = seconds_per_hour * 6,
++#'                   duration = seconds_per_year)
++#'
++#' energy <- get_energy(sim)
++#' energy
++#'
++#' # Kinetic and potential trade off along the orbit; the total barely moves
++#' plot(energy$time / seconds_per_day, energy$kinetic, type = "l",
++#'      xlab = "Day", ylab = "Kinetic energy (J)")
++#' }
++get_energy <- function(sim_data, G = NULL, softening = NULL) {
++  check_sim_data(sim_data)
++  G <- run_setting(sim_data, "G", G, gravitational_constant)
++  softening <- run_setting(sim_data, "softening", softening, 0)
++
++  sim_data |>
++    dplyr::group_by(time) |>
++    dplyr::summarise(
++      kinetic   = sum(0.5 * mass * (vx^2 + vy^2 + vz^2)),
++      potential = pair_potential(x, y, z, mass, G, softening),
++      .groups = "drop"
++    ) |>
++    dplyr::arrange(time) |>
++    dplyr::mutate(energy = kinetic + potential)
++}
++
++#' Total linear and angular momentum of a simulated system
++#'
++#' `get_momentum()` computes the total linear momentum
++#' \eqn{\mathbf{P} = \sum_j m_j \mathbf{v}_j} and `get_angular_momentum()`
++#' the total angular momentum about the origin,
++#' \eqn{\mathbf{L} = \sum_j m_j \mathbf{r}_j \times \mathbf{v}_j}, at every
++#' time step of a simulation.
++#'
++#' Both are conserved exactly by Newtonian gravity, because every force comes
++#' in an equal and opposite pair directed along the line between the two
++#' bodies. The Velocity Verlet and Euler-Cromer integrators also conserve
++#' both to floating-point rounding, at any time step, so a drift in either
++#' points to a problem in the setup rather than the step size. A system whose
++#' total momentum is not zero has a center of mass that drifts at a constant
++#' velocity; see `shift_reference_frame(sim_data, "barycenter")`.
++#'
++#' @param sim_data A tibble output from [simulate_system()].
++#'
++#' @return A tibble with one row per time step: `time, px, py, pz`
++#'   (kg m/s) for `get_momentum()`, and `time, Lx, Ly, Lz` (kg m^2/s) for
++#'   `get_angular_momentum()`.
++#' @export
++#'
++#' @examples
++#' \donttest{
++#' # A binary built with zero total momentum
++#' sim <- create_system() |>
++#'   add_body("A", mass = 2e30, x = 5e10, vy = 15000) |>
++#'   add_body("B", mass = 1e30, x = -1e11, vy = -30000) |>
++#'   simulate_system(time_step = seconds_per_hour, duration = seconds_per_year)
++#'
++#' get_momentum(sim)          # px, py, pz all zero to rounding
++#' get_angular_momentum(sim)  # Lz constant to rounding
++#' }
++get_momentum <- function(sim_data) {
++  check_sim_data(sim_data)
++  sim_data |>
++    dplyr::group_by(time) |>
++    dplyr::summarise(px = sum(mass * vx),
++                     py = sum(mass * vy),
++                     pz = sum(mass * vz),
++                     .groups = "drop") |>
++    dplyr::arrange(time)
++}
++
++#' @rdname get_momentum
++#' @export
++get_angular_momentum <- function(sim_data) {
++  check_sim_data(sim_data)
++  sim_data |>
++    dplyr::group_by(time) |>
++    dplyr::summarise(Lx = sum(mass * (y * vz - z * vy)),
++                     Ly = sum(mass * (z * vx - x * vz)),
++                     Lz = sum(mass * (x * vy - y * vx)),
++                     .groups = "drop") |>
++    dplyr::arrange(time)
++}
++
++#' Conserved quantities and how well a simulation conserved them
++#'
++#' Joins [get_energy()], [get_momentum()], and [get_angular_momentum()] into
++#' one tibble and adds the relative error of each quantity against its value
++#' at the first time step. In exact Newtonian gravity all three are
++#' constant, so the errors measure the integrator, and their shape tells you
++#' what is wrong when something is.
++#'
++#' @inheritParams get_energy
++#'
++#' @details
++#' `energy_error` is \eqn{(E - E_0)/|E_0|}. `momentum_error` is
++#' \eqn{|\mathbf{P} - \mathbf{P}_0|} divided by \eqn{\sum_j m_j |\mathbf{v}_j|}
++#' at the first step (total momentum is often exactly zero, so it cannot be
++#' its own scale). `angular_momentum_error` is
++#' \eqn{|\mathbf{L} - \mathbf{L}_0| / |\mathbf{L}_0|}. An error is `NA` when
++#' its scale is zero.
++#'
++#' @section What to expect:
++#' The Velocity Verlet and Euler-Cromer integrators are built from "kicks"
++#' and "drifts" that conserve linear and angular momentum exactly, so for
++#' `method = "verlet"` or `"euler_cromer"` those two errors should stay at
++#' the level of floating-point rounding (around 1e-15) for any time step.
++#' Energy is conserved only approximately: with Verlet its error oscillates
++#' once per orbit within a band whose width scales as the square of the time
++#' step, and does not grow. A steady drift in energy means the time step is
++#' too large for the fastest or most eccentric orbit in the system, or that
++#' `method = "euler"` was used. A sudden jump marks a close encounter the
++#' step could not resolve. A drift in momentum or angular momentum under
++#' Verlet points to a problem in the setup rather than the integrator.
++#'
++#' @return A tibble with one row per time step and columns `time`,
++#'   `kinetic`, `potential`, `energy`, `px`, `py`, `pz`, `Lx`, `Ly`, `Lz`,
++#'   `energy_error`, `momentum_error`, and `angular_momentum_error`.
++#' @export
++#'
++#' @examples
++#' \donttest{
++#' sim <- create_system() |>
++#'   add_body("Star", mass = 1e30) |>
++#'   add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
++#'   simulate_system(time_step = seconds_per_hour * 6,
++#'                   duration = seconds_per_year * 2)
++#'
++#' cq <- conserved_quantities(sim)
++#'
++#' # Verlet: bounded energy error, momenta at rounding level
++#' range(cq$energy_error)
++#' max(cq$angular_momentum_error)
++#'
++#' plot(cq$time / seconds_per_day, cq$energy_error, type = "l",
++#'      xlab = "Day", ylab = "Relative energy error")
++#' }
++conserved_quantities <- function(sim_data, G = NULL, softening = NULL) {
++  check_sim_data(sim_data)
++
++  energy  <- get_energy(sim_data, G = G, softening = softening)
++  linear  <- get_momentum(sim_data)
++  angular <- get_angular_momentum(sim_data)
++
++  p_scale0 <- sim_data |>
++    dplyr::filter(time == min(time)) |>
++    dplyr::summarise(s = sum(mass * sqrt(vx^2 + vy^2 + vz^2))) |>
++    dplyr::pull(s)
++
++  out <- energy |>
++    dplyr::inner_join(linear, by = "time") |>
++    dplyr::inner_join(angular, by = "time")
++
++  E0 <- out$energy[1]
++  P0 <- c(out$px[1], out$py[1], out$pz[1])
++  L0 <- c(out$Lx[1], out$Ly[1], out$Lz[1])
++  L_scale0 <- sqrt(sum(L0^2))
++
++  safe_divide <- function(numerator, scale) {
++    if (!is.finite(scale) || scale == 0) return(rep(NA_real_, length(numerator)))
++    numerator / scale
++  }
++
++  out |>
++    dplyr::mutate(
++      energy_error = safe_divide(energy - E0, abs(E0)),
++      momentum_error = safe_divide(
++        sqrt((px - P0[1])^2 + (py - P0[2])^2 + (pz - P0[3])^2), p_scale0),
++      angular_momentum_error = safe_divide(
++        sqrt((Lx - L0[1])^2 + (Ly - L0[2])^2 + (Lz - L0[3])^2), L_scale0)
++    )
++}
++
++# Internal: potential energy of one snapshot, summed over unordered pairs,
++# using the same softened distance as the force calculation.
++pair_potential <- function(x, y, z, mass, G, softening) {
++  n <- length(x)
++  if (n < 2 || G == 0) return(0)
++  dx <- outer(x, x, "-")
++  dy <- outer(y, y, "-")
++  dz <- outer(z, z, "-")
++  r  <- sqrt(dx^2 + dy^2 + dz^2 + softening^2)
++  mm <- outer(mass, mass)
++  -G * sum((mm / r)[upper.tri(r)])
++}
++
++# Internal: a run setting, taken from the argument if given, else from the
++# attribute simulate_system() recorded, else a default.
++run_setting <- function(sim_data, name, value, default) {
++  if (!is.null(value)) return(value)
++  recorded <- attr(sim_data, name)
++  if (!is.null(recorded)) recorded else default
++}
++
++# Internal: validate a simulation tibble.
++check_sim_data <- function(sim_data) {
++  needed <- c("id", "mass", "x", "y", "z", "vx", "vy", "vz", "time")
++  if (!is.data.frame(sim_data) || !all(needed %in% names(sim_data))) {
++    stop("`sim_data` must be the output of `simulate_system()` ",
++         "(a tibble with columns id, mass, x, y, z, vx, vy, vz, time).")
++  }
++  invisible(TRUE)
++}
+diff --git a/R/globals.R b/R/globals.R
+index 0639e29..934e9ff 100644
+--- a/R/globals.R
++++ b/R/globals.R
+@@ -8,7 +8,7 @@ utils::globalVariables(c(
+   # temporary columns in shift_reference_frame()
+   "ref_x", "ref_y", "ref_z", "ref_vx", "ref_vy", "ref_vz",
+ 
+-  # columns in conservation_diagnostics()
++  # columns in get_energy(), get_momentum(), conserved_quantities()
+   "kinetic", "potential", "energy", "px", "py", "pz", "Lx", "Ly", "Lz",
+   "p_scale", "energy_error", "momentum_error", "angular_momentum_error"
+ ))
+diff --git a/R/simulate_system.R b/R/simulate_system.R
+index 88ebadb..d002319 100644
+--- a/R/simulate_system.R
++++ b/R/simulate_system.R
+@@ -20,7 +20,7 @@
+ #' @return A tidy `tibble` containing the physical state (time, id, mass, x, y, z, vx, vy, vz)
+ #'   of every body at every time step. The run's settings are recorded as
+ #'   attributes (`"G"`, `"softening"`, `"method"`, `"time_step"`), which
+-#'   [conservation_diagnostics()] and [continue_simulation()] use as defaults.
++#'   [get_energy()], [conserved_quantities()], and [continue_simulation()] use as defaults.
+ #' @export
+ #'
+ #' @examples
+diff --git a/README.md b/README.md
+index 19a4620..782ed1a 100644
+--- a/README.md
++++ b/README.md
+@@ -198,9 +198,10 @@ create_system() |>
+   from elements (including hyperbolic flybys with `e > 1`);
+   `get_orbital_elements()` recovers the osculating elements of any body
+   at every time step
+-- **Conservation diagnostics** — `conservation_diagnostics()` tracks
+-  energy, momentum, and angular momentum so you can see whether a run is
+-  trustworthy
++- **Conservation laws** — `get_energy()`, `get_momentum()`, and
++  `get_angular_momentum()` give the system totals at every time step;
++  `conserved_quantities()` joins them with their errors so you can see
++  whether a run is trustworthy
+ - **Segmented runs** — `continue_simulation()` picks up where a run left
+   off with a different time step, for comets and close encounters
+ - **Save and share** — `save_system()` / `load_system()` round-trip a
+diff --git a/README.rmd b/README.rmd
+index 6d100bf..eab3c6d 100644
+--- a/README.rmd
++++ b/README.rmd
+@@ -164,7 +164,7 @@ create_system() |>
+ - **Animations** — `animate_system()` renders GIFs with fading trails via gganimate
+ - **Reference frames** — `shift_reference_frame("Earth")` re-centers everything on any body, or on the system's center of mass with `"barycenter"`
+ - **Orbital elements both ways** — `add_body_keplerian()` builds orbits from elements (including hyperbolic flybys with `e > 1`); `get_orbital_elements()` recovers the osculating elements of any body at every time step
+-- **Conservation diagnostics** — `conservation_diagnostics()` tracks energy, momentum, and angular momentum so you can see whether a run is trustworthy
++- **Conservation laws** — `get_energy()`, `get_momentum()`, and `get_angular_momentum()` give the system totals at every time step; `conserved_quantities()` joins them with their errors so you can see whether a run is trustworthy
+ - **Segmented runs** — `continue_simulation()` picks up where a run left off with a different time step, for comets and close encounters
+ - **Save and share** — `save_system()` / `load_system()` round-trip a system to `.rds`; `export_bodies()` writes the body table to CSV
+ 
+diff --git a/_pkgdown.yml b/_pkgdown.yml
+index a58908e..c33cf5c 100644
+--- a/_pkgdown.yml
++++ b/_pkgdown.yml
+@@ -81,7 +81,9 @@ reference:
+     contents:
+       - shift_reference_frame
+       - get_orbital_elements
+-      - conservation_diagnostics
++      - get_energy
++      - get_momentum
++      - conserved_quantities
+       - continue_simulation
+       - system_from_simulation
+ 
+diff --git a/tests/testthat/test-conservation_diagnostics.R b/tests/testthat/test-conservation_diagnostics.R
+deleted file mode 100644
+index 608d1e1..0000000
+--- a/tests/testthat/test-conservation_diagnostics.R
++++ /dev/null
+@@ -1,91 +0,0 @@
+-two_body <- function(method = "verlet", time_step = 3600 * 6,
+-                     duration = 86400 * 400) {
+-  create_system() |>
+-    add_body("Star", mass = 1e30) |>
+-    add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
+-    simulate_system(time_step = time_step, duration = duration, method = method)
+-}
+-
+-test_that("conservation_diagnostics returns one row per time step with the right columns", {
+-  sim <- two_body(duration = 86400 * 10)
+-  diag <- conservation_diagnostics(sim)
+-
+-  expect_true(tibble::is_tibble(diag))
+-  expect_equal(nrow(diag), length(unique(sim$time)))
+-  expect_true(all(c("time", "kinetic", "potential", "energy",
+-                    "px", "py", "pz", "Lx", "Ly", "Lz",
+-                    "energy_error", "momentum_error",
+-                    "angular_momentum_error") %in% names(diag)))
+-  expect_equal(diag$energy_error[1], 0)
+-  expect_equal(diag$momentum_error[1], 0)
+-  expect_equal(diag$angular_momentum_error[1], 0)
+-})
+-
+-test_that("Verlet keeps energy bounded and momenta at rounding level", {
+-  diag <- conservation_diagnostics(two_body())
+-
+-  expect_lt(max(abs(diag$energy_error)), 1e-4)
+-  expect_lt(max(diag$momentum_error), 1e-10)
+-  expect_lt(max(diag$angular_momentum_error), 1e-10)
+-})
+-
+-test_that("Euler pumps energy into the orbit", {
+-  diag <- conservation_diagnostics(two_body(method = "euler"))
+-
+-  # Energy strictly increases over the run (total energy is negative, so a
+-  # less negative value is a positive relative error)
+-  expect_gt(diag$energy_error[nrow(diag)], 1e-3)
+-  expect_gt(diag$energy_error[nrow(diag)], diag$energy_error[nrow(diag) %/% 2])
+-})
+-
+-test_that("energy error scales as the square of the time step for Verlet", {
+-  coarse <- conservation_diagnostics(two_body(time_step = 3600 * 12))
+-  fine   <- conservation_diagnostics(two_body(time_step = 3600 * 6))
+-
+-  ratio <- max(abs(coarse$energy_error)) / max(abs(fine$energy_error))
+-  expect_gt(ratio, 2.5)
+-  expect_lt(ratio, 6)
+-})
+-
+-test_that("energy matches a hand calculation at t = 0", {
+-  sim <- two_body(duration = 3600 * 6)
+-  diag <- conservation_diagnostics(sim)
+-
+-  r <- 1e11
+-  ke <- 0.5 * 1e24 * 30000^2
+-  pe <- -gravitational_constant * 1e30 * 1e24 / r
+-  expect_equal(diag$kinetic[1], ke)
+-  expect_equal(diag$potential[1], pe)
+-  expect_equal(diag$energy[1], ke + pe)
+-  expect_equal(diag$Lz[1], 1e24 * 1e11 * 30000)
+-})
+-
+-test_that("softening is read from the run and matches the force law", {
+-  sys <- create_system() |>
+-    add_body("A", mass = 1e30, x = -1e10, vx = 5e4) |>
+-    add_body("B", mass = 1e30, x = 1e10, vx = -5e4, y = 2e9)
+-  sim <- simulate_system(sys, time_step = 600, duration = 86400 * 2,
+-                         softening = 3e9)
+-
+-  with_soft <- conservation_diagnostics(sim)             # softening read from attribute
+-  without   <- conservation_diagnostics(sim, softening = 0)
+-
+-  expect_equal(attr(sim, "softening"), 3e9)
+-  expect_lt(max(abs(with_soft$energy_error)), 0.05)
+-  expect_gt(max(abs(without$energy_error)), max(abs(with_soft$energy_error)))
+-})
+-
+-test_that("G = 0 gives zero potential energy", {
+-  sim <- create_system(G = 0) |>
+-    add_body("A", mass = 1, x = 0, vx = 1) |>
+-    add_body("B", mass = 1, x = 10, vx = -1) |>
+-    simulate_system(time_step = 1, duration = 10)
+-
+-  diag <- conservation_diagnostics(sim)
+-  expect_true(all(diag$potential == 0))
+-  expect_true(all(diag$energy_error == 0))
+-})
+-
+-test_that("conservation_diagnostics rejects non-simulation input", {
+-  expect_error(conservation_diagnostics(data.frame(a = 1)), "simulate_system")
+-})
+diff --git a/tests/testthat/test-conserved_quantities.R b/tests/testthat/test-conserved_quantities.R
+new file mode 100644
+index 0000000..c7966e5
+--- /dev/null
++++ b/tests/testthat/test-conserved_quantities.R
+@@ -0,0 +1,112 @@
++two_body <- function(method = "verlet", time_step = 3600 * 6,
++                     duration = 86400 * 400) {
++  create_system() |>
++    add_body("Star", mass = 1e30) |>
++    add_body("Planet", mass = 1e24, x = 1e11, vy = 30000) |>
++    simulate_system(time_step = time_step, duration = duration, method = method)
++}
++
++test_that("get_energy matches a hand calculation at t = 0", {
++  en <- get_energy(two_body(duration = 3600 * 6))
++
++  expect_true(tibble::is_tibble(en))
++  expect_equal(names(en), c("time", "kinetic", "potential", "energy"))
++  expect_equal(en$kinetic[1], 0.5 * 1e24 * 30000^2)
++  expect_equal(en$potential[1], -gravitational_constant * 1e30 * 1e24 / 1e11)
++  expect_equal(en$energy[1], en$kinetic[1] + en$potential[1])
++})
++
++test_that("get_momentum and get_angular_momentum match hand calculations", {
++  sim <- two_body(duration = 3600 * 6)
++  p <- get_momentum(sim)
++  L <- get_angular_momentum(sim)
++
++  expect_equal(names(p), c("time", "px", "py", "pz"))
++  expect_equal(names(L), c("time", "Lx", "Ly", "Lz"))
++  expect_equal(p$py[1], 1e24 * 30000)
++  expect_equal(p$px[1], 0)
++  expect_equal(L$Lz[1], 1e24 * 1e11 * 30000)
++  expect_equal(L$Lx[1], 0)
++  expect_equal(nrow(p), length(unique(sim$time)))
++})
++
++test_that("a balanced binary has zero momentum and constant angular momentum", {
++  sim <- create_system() |>
++    add_body("A", mass = 2e30, x = 5e10, vy = 15000) |>
++    add_body("B", mass = 1e30, x = -1e11, vy = -30000) |>
++    simulate_system(time_step = 3600, duration = 86400 * 30)
++
++  p <- get_momentum(sim)
++  L <- get_angular_momentum(sim)
++  expect_lt(max(abs(c(p$px, p$py, p$pz))), 1e-6 * 2e30 * 15000)
++  expect_lt((max(L$Lz) - min(L$Lz)) / abs(L$Lz[1]), 1e-12)
++})
++
++test_that("conserved_quantities returns one row per step with the right columns", {
++  sim <- two_body(duration = 86400 * 10)
++  cq <- conserved_quantities(sim)
++
++  expect_equal(nrow(cq), length(unique(sim$time)))
++  expect_true(all(c("time", "kinetic", "potential", "energy",
++                    "px", "py", "pz", "Lx", "Ly", "Lz",
++                    "energy_error", "momentum_error",
++                    "angular_momentum_error") %in% names(cq)))
++  expect_equal(cq$energy_error[1], 0)
++  expect_equal(cq$momentum_error[1], 0)
++  expect_equal(cq$angular_momentum_error[1], 0)
++})
++
++test_that("Verlet keeps energy bounded and momenta at rounding level", {
++  cq <- conserved_quantities(two_body())
++
++  expect_lt(max(abs(cq$energy_error)), 1e-4)
++  expect_lt(max(cq$momentum_error), 1e-10)
++  expect_lt(max(cq$angular_momentum_error), 1e-10)
++})
++
++test_that("Euler pumps energy into the orbit", {
++  cq <- conserved_quantities(two_body(method = "euler"))
++
++  expect_gt(cq$energy_error[nrow(cq)], 1e-3)
++  expect_gt(cq$energy_error[nrow(cq)], cq$energy_error[nrow(cq) %/% 2])
++})
++
++test_that("energy error scales as the square of the time step for Verlet", {
++  coarse <- conserved_quantities(two_body(time_step = 3600 * 12))
++  fine   <- conserved_quantities(two_body(time_step = 3600 * 6))
++
++  ratio <- max(abs(coarse$energy_error)) / max(abs(fine$energy_error))
++  expect_gt(ratio, 2.5)
++  expect_lt(ratio, 6)
++})
++
++test_that("softening is read from the run and matches the force law", {
++  sys <- create_system() |>
++    add_body("A", mass = 1e30, x = -1e10, vx = 5e4) |>
++    add_body("B", mass = 1e30, x = 1e10, vx = -5e4, y = 2e9)
++  sim <- simulate_system(sys, time_step = 600, duration = 86400 * 2,
++                         softening = 3e9)
++
++  with_soft <- conserved_quantities(sim)              # softening read from attribute
++  without   <- conserved_quantities(sim, softening = 0)
++
++  expect_equal(attr(sim, "softening"), 3e9)
++  expect_lt(max(abs(with_soft$energy_error)), 0.05)
++  expect_gt(max(abs(without$energy_error)), max(abs(with_soft$energy_error)))
++})
++
++test_that("G = 0 gives zero potential energy", {
++  sim <- create_system(G = 0) |>
++    add_body("A", mass = 1, x = 0, vx = 1) |>
++    add_body("B", mass = 1, x = 10, vx = -1) |>
++    simulate_system(time_step = 1, duration = 10)
++
++  expect_true(all(get_energy(sim)$potential == 0))
++  expect_true(all(conserved_quantities(sim)$energy_error == 0))
++})
++
++test_that("the energy functions reject non-simulation input", {
++  expect_error(get_energy(data.frame(a = 1)), "simulate_system")
++  expect_error(get_momentum(data.frame(a = 1)), "simulate_system")
++  expect_error(conserved_quantities(data.frame(a = 1)), "simulate_system")
++})
+diff --git a/tests/testthat/test-continue_simulation.R b/tests/testthat/test-continue_simulation.R
+index e5013be..da5187f 100644
+--- a/tests/testthat/test-continue_simulation.R
++++ b/tests/testthat/test-continue_simulation.R
+@@ -73,8 +73,8 @@ test_that("segmenting a comet's perihelion passage beats a uniform coarse step",
+     continue_simulation(time_step = 3600, duration = period * 0.2) |>
+     continue_simulation(time_step = 86400 * 2, duration = period * 0.4)
+ 
+-  err_uniform   <- max(abs(conservation_diagnostics(uniform)$energy_error))
+-  err_segmented <- max(abs(conservation_diagnostics(segmented)$energy_error))
++  err_uniform   <- max(abs(conserved_quantities(uniform)$energy_error))
++  err_segmented <- max(abs(conserved_quantities(segmented)$energy_error))
+ 
+   expect_lt(err_segmented, err_uniform)
+   expect_lt(err_segmented, 1e-3)
+diff --git a/vignettes/checking-a-simulation.Rmd b/vignettes/checking-a-simulation.Rmd
+index ae61dcf..97cbfa1 100644
+--- a/vignettes/checking-a-simulation.Rmd
++++ b/vignettes/checking-a-simulation.Rmd
+@@ -22,11 +22,11 @@ library(dplyr)
+ library(ggplot2)
+ ```
+ 
+-A simulation always produces *something*. The question is whether the something is physics or numerical artifact, and a plot of the trajectories won't always tell you. This article covers three functions for finding out: `conservation_diagnostics()` watches the quantities that real gravity keeps constant, `get_orbital_elements()` tells you what orbit a body is actually on, and `continue_simulation()` lets you fix the most common problem — a time step that's too large for part of the run — without re-running everything.
++A simulation always produces *something*. The question is whether the something is physics or numerical artifact, and a plot of the trajectories won't always tell you. This article covers the functions for finding out: `get_energy()`, `get_momentum()`, and `get_angular_momentum()` compute the quantities that real gravity keeps constant, `conserved_quantities()` reports how well a run kept them, `get_orbital_elements()` tells you what orbit a body is actually on, and `continue_simulation()` lets you fix the most common problem — a time step that's too large for part of the run — without re-running everything.
+ 
+-## Conservation Diagnostics
++## Energy, Momentum, and Angular Momentum
+ 
+-Newtonian gravity conserves three things exactly: total energy, total linear momentum, and total angular momentum. A numerical integrator does not conserve all of them exactly, and how badly it fails is a direct measure of how much to trust the run. `conservation_diagnostics()` computes all three at every time step, with relative errors against the initial values:
++Newtonian gravity conserves three things exactly: total energy, total linear momentum, and total angular momentum. Three getters compute them at every time step of a run:
+ 
+ ```{r}
+ star_planet <- create_system() |>
+@@ -36,11 +36,44 @@ star_planet <- create_system() |>
+ sim <- simulate_system(star_planet, time_step = seconds_per_hour * 6,
+                        duration = seconds_per_year * 3)
+ 
+-diag <- conservation_diagnostics(sim)
+-diag
++get_energy(sim)
+ ```
+ 
+-Energy, momentum, and angular momentum, plus three error columns. What should you expect?
++`kinetic` is $\sum \tfrac12 m v^2$ over the bodies, `potential` is $-\sum G m_j m_k / r_{jk}$ over the pairs, and `energy` is the total. The two trade off along the orbit — the planet speeds up as it falls inward — while the total stays put:
++
++```{r energy-tradeoff}
++energy <- get_energy(sim)
++
++bind_rows(
++  energy |> transmute(time, name = "kinetic",   value = kinetic),
++  energy |> transmute(time, name = "potential", value = potential),
++  energy |> transmute(time, name = "total",     value = energy)
++) |>
++  ggplot(aes(x = time / seconds_per_day, y = value, color = name)) +
++  geom_line() +
++  labs(x = "Day", y = "Energy (J)", color = NULL) +
++  theme_minimal()
++```
++
++`get_momentum()` and `get_angular_momentum()` do the same for $\mathbf{P} = \sum m \mathbf{v}$ and $\mathbf{L} = \sum m\, \mathbf{r} \times \mathbf{v}$:
++
++```{r}
++get_momentum(sim)
++get_angular_momentum(sim)
++```
++
++The total momentum here is not zero — the star was started at rest while the planet moves — so the system's center of mass drifts. That's not an error; it's what `shift_reference_frame(sim, "barycenter")` is for.
++
++## Conserved Quantities
++
++A numerical integrator does not conserve all three exactly, and how badly it fails is a direct measure of how much to trust the run. `conserved_quantities()` joins the three getters and adds each quantity's relative error against its initial value:
++
++```{r}
++cq <- conserved_quantities(sim)
++cq
++```
++
++What should you expect?
+ 
+ - **Momentum and angular momentum** should sit at floating-point rounding, around `1e-15`, for the Velocity Verlet and Euler-Cromer integrators, at *any* time step. Both methods are built from "kicks" (velocity updates) and "drifts" (position updates) that conserve these two quantities exactly. If either one drifts, the problem is in your setup, not the step size.
+ - **Energy** is conserved only approximately. With Verlet the error oscillates once per orbit and stays inside a band whose width scales as the square of the time step. It should not grow.
+@@ -51,7 +84,7 @@ Here are all three integrators side by side:
+ runs <- bind_rows(lapply(c("verlet", "euler_cromer", "euler"), function(m) {
+   simulate_system(star_planet, time_step = seconds_per_hour * 6,
+                   duration = seconds_per_year * 3, method = m) |>
+-    conservation_diagnostics() |>
++    conserved_quantities() |>
+     mutate(method = m)
+ }))
+ 
+@@ -81,7 +114,7 @@ Four shapes cover almost everything:
+ - **A steady drift** — either `method = "euler"`, or a step so large that even Verlet's guarantees have broken down.
+ - **A sudden jump** — a close encounter the step couldn't resolve. Everything after the jump is on a different orbit from everything before it.
+ 
+-One thing to know: if you ran with `softening`, the system conserves the *softened* energy. `conservation_diagnostics()` reads the softening value the simulation was run with from the output, so this is handled automatically; if you compute energy yourself, use the same softened distance.
++One thing to know: if you ran with `softening`, the system conserves the *softened* energy. `get_energy()` and `conserved_quantities()` read the softening value the simulation was run with from the output, so this is handled automatically; if you compute energy yourself, use the same softened distance.
+ 
+ ## What Orbit Is It Actually On?
+ 
+@@ -166,8 +199,8 @@ uniform <- simulate_system(comet, time_step = seconds_per_day * 5,
+                            duration = seconds_per_year * 11.2)
+ 
+ bind_rows(
+-  conservation_diagnostics(segmented) |> mutate(run = "5 day / 2 hour / 5 day"),
+-  conservation_diagnostics(uniform)   |> mutate(run = "5 day throughout")
++  conserved_quantities(segmented) |> mutate(run = "5 day / 2 hour / 5 day"),
++  conserved_quantities(uniform)   |> mutate(run = "5 day throughout")
+ ) |>
+   ggplot(aes(x = time / seconds_per_year, y = energy_error, color = run)) +
+   geom_line() +
+diff --git a/vignettes/roadmap.Rmd b/vignettes/roadmap.Rmd
+index 4b26106..b078a7c 100644
+--- a/vignettes/roadmap.Rmd
++++ b/vignettes/roadmap.Rmd
+@@ -60,7 +60,7 @@ A simple progress indicator on `simulate_system()` for runs that take more than
+ 
+ ### Built-in conservation diagnostics ✅ Added in v1.0.0
+ 
+-Implemented as `conservation_diagnostics()`, which computes total energy, total linear momentum, and total angular momentum at every time step with relative errors against the initial values. See [Checking a Simulation](checking-a-simulation.html).
++Implemented as `get_energy()`, `get_momentum()`, and `get_angular_momentum()`, which compute the system totals at every time step, and `conserved_quantities()`, which joins them with relative errors against the initial values. See [Checking a Simulation](checking-a-simulation.html).
+ 
+ ### Variable time steps ✅ Partly addressed in v1.0.0
+ 
+diff --git a/vignettes/the-physics.Rmd b/vignettes/the-physics.Rmd
+index 3ced587..f5fec57 100644
+--- a/vignettes/the-physics.Rmd
++++ b/vignettes/the-physics.Rmd
+@@ -103,7 +103,7 @@ bind_rows(verlet, euler_cromer, euler) |>
+   ggplot2::theme_minimal()
+ ```
+ 
+-Verlet traces a clean closed ellipse, Euler-Cromer stays close but drifts slightly, and standard Euler spirals outward as it pumps energy into the orbit. To put numbers on that, `conservation_diagnostics()` computes the total energy, momentum, and angular momentum at every step of a run; see [Checking a Simulation](checking-a-simulation.html).
++Verlet traces a clean closed ellipse, Euler-Cromer stays close but drifts slightly, and standard Euler spirals outward as it pumps energy into the orbit. To put numbers on that, `get_energy()` computes the total energy at every step of a run and `conserved_quantities()` reports how well energy, momentum, and angular momentum were conserved; see [Checking a Simulation](checking-a-simulation.html).
+ 
+ ## Keplerian Orbital Elements
+ 

@@ -1,7 +1,7 @@
 Package: orbitr
 Type: Package
 Title: A Tidy Physics Engine for Building and Visualizing Orbital Simulations
-Version: 0.3.0
+Version: 1.0.0
 Authors@R: c(
     person(
       "Dave", "Rosenman",
@@ -22,7 +22,6 @@ BugReports: https://github.com/DRosenman/orbitr/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.3
 Imports:
     dplyr,
     ggplot2,
@@ -41,3 +40,4 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 LinkingTo:
     Rcpp
+Config/roxygen2/version: 8.1.0

@@ -44,6 +44,7 @@ articles:
     contents:
       - the-physics
       - reference-frames
+      - checking-a-simulation
       - unstable-orbits
 
   - title: "Roadmap"
@@ -75,10 +76,20 @@ reference:
     contents:
       - simulate_system
 
-  - title: "Analysis & Visualization"
-    desc: "Transform and plot results"
+  - title: "Analysis"
+    desc: "Re-center, measure, check, and continue a run"
     contents:
       - shift_reference_frame
+      - get_orbital_elements
+      - get_energy
+      - get_momentum
+      - conserved_quantities
+      - continue_simulation
+      - system_from_simulation
+
+  - title: "Visualization"
+    desc: "Plot and animate results"
+    contents:
       - plot_orbits
       - plot_orbits_3d
       - plot_system

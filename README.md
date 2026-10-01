@@ -3,10 +3,9 @@
 
 **Tidy N-body orbital mechanics for R.**
 
-> **Early beta** — `orbitr` is functional and the physics engine is
-> stable, but this is an early release. Function names, defaults, and
-> behavior may change between versions. Feedback, bug reports, and
-> contributions are welcome on
+> **Version 1.0** — the function names, arguments, and defaults are now
+> stable; anything that changes in a future version will be deprecated
+> first. Feedback, bug reports, and contributions are welcome on
 > [GitHub](https://github.com/DRosenman/orbitr).
 
 > Full documentation, examples, and guides at
@@ -193,7 +192,18 @@ create_system() |>
 - **Animations** — `animate_system()` renders GIFs with fading trails
   via gganimate
 - **Reference frames** — `shift_reference_frame("Earth")` re-centers
-  everything on any body
+  everything on any body, or on the system's center of mass with
+  `"barycenter"`
+- **Orbital elements both ways** — `add_body_keplerian()` builds orbits
+  from elements (including hyperbolic flybys with `e > 1`);
+  `get_orbital_elements()` recovers the osculating elements of any body
+  at every time step
+- **Conservation laws** — `get_energy()`, `get_momentum()`, and
+  `get_angular_momentum()` give the system totals at every time step;
+  `conserved_quantities()` joins them with their errors so you can see
+  whether a run is trustworthy
+- **Segmented runs** — `continue_simulation()` picks up where a run left
+  off with a different time step, for comets and close encounters
 - **Save and share** — `save_system()` / `load_system()` round-trip a
   system to `.rds`; `export_bodies()` writes the body table to CSV
 

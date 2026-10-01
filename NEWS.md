@@ -1,3 +1,54 @@
+# orbitr 1.0.0
+
+First stable release. The function names, arguments, and defaults in this
+version are the ones the package will keep; future changes to them will be
+deprecated first, not made silently.
+
+## New functions
+
+- `get_energy()`, `get_momentum()`, `get_angular_momentum()`: Total kinetic
+  and potential energy, total linear momentum, and total angular momentum of
+  the system at every time step of a simulation. `get_energy()` reads `G`
+  and `softening` from the simulation output so the potential is computed
+  with the same force law that produced the run.
+
+- `conserved_quantities()`: The three quantities above joined into one
+  tibble with their relative errors against the initial values. Verlet and
+  Euler-Cromer keep momentum and angular momentum to rounding error; the
+  energy error is the integrator's report card.
+
+- `get_orbital_elements()`: The inverse of `add_body_keplerian()`. Recovers
+  the osculating Keplerian elements (a, e, i, lan, arg_pe, nu) and period of
+  a body relative to a parent at every time step, from the simulated
+  position and velocity.
+
+- `continue_simulation()`: Pick up a run from its last state with a new
+  (or the same) time step and append the result, with `time` continuing
+  from where the previous run ended. Makes segmented runs possible: large
+  steps far from periapsis, small steps through it.
+
+- `system_from_simulation()`: Rebuild an `orbit_system` from any snapshot
+  of a simulation, so a run can be modified and continued.
+
+## Enhancements
+
+- `shift_reference_frame()` accepts `center_id = "barycenter"` to re-center
+  on the system's center of mass at every time step.
+
+- `add_body_keplerian()` accepts hyperbolic orbits (`e > 1` with a negative
+  semi-major axis), so interstellar visitors and flybys can be set up from
+  elements. Exactly parabolic orbits (`e = 1`) remain unsupported.
+
+- `simulate_system()` records `G`, `softening`, `method`, and `time_step` as
+  attributes of its output; the new analysis functions use them as defaults.
+
+## Documentation
+
+- New article, *Checking a Simulation*, covering conservation diagnostics,
+  osculating elements, and segmented runs. The reference-frames article
+  gains a section on the barycentric frame and the Keplerian-elements
+  article a section on hyperbolic orbits.
+
 # orbitr 0.3.0
 
 ## New functions

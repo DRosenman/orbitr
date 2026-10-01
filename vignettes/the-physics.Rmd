@@ -103,7 +103,7 @@ bind_rows(verlet, euler_cromer, euler) |>
   ggplot2::theme_minimal()
 ```
 
-Verlet traces a clean closed ellipse, Euler-Cromer stays close but drifts slightly, and standard Euler spirals outward as it pumps energy into the orbit.
+Verlet traces a clean closed ellipse, Euler-Cromer stays close but drifts slightly, and standard Euler spirals outward as it pumps energy into the orbit. To put numbers on that, `get_energy()` computes the total energy at every step of a run and `conserved_quantities()` reports how well energy, momentum, and angular momentum were conserved; see [Checking a Simulation](checking-a-simulation.html).
 
 ## Keplerian Orbital Elements
 
@@ -156,7 +156,7 @@ An interesting property of the Keplerian description is that it's *exact* for tw
 
 In an N-body simulation like `orbitr`, however, the elements are only approximate because the gravitational pulls of other bodies perturb the orbit. Jupiter slightly tugs on Earth, Mars slightly tugs on Venus, and so on. Over long timescales, these perturbations cause the elements to drift — $\omega$ precesses, $e$ oscillates, inclinations wobble. This is real physics: the precession of Mercury's perihelion was one of the first tests of General Relativity.
 
-The Keplerian elements in `add_planet()` and `load_solar_system()` define the *initial conditions* at the start of the simulation. Once `simulate_system()` takes over, the full N-body dynamics handles all the perturbations automatically.
+The Keplerian elements in `add_planet()` and `load_solar_system()` define the *initial conditions* at the start of the simulation. Once `simulate_system()` takes over, the full N-body dynamics handles all the perturbations automatically. You can watch them happen: `get_orbital_elements()` recovers the osculating elements of any body at every time step of a run.
 
 For a thorough walkthrough of each element with visual examples, see the [Keplerian Orbital Elements](keplerian-elements.html) vignette.
 

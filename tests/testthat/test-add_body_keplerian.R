@@ -192,3 +192,36 @@ test_that("energy is approximately conserved for Keplerian setup", {
   # Energy should be conserved to within 0.1%
   expect_equal(E_last, E_first, tolerance = 0.001)
 })
+
+test_that("hyperbolic orbits are accepted with a negative semi-major axis", {
+  q <- 0.3 * distance_earth_sun
+  e <- 1.5
+  sys <- create_system() |>
+    add_sun() |>
+    add_body_keplerian("Visitor", mass = 1, parent = "Sun",
+                       a = -q / (e - 1), e = e, nu = 0)
+  body <- sys$bodies[sys$bodies$id == "Visitor", ]
+
+  # at periapsis r = a(1 - e) = q, and v^2 = mu (1 + e) / q
+  r <- sqrt(body$x^2 + body$y^2 + body$z^2)
+  v <- sqrt(body$vx^2 + body$vy^2 + body$vz^2)
+  mu <- gravitational_constant * mass_sun
+  expect_equal(r, q, tolerance = 1e-8)
+  expect_equal(v, sqrt(mu * (1 + e) / q), tolerance = 1e-8)
+})
+
+test_that("hyperbolic orbits reject a positive semi-major axis and bad anomalies", {
+  sys <- create_system() |> add_sun()
+  expect_error(
+    add_body_keplerian(sys, "V", mass = 1, a = 1e11, e = 1.5, parent = "Sun"),
+    "negative"
+  )
+  expect_error(
+    add_body_keplerian(sys, "V", mass = 1, a = -1e11, e = 1.5, nu = 150, parent = "Sun"),
+    "asymptotes"
+  )
+  expect_error(
+    add_body_keplerian(sys, "V", mass = 1, a = -1e11, e = 0.5, parent = "Sun"),
+    "positive"
+  )
+})

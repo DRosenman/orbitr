@@ -77,3 +77,37 @@ test_that("shift_reference_frame preserves number of rows", {
   shifted <- shift_reference_frame(sim, "A")
   expect_equal(nrow(shifted), nrow(sim))
 })
+
+test_that("shift_reference_frame to the barycenter zeros the center of mass", {
+  sim <- create_system() |>
+    add_body("A", mass = 2e30, x = 1e11, vy = 10000) |>
+    add_body("B", mass = 1e30, x = -1e11, vy = -30000) |>
+    simulate_system(time_step = 3600, duration = 86400 * 5)
+
+  shifted <- shift_reference_frame(sim, "barycenter")
+  com <- shifted |>
+    dplyr::group_by(time) |>
+    dplyr::summarise(x = sum(mass * x) / sum(mass),
+                     vy = sum(mass * vy) / sum(mass))
+
+  expect_equal(nrow(shifted), nrow(sim))
+  expect_lt(max(abs(com$x)), 1e-3)
+  expect_lt(max(abs(com$vy)), 1e-9)
+
+  # relative separation is unchanged
+  sep <- function(d) {
+    t0 <- d[d$time == 0, ]
+    abs(t0$x[t0$id == "A"] - t0$x[t0$id == "B"])
+  }
+  expect_equal(sep(sim), sep(shifted))
+})
+
+test_that("a body literally named 'barycenter' is treated as a body", {
+  sim <- create_system() |>
+    add_body("barycenter", mass = 1e30) |>
+    add_body("B", mass = 1e24, x = 1e11, vy = 30000) |>
+    simulate_system(time_step = 3600, duration = 3600)
+
+  shifted <- shift_reference_frame(sim, "barycenter")
+  expect_true(all(shifted$x[shifted$id == "barycenter"] == 0))
+})
