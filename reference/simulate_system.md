@@ -57,7 +57,10 @@ simulate_system(
 ## Value
 
 A tidy \`tibble\` containing the physical state (time, id, mass, x, y,
-z, vx, vy, vz) of every body at every time step.
+z, vx, vy, vz) of every body at every time step. The run's settings are
+recorded as attributes (\`"G"\`, \`"softening"\`, \`"method"\`,
+\`"time_step"\`), which \[get_energy()\], \[conserved_quantities()\],
+and \[continue_simulation()\] use as defaults.
 
 ## Examples
 

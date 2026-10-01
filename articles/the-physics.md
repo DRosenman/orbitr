@@ -155,7 +155,13 @@ bind_rows(verlet, euler_cromer, euler) |>
 
 Verlet traces a clean closed ellipse, Euler-Cromer stays close but
 drifts slightly, and standard Euler spirals outward as it pumps energy
-into the orbit.
+into the orbit. To put numbers on that,
+[`get_energy()`](https://orbit-r.com/reference/get_energy.md) computes
+the total energy at every step of a run and
+[`conserved_quantities()`](https://orbit-r.com/reference/conserved_quantities.md)
+reports how well energy, momentum, and angular momentum were conserved;
+see [Checking a
+Simulation](https://orbit-r.com/articles/checking-a-simulation.md).
 
 ## Keplerian Orbital Elements
 
@@ -266,7 +272,10 @@ The Keplerian elements in
 define the *initial conditions* at the start of the simulation. Once
 [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
 takes over, the full N-body dynamics handles all the perturbations
-automatically.
+automatically. You can watch them happen:
+[`get_orbital_elements()`](https://orbit-r.com/reference/get_orbital_elements.md)
+recovers the osculating elements of any body at every time step of a
+run.
 
 For a thorough walkthrough of each element with visual examples, see the
 [Keplerian Orbital

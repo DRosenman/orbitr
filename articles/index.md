@@ -20,6 +20,8 @@
 
 - [The Physics](https://orbit-r.com/articles/the-physics.md):
 - [Reference Frames](https://orbit-r.com/articles/reference-frames.md):
+- [Checking a
+  Simulation](https://orbit-r.com/articles/checking-a-simulation.md):
 - [Unstable Orbits and the Three-Body
   Problem](https://orbit-r.com/articles/unstable-orbits.md):
 

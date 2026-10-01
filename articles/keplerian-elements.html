@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Understanding the Simulation</h6></li>
     <li><a class="dropdown-item" href="../articles/the-physics.html">The Physics</a></li>
     <li><a class="dropdown-item" href="../articles/reference-frames.html">Reference Frames</a></li>
+    <li><a class="dropdown-item" href="../articles/checking-a-simulation.html">Checking a Simulation</a></li>
     <li><a class="dropdown-item" href="../articles/unstable-orbits.html">Unstable Orbits and the Three-Body Problem</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Roadmap</h6></li>
@@ -138,7 +139,9 @@ controls the shape. A circle has
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">e = 0</annotation></semantics></math>;
 as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>e</mi><annotation encoding="application/x-tex">e</annotation></semantics></math>
-increases toward 1, the ellipse becomes more elongated. At any point
+increases toward 1, the ellipse becomes more elongated. Above 1 the
+orbit is no longer closed — it’s a hyperbola, and the body passes the
+parent once and never comes back (more on those below). At any point
 along the orbit, the actual distance from the parent is:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mfrac><mrow><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><msup><mi>e</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mn>1</mn><mo>+</mo><mi>e</mi><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>ν</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">r = \frac{a(1 - e^2)}{1 + e \cos\nu}</annotation></semantics></math></p>
 <p>where
@@ -386,6 +389,58 @@ values to <code><a href="../reference/add_planet.html">add_planet()</a></code>:<
 </div>
 </div>
 <div class="section level2">
+<h2 id="hyperbolic-orbits">Hyperbolic Orbits<a class="anchor" aria-label="anchor" href="#hyperbolic-orbits"></a>
+</h2>
+<p>Interstellar visitors like ’Oumuamua and 2I/Borisov, and any
+spacecraft on a flyby, are on hyperbolic orbits:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">e &gt; 1</annotation></semantics></math>,
+unbound, one pass only. The same six elements describe them, with one
+twist — the semi-major axis of a hyperbola is <em>negative</em>. The
+periapsis distance
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>e</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">a(1 - e)</annotation></semantics></math>
+stays positive, since both factors flip sign, and the orbit equation
+above works unchanged as long as the body is between the asymptotes,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>ν</mi><mo stretchy="false" form="prefix">|</mo><mo>&lt;</mo><mrow><mi mathvariant="normal">arccos</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>1</mn><mi>/</mi><mi>e</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">|\nu| &lt; \arccos(-1/e)</annotation></semantics></math>.</p>
+<p><code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code> accepts
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">e &gt; 1</annotation></semantics></math>
+when <code>a</code> is negative. Here is an ’Oumuamua-like object,
+perihelion 0.255 AU, approaching from 140° before perihelion:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fl">0.2553</span> <span class="op">*</span> <span class="va">distance_earth_sun</span>      <span class="co"># perihelion distance</span></span>
+<span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fl">1.2</span></span>
+<span></span>
+<span><span class="va">visitor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_sun.html">add_sun</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_planet.html">add_planet</a></span><span class="op">(</span><span class="st">"Earth"</span>, parent <span class="op">=</span> <span class="st">"Sun"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_body_keplerian.html">add_body_keplerian</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Visitor"</span>, mass <span class="op">=</span> <span class="fl">1e10</span>, parent <span class="op">=</span> <span class="st">"Sun"</span>,</span>
+<span>    a <span class="op">=</span> <span class="op">-</span><span class="va">q</span> <span class="op">/</span> <span class="op">(</span><span class="va">e</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, e <span class="op">=</span> <span class="va">e</span>, i <span class="op">=</span> <span class="fl">122.7</span>, lan <span class="op">=</span> <span class="fl">24.6</span>, arg_pe <span class="op">=</span> <span class="fl">241.8</span>, nu <span class="op">=</span> <span class="op">-</span><span class="fl">140</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/simulate_system.html">simulate_system</a></span><span class="op">(</span>time_step <span class="op">=</span> <span class="va">seconds_per_hour</span> <span class="op">*</span> <span class="fl">6</span>, duration <span class="op">=</span> <span class="va">seconds_per_year</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">visitor</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/plot_orbits.html">plot_orbits</a></span><span class="op">(</span>three_d <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="keplerian-elements_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="672"></p>
+<p>The visitor comes in, swings through perihelion inside Earth’s orbit,
+and leaves on the other asymptote, deflected through
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mrow><mi mathvariant="normal">arcsin</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mi>/</mi><mi>e</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">2\arcsin(1/e)</annotation></semantics></math>
+— about 113° for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mn>1.2</mn></mrow><annotation encoding="application/x-tex">e = 1.2</annotation></semantics></math>.
+<code><a href="../reference/get_orbital_elements.html">get_orbital_elements()</a></code> reports a negative <code>a</code>,
+an <code>e</code> above 1, and <code>NA</code> for the period:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_orbital_elements.html">get_orbital_elements</a></span><span class="op">(</span><span class="va">visitor</span>, <span class="st">"Visitor"</span>, <span class="st">"Sun"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 8</span></span></span>
+<span><span class="co">#&gt;       time        a     e     i   lan arg_pe    nu period</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>        0 -<span style="color: #BB0000;">1.91</span><span style="color: #949494;">e</span>11  1.2   123.  24.6   242.  220      <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 63<span style="text-decoration: underline;">115</span>200 -<span style="color: #BB0000;">1.91</span><span style="color: #949494;">e</span>11  1.20  123.  24.6   242.  141.     <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+<p>Exactly parabolic orbits
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">e = 1</annotation></semantics></math>)
+have an infinite semi-major axis and are not supported; use a value
+slightly above or below 1.</p>
+</div>
+<div class="section level2">
 <h2 id="the-conversion-elements-to-cartesian">The Conversion: Elements to Cartesian<a class="anchor" aria-label="anchor" href="#the-conversion-elements-to-cartesian"></a>
 </h2>
 <p>Under the hood, <code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code> converts the six
@@ -418,6 +473,11 @@ inertial reference frame.</p>
 and velocity are relative to the parent body.
 <code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code> adds the parent’s current position and
 velocity to produce absolute coordinates in the simulation frame.</p>
+<p>The reverse conversion, from a simulated position and velocity back
+to elements, is <code><a href="../reference/get_orbital_elements.html">get_orbital_elements()</a></code>. It’s how you find
+out what orbit a body is actually on after the N-body dynamics have had
+their say; see <a href="checking-a-simulation.html">Checking a
+Simulation</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="using-add_planet-for-quick-setup">Using <code>add_planet()</code> for Quick Setup<a class="anchor" aria-label="anchor" href="#using-add_planet-for-quick-setup"></a>
@@ -508,7 +568,7 @@ and the most inclined to the ecliptic
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>7</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">i = 7°</annotation></semantics></math>).</p>
 <p>Any element can be overridden. This makes <code><a href="../reference/add_planet.html">add_planet()</a></code>
 useful for thought experiments:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># What if Mercury's orbit were circular? How different would it look?</span></span>
 <span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/create_system.html">create_system</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>

@@ -2,6 +2,7 @@
 <url><loc>https://orbit-r.com/404.html</loc></url>
 <url><loc>https://orbit-r.com/LICENSE-text.html</loc></url>
 <url><loc>https://orbit-r.com/articles/building-two-body-orbits.html</loc></url>
+<url><loc>https://orbit-r.com/articles/checking-a-simulation.html</loc></url>
 <url><loc>https://orbit-r.com/articles/custom-visualization.html</loc></url>
 <url><loc>https://orbit-r.com/articles/examples.html</loc></url>
 <url><loc>https://orbit-r.com/articles/further-reading.html</loc></url>
@@ -23,9 +24,14 @@
 <url><loc>https://orbit-r.com/reference/add_sun.html</loc></url>
 <url><loc>https://orbit-r.com/reference/animate_system.html</loc></url>
 <url><loc>https://orbit-r.com/reference/animate_system_3d.html</loc></url>
+<url><loc>https://orbit-r.com/reference/conserved_quantities.html</loc></url>
+<url><loc>https://orbit-r.com/reference/continue_simulation.html</loc></url>
 <url><loc>https://orbit-r.com/reference/create_system.html</loc></url>
 <url><loc>https://orbit-r.com/reference/export_bodies.html</loc></url>
 <url><loc>https://orbit-r.com/reference/get_bodies.html</loc></url>
+<url><loc>https://orbit-r.com/reference/get_energy.html</loc></url>
+<url><loc>https://orbit-r.com/reference/get_momentum.html</loc></url>
+<url><loc>https://orbit-r.com/reference/get_orbital_elements.html</loc></url>
 <url><loc>https://orbit-r.com/reference/index.html</loc></url>
 <url><loc>https://orbit-r.com/reference/load_solar_system.html</loc></url>
 <url><loc>https://orbit-r.com/reference/load_system.html</loc></url>
@@ -39,5 +45,6 @@
 <url><loc>https://orbit-r.com/reference/save_system.html</loc></url>
 <url><loc>https://orbit-r.com/reference/shift_reference_frame.html</loc></url>
 <url><loc>https://orbit-r.com/reference/simulate_system.html</loc></url>
+<url><loc>https://orbit-r.com/reference/system_from_simulation.html</loc></url>
 </urlset>
 

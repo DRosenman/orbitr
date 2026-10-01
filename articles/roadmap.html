@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Understanding the Simulation</h6></li>
     <li><a class="dropdown-item" href="../articles/the-physics.html">The Physics</a></li>
     <li><a class="dropdown-item" href="../articles/reference-frames.html">Reference Frames</a></li>
+    <li><a class="dropdown-item" href="../articles/checking-a-simulation.html">Checking a Simulation</a></li>
     <li><a class="dropdown-item" href="../articles/unstable-orbits.html">Unstable Orbits and the Three-Body Problem</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Roadmap</h6></li>
@@ -192,13 +193,24 @@ runs that take more than a few seconds, with an option to disable it for
 scripted use.</p>
 </div>
 <div class="section level3">
-<h3 id="built-in-conservation-diagnostics">Built-in conservation diagnostics<a class="anchor" aria-label="anchor" href="#built-in-conservation-diagnostics"></a>
+<h3 id="built-in-conservation-diagnostics-added-in-v1-0-0">Built-in conservation diagnostics ✅ Added in v1.0.0<a class="anchor" aria-label="anchor" href="#built-in-conservation-diagnostics-added-in-v1-0-0"></a>
 </h3>
-<p>Helpers to compute total energy, total linear momentum, and total
-angular momentum at every time step, so you can sanity-check an
-integrator’s behavior over the course of a run. Useful for confirming
-Velocity Verlet is doing its job, and for spotting cases where the time
-step is too large.</p>
+<p>Implemented as <code><a href="../reference/get_energy.html">get_energy()</a></code>,
+<code><a href="../reference/get_momentum.html">get_momentum()</a></code>, and <code><a href="../reference/get_momentum.html">get_angular_momentum()</a></code>,
+which compute the system totals at every time step, and
+<code><a href="../reference/conserved_quantities.html">conserved_quantities()</a></code>, which joins them with relative
+errors against the initial values. See <a href="checking-a-simulation.html">Checking a Simulation</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="variable-time-steps-partly-addressed-in-v1-0-0">Variable time steps ✅ Partly addressed in v1.0.0<a class="anchor" aria-label="anchor" href="#variable-time-steps-partly-addressed-in-v1-0-0"></a>
+</h3>
+<p><code><a href="../reference/simulate_system.html">simulate_system()</a></code> still integrates with a fixed step,
+but <code><a href="../reference/continue_simulation.html">continue_simulation()</a></code> lets you run in segments with
+different steps — large steps where nothing is happening, small ones
+through a close approach — and <code><a href="../reference/system_from_simulation.html">system_from_simulation()</a></code>
+rebuilds a system from any snapshot of a run. A true adaptive-step
+integrator that keeps Verlet’s energy behavior is a harder problem and
+remains on the list.</p>
 </div>
 </div>
 <div class="section level2">

@@ -46,8 +46,10 @@ ellipse. Larger $`a`$ means a bigger orbit and a longer period. In
 `orbitr`, it’s specified in meters.
 
 **Eccentricity** ($`e`$) controls the shape. A circle has $`e = 0`$; as
-$`e`$ increases toward 1, the ellipse becomes more elongated. At any
-point along the orbit, the actual distance from the parent is:
+$`e`$ increases toward 1, the ellipse becomes more elongated. Above 1
+the orbit is no longer closed — it’s a hyperbola, and the body passes
+the parent once and never comes back (more on those below). At any point
+along the orbit, the actual distance from the parent is:
 
 ``` math
 r = \frac{a(1 - e^2)}{1 + e \cos\nu}
@@ -299,6 +301,59 @@ create_system() |>
 
 ![](keplerian-elements_files/figure-html/spread-planets-1.png)
 
+## Hyperbolic Orbits
+
+Interstellar visitors like ’Oumuamua and 2I/Borisov, and any spacecraft
+on a flyby, are on hyperbolic orbits: $`e > 1`$, unbound, one pass only.
+The same six elements describe them, with one twist — the semi-major
+axis of a hyperbola is *negative*. The periapsis distance $`a(1 - e)`$
+stays positive, since both factors flip sign, and the orbit equation
+above works unchanged as long as the body is between the asymptotes,
+$`|\nu| < \arccos(-1/e)`$.
+
+[`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
+accepts $`e > 1`$ when `a` is negative. Here is an ’Oumuamua-like
+object, perihelion 0.255 AU, approaching from 140° before perihelion:
+
+``` r
+
+q <- 0.2553 * distance_earth_sun      # perihelion distance
+e <- 1.2
+
+visitor <- create_system() |>
+  add_sun() |>
+  add_planet("Earth", parent = "Sun") |>
+  add_body_keplerian(
+    "Visitor", mass = 1e10, parent = "Sun",
+    a = -q / (e - 1), e = e, i = 122.7, lan = 24.6, arg_pe = 241.8, nu = -140
+  ) |>
+  simulate_system(time_step = seconds_per_hour * 6, duration = seconds_per_year * 2)
+
+visitor |> plot_orbits(three_d = FALSE)
+```
+
+![](keplerian-elements_files/figure-html/unnamed-chunk-2-1.png)
+
+The visitor comes in, swings through perihelion inside Earth’s orbit,
+and leaves on the other asymptote, deflected through $`2\arcsin(1/e)`$ —
+about 113° for $`e = 1.2`$.
+[`get_orbital_elements()`](https://orbit-r.com/reference/get_orbital_elements.md)
+reports a negative `a`, an `e` above 1, and `NA` for the period:
+
+``` r
+
+get_orbital_elements(visitor, "Visitor", "Sun") |>
+  dplyr::slice(c(1, dplyr::n()))
+#> # A tibble: 2 × 8
+#>       time        a     e     i   lan arg_pe    nu period
+#>      <dbl>    <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>
+#> 1        0 -1.91e11  1.2   123.  24.6   242.  220      NA
+#> 2 63115200 -1.91e11  1.20  123.  24.6   242.  141.     NA
+```
+
+Exactly parabolic orbits ($`e = 1`$) have an infinite semi-major axis
+and are not supported; use a value slightly above or below 1.
+
 ## The Conversion: Elements to Cartesian
 
 Under the hood,
@@ -339,6 +394,13 @@ relative to the parent body.
 [`add_body_keplerian()`](https://orbit-r.com/reference/add_body_keplerian.md)
 adds the parent’s current position and velocity to produce absolute
 coordinates in the simulation frame.
+
+The reverse conversion, from a simulated position and velocity back to
+elements, is
+[`get_orbital_elements()`](https://orbit-r.com/reference/get_orbital_elements.md).
+It’s how you find out what orbit a body is actually on after the N-body
+dynamics have had their say; see [Checking a
+Simulation](https://orbit-r.com/articles/checking-a-simulation.md).
 
 ## Using `add_planet()` for Quick Setup
 

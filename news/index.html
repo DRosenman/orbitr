@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Understanding the Simulation</h6></li>
     <li><a class="dropdown-item" href="../articles/the-physics.html">The Physics</a></li>
     <li><a class="dropdown-item" href="../articles/reference-frames.html">Reference Frames</a></li>
+    <li><a class="dropdown-item" href="../articles/checking-a-simulation.html">Checking a Simulation</a></li>
     <li><a class="dropdown-item" href="../articles/unstable-orbits.html">Unstable Orbits and the Three-Body Problem</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Roadmap</h6></li>
@@ -58,6 +59,28 @@
       <small>Source: <a href="https://github.com/DRosenman/orbitr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.0" id="orbitr-100">orbitr 1.0.0<a class="anchor" aria-label="anchor" href="#orbitr-100"></a></h2>
+<p>First stable release. The function names, arguments, and defaults in this version are the ones the package will keep; future changes to them will be deprecated first, not made silently.</p>
+<div class="section level3">
+<h3 id="new-functions-1-0-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-0-0"></a></h3>
+<ul><li><p><code><a href="../reference/get_energy.html">get_energy()</a></code>, <code><a href="../reference/get_momentum.html">get_momentum()</a></code>, <code><a href="../reference/get_momentum.html">get_angular_momentum()</a></code>: Total kinetic and potential energy, total linear momentum, and total angular momentum of the system at every time step of a simulation. <code><a href="../reference/get_energy.html">get_energy()</a></code> reads <code>G</code> and <code>softening</code> from the simulation output so the potential is computed with the same force law that produced the run.</p></li>
+<li><p><code><a href="../reference/conserved_quantities.html">conserved_quantities()</a></code>: The three quantities above joined into one tibble with their relative errors against the initial values. Verlet and Euler-Cromer keep momentum and angular momentum to rounding error; the energy error is the integrator’s report card.</p></li>
+<li><p><code><a href="../reference/get_orbital_elements.html">get_orbital_elements()</a></code>: The inverse of <code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code>. Recovers the osculating Keplerian elements (a, e, i, lan, arg_pe, nu) and period of a body relative to a parent at every time step, from the simulated position and velocity.</p></li>
+<li><p><code><a href="../reference/continue_simulation.html">continue_simulation()</a></code>: Pick up a run from its last state with a new (or the same) time step and append the result, with <code>time</code> continuing from where the previous run ended. Makes segmented runs possible: large steps far from periapsis, small steps through it.</p></li>
+<li><p><code><a href="../reference/system_from_simulation.html">system_from_simulation()</a></code>: Rebuild an <code>orbit_system</code> from any snapshot of a simulation, so a run can be modified and continued.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="enhancements-1-0-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-0-0"></a></h3>
+<ul><li><p><code><a href="../reference/shift_reference_frame.html">shift_reference_frame()</a></code> accepts <code>center_id = "barycenter"</code> to re-center on the system’s center of mass at every time step.</p></li>
+<li><p><code><a href="../reference/add_body_keplerian.html">add_body_keplerian()</a></code> accepts hyperbolic orbits (<code>e &gt; 1</code> with a negative semi-major axis), so interstellar visitors and flybys can be set up from elements. Exactly parabolic orbits (<code>e = 1</code>) remain unsupported.</p></li>
+<li><p><code><a href="../reference/simulate_system.html">simulate_system()</a></code> records <code>G</code>, <code>softening</code>, <code>method</code>, and <code>time_step</code> as attributes of its output; the new analysis functions use them as defaults.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-1-0-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-0-0"></a></h3>
+<ul><li>New article, <em>Checking a Simulation</em>, covering conservation diagnostics, osculating elements, and segmented runs. The reference-frames article gains a section on the barycentric frame and the Keplerian-elements article a section on hyperbolic orbits.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="orbitr-030">orbitr 0.3.0<a class="anchor" aria-label="anchor" href="#orbitr-030"></a></h2><p class="text-muted">CRAN release: 2026-05-03</p>
 <div class="section level3">

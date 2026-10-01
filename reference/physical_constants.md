@@ -80,75 +80,7 @@ speed_pluto
 
 ## Format
 
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
 Numeric scalar in kilograms.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
-
-An object of class `numeric` of length 1.
 
 ## Details
 

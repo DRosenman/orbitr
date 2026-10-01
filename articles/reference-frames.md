@@ -165,6 +165,49 @@ circle, while the Sun sweeps a much larger arc. This is of course just a
 matter of perspective — the physics doesn’t care which body you call the
 center.
 
+## The Barycentric Frame
+
+There’s one more center worth standing at that isn’t a body at all: the
+system’s center of mass, or *barycenter*. Pass
+`center_id = "barycenter"` and every body is measured relative to the
+mass-weighted mean position and velocity at each time step.
+
+Why would you want that? Because of momentum. In the Sun-Earth-Moon
+setup above, the Sun starts at rest at the origin while Earth and the
+Moon start moving, so the system’s total momentum isn’t zero and its
+center of mass drifts at a constant velocity for the whole run — about 9
+cm/s here, which over a year adds up to nearly 3,000 km. That’s
+invisible in a heliocentric plot and large enough to matter if you
+measure anything against the origin, and for a binary star, where both
+bodies carry comparable momentum, the same mistake produces a drift you
+can see. The barycentric frame removes it exactly:
+
+``` r
+
+sim |>
+  shift_reference_frame("barycenter") |>
+  dplyr::filter(id == "Sun") |>
+  dplyr::mutate(r_km = sqrt(x^2 + y^2 + z^2) / 1000) |>
+  ggplot(aes(x = time / seconds_per_day, y = r_km)) +
+  geom_line() +
+  labs(title = "The Sun's Distance from the Barycenter",
+       x = "Time (days)", y = "Distance (km)") +
+  theme_minimal()
+```
+
+![](reference-frames_files/figure-html/unnamed-chunk-9-1.png)
+
+What’s left is the Sun’s own small orbit around the center of mass,
+about 450 km in radius for Earth and the Moon. (Jupiter moves it about a
+solar radius; that wobble, seen in a distant star, is how the
+radial-velocity method finds planets.) For binary stars and anything
+else where no single body dominates, the barycentric frame is the
+natural one, and the frame most published orbital elements are quoted
+in.
+
+`keep_center` has no effect for the barycenter, since there is no body
+to drop.
+
 ## Analyzing Relative Velocities
 
 The velocity transformation is just as useful as the position
@@ -187,7 +230,7 @@ sim |>
   theme_minimal()
 ```
 
-![](reference-frames_files/figure-html/unnamed-chunk-9-1.png)
+![](reference-frames_files/figure-html/unnamed-chunk-10-1.png)
 
 The oscillation reflects the Moon’s slightly elliptical orbit — it
 speeds up at perigee (closest approach) and slows down at apogee
@@ -231,7 +274,7 @@ and the stars’ tight inner dance:
 kepler16 |> plot_orbits()
 ```
 
-![](reference-frames_files/figure-html/unnamed-chunk-11-1.png)
+![](reference-frames_files/figure-html/unnamed-chunk-12-1.png)
 
 Now shift to the planet’s perspective:
 
@@ -242,7 +285,7 @@ kepler16 |>
   plot_orbits()
 ```
 
-![](reference-frames_files/figure-html/unnamed-chunk-12-1.png)
+![](reference-frames_files/figure-html/unnamed-chunk-13-1.png)
 
 From Kepler-16b, both stars trace looping spirograph-like patterns — a
 combination of the binary’s mutual orbit and the planet’s own revolution
@@ -282,7 +325,7 @@ sim |>
   theme_minimal()
 ```
 
-![](reference-frames_files/figure-html/unnamed-chunk-13-1.png)
+![](reference-frames_files/figure-html/unnamed-chunk-14-1.png)
 
 **The frame doesn’t affect the physics.** Shifting the reference frame
 is a post-processing step. The gravitational forces, accelerations, and

@@ -224,12 +224,30 @@ Run the N-body simulation
 - [`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
   : Simulate kinematics for an orbitr system
 
-## Analysis & Visualization
+## Analysis
 
-Transform and plot results
+Re-center, measure, check, and continue a run
 
 - [`shift_reference_frame()`](https://orbit-r.com/reference/shift_reference_frame.md)
   : Shift the coordinate reference frame of the simulation
+- [`get_orbital_elements()`](https://orbit-r.com/reference/get_orbital_elements.md)
+  : Osculating orbital elements of a body relative to a parent
+- [`get_energy()`](https://orbit-r.com/reference/get_energy.md) : Total
+  energy of a simulated system
+- [`get_momentum()`](https://orbit-r.com/reference/get_momentum.md)
+  [`get_angular_momentum()`](https://orbit-r.com/reference/get_momentum.md)
+  : Total linear and angular momentum of a simulated system
+- [`conserved_quantities()`](https://orbit-r.com/reference/conserved_quantities.md)
+  : Conserved quantities and how well a simulation conserved them
+- [`continue_simulation()`](https://orbit-r.com/reference/continue_simulation.md)
+  : Continue a simulation from its last state
+- [`system_from_simulation()`](https://orbit-r.com/reference/system_from_simulation.md)
+  : Rebuild an orbit_system from a simulation snapshot
+
+## Visualization
+
+Plot and animate results
+
 - [`plot_orbits()`](https://orbit-r.com/reference/plot_orbits.md) : Plot
   Orbital Trajectories (Smart 2D/3D Dispatch)
 - [`plot_orbits_3d()`](https://orbit-r.com/reference/plot_orbits_3d.md)
@@ -317,6 +335,8 @@ Built-in masses, distances, and orbital speeds
 
 - [The Physics](https://orbit-r.com/articles/the-physics.md):
 - [Reference Frames](https://orbit-r.com/articles/reference-frames.md):
+- [Checking a
+  Simulation](https://orbit-r.com/articles/checking-a-simulation.md):
 - [Unstable Orbits and the Three-Body
   Problem](https://orbit-r.com/articles/unstable-orbits.md):
 

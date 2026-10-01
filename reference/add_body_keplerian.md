@@ -39,11 +39,15 @@ add_body_keplerian(
 
 - a:
 
-  Semi-major axis in meters.
+  Semi-major axis in meters. Positive for a bound orbit (\`e \< 1\`);
+  negative for a hyperbolic orbit (\`e \> 1\`), in which case the
+  periapsis distance is \`a \* (1 - e)\`, which is positive.
 
 - e:
 
-  Eccentricity (0 = circle, 0 \< e \< 1 = ellipse). Default 0.
+  Eccentricity (0 = circle, 0 \< e \< 1 = ellipse, e \> 1 = hyperbola).
+  Default 0. Exactly parabolic orbits (\`e = 1\`) are not supported; use
+  a value slightly above or below 1.
 
 - i:
 
@@ -59,7 +63,9 @@ add_body_keplerian(
 
 - nu:
 
-  True anomaly in degrees. Default 0 (body starts at periapsis).
+  True anomaly in degrees. Default 0 (body starts at periapsis). For a
+  hyperbolic orbit, \`nu\` must lie between the asymptotes, \`abs(nu) \<
+  acos(-1/e) \* 180 / pi\`.
 
 - parent:
 
@@ -77,12 +83,12 @@ Six numbers fully describe a Keplerian orbit:
 - \`a\` (semi-major axis):
 
   The size of the orbit — half the longest diameter of the ellipse, in
-  meters.
+  meters. Negative for a hyperbolic orbit.
 
 - \`e\` (eccentricity):
 
   The shape of the orbit. 0 is a perfect circle; values between 0 and 1
-  are ellipses.
+  are ellipses; values above 1 are hyperbolas (unbound flybys).
 
 - \`i\` (inclination):
 
@@ -116,6 +122,18 @@ system <- create_system() |>
   add_body_keplerian(
     "Earth", mass = mass_earth,
     a = distance_earth_sun, e = 0.0167, i = 0.00005,
+    parent = "Sun"
+  )
+
+# An interstellar visitor on a hyperbolic orbit (e > 1 needs a < 0):
+# 'Oumuamua-like, perihelion 0.255 AU, approaching from 140 degrees
+# before perihelion
+q <- 0.2553 * distance_earth_sun
+e <- 1.2
+system <- system |>
+  add_body_keplerian(
+    "Visitor", mass = 1e10,
+    a = -q / (e - 1), e = e, i = 122.7, nu = -140,
     parent = "Sun"
   )
 

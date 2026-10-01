@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Understanding the Simulation</h6></li>
     <li><a class="dropdown-item" href="../articles/the-physics.html">The Physics</a></li>
     <li><a class="dropdown-item" href="../articles/reference-frames.html">Reference Frames</a></li>
+    <li><a class="dropdown-item" href="../articles/checking-a-simulation.html">Checking a Simulation</a></li>
     <li><a class="dropdown-item" href="../articles/unstable-orbits.html">Unstable Orbits and the Three-Body Problem</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Roadmap</h6></li>
@@ -146,9 +147,9 @@
         </dt>
         <dd>Simulate kinematics for an orbitr system</dd>
       </dl></div><div class="section level2">
-      <h2 id="analysis-visualization">Analysis &amp; Visualization<a class="anchor" aria-label="anchor" href="#analysis-visualization"></a></h2>
+      <h2 id="analysis">Analysis<a class="anchor" aria-label="anchor" href="#analysis"></a></h2>
 
-      <div class="section-desc"><p>Transform and plot results</p></div>
+      <div class="section-desc"><p>Re-center, measure, check, and continue a run</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -163,6 +164,57 @@
         <dd>Shift the coordinate reference frame of the simulation</dd>
 
         <dt>
+
+          <code><a href="get_orbital_elements.html">get_orbital_elements()</a></code>
+
+        </dt>
+        <dd>Osculating orbital elements of a body relative to a parent</dd>
+
+        <dt>
+
+          <code><a href="get_energy.html">get_energy()</a></code>
+
+        </dt>
+        <dd>Total energy of a simulated system</dd>
+
+        <dt>
+
+          <code><a href="get_momentum.html">get_momentum()</a></code> <code><a href="get_momentum.html">get_angular_momentum()</a></code>
+
+        </dt>
+        <dd>Total linear and angular momentum of a simulated system</dd>
+
+        <dt>
+
+          <code><a href="conserved_quantities.html">conserved_quantities()</a></code>
+
+        </dt>
+        <dd>Conserved quantities and how well a simulation conserved them</dd>
+
+        <dt>
+
+          <code><a href="continue_simulation.html">continue_simulation()</a></code>
+
+        </dt>
+        <dd>Continue a simulation from its last state</dd>
+
+        <dt>
+
+          <code><a href="system_from_simulation.html">system_from_simulation()</a></code>
+
+        </dt>
+        <dd>Rebuild an orbit_system from a simulation snapshot</dd>
+      </dl></div><div class="section level2">
+      <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a></h2>
+
+      <div class="section-desc"><p>Plot and animate results</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="plot_orbits.html">plot_orbits()</a></code>
 

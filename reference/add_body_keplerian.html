@@ -13,7 +13,7 @@ of the parent body, which must already exist in the system."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,7 @@ of the parent body, which must already exist in the system."><meta property="og:
     <li><h6 class="dropdown-header" data-toc-skip>Understanding the Simulation</h6></li>
     <li><a class="dropdown-item" href="../articles/the-physics.html">The Physics</a></li>
     <li><a class="dropdown-item" href="../articles/reference-frames.html">Reference Frames</a></li>
+    <li><a class="dropdown-item" href="../articles/checking-a-simulation.html">Checking a Simulation</a></li>
     <li><a class="dropdown-item" href="../articles/unstable-orbits.html">Unstable Orbits and the Three-Body Problem</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Roadmap</h6></li>
@@ -105,11 +106,15 @@ of the parent body, which must already exist in the system.</p>
 
 
 <dt id="arg-a">a<a class="anchor" aria-label="anchor" href="#arg-a"></a></dt>
-<dd><p>Semi-major axis in meters.</p></dd>
+<dd><p>Semi-major axis in meters. Positive for a bound orbit (`e &lt; 1`);
+negative for a hyperbolic orbit (`e &gt; 1`), in which case the periapsis
+distance is `a * (1 - e)`, which is positive.</p></dd>
 
 
 <dt id="arg-e">e<a class="anchor" aria-label="anchor" href="#arg-e"></a></dt>
-<dd><p>Eccentricity (0 = circle, 0 &lt; e &lt; 1 = ellipse). Default 0.</p></dd>
+<dd><p>Eccentricity (0 = circle, 0 &lt; e &lt; 1 = ellipse, e &gt; 1 = hyperbola).
+Default 0. Exactly parabolic orbits (`e = 1`) are not supported; use a
+value slightly above or below 1.</p></dd>
 
 
 <dt id="arg-i">i<a class="anchor" aria-label="anchor" href="#arg-i"></a></dt>
@@ -125,7 +130,9 @@ of the parent body, which must already exist in the system.</p>
 
 
 <dt id="arg-nu">nu<a class="anchor" aria-label="anchor" href="#arg-nu"></a></dt>
-<dd><p>True anomaly in degrees. Default 0 (body starts at periapsis).</p></dd>
+<dd><p>True anomaly in degrees. Default 0 (body starts at periapsis).
+For a hyperbolic orbit, `nu` must lie between the asymptotes,
+`abs(nu) &lt; acos(-1/e) * 180 / pi`.</p></dd>
 
 
 <dt id="arg-parent">parent<a class="anchor" aria-label="anchor" href="#arg-parent"></a></dt>
@@ -144,11 +151,12 @@ of the parent body, which must already exist in the system.</p>
 <p>Six numbers fully describe a Keplerian orbit:</p>
 <dl><dt>`a` (semi-major axis)</dt>
 <dd><p>The size of the orbit — half the longest
-    diameter of the ellipse, in meters.</p></dd>
+    diameter of the ellipse, in meters. Negative for a hyperbolic orbit.</p></dd>
 
   <dt>`e` (eccentricity)</dt>
 <dd><p>The shape of the orbit. 0 is a perfect circle;
-    values between 0 and 1 are ellipses.</p></dd>
+    values between 0 and 1 are ellipses; values above 1 are hyperbolas
+    (unbound flybys).</p></dd>
 
   <dt>`i` (inclination)</dt>
 <dd><p>The tilt of the orbital plane relative to the
@@ -181,6 +189,18 @@ of the parent body, which must already exist in the system.</p>
 <span class="r-in"><span>  <span class="fu">add_body_keplerian</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="st">"Earth"</span>, mass <span class="op">=</span> <span class="va">mass_earth</span>,</span></span>
 <span class="r-in"><span>    a <span class="op">=</span> <span class="va">distance_earth_sun</span>, e <span class="op">=</span> <span class="fl">0.0167</span>, i <span class="op">=</span> <span class="fl">0.00005</span>,</span></span>
+<span class="r-in"><span>    parent <span class="op">=</span> <span class="st">"Sun"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># An interstellar visitor on a hyperbolic orbit (e &gt; 1 needs a &lt; 0):</span></span></span>
+<span class="r-in"><span><span class="co"># 'Oumuamua-like, perihelion 0.255 AU, approaching from 140 degrees</span></span></span>
+<span class="r-in"><span><span class="co"># before perihelion</span></span></span>
+<span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fl">0.2553</span> <span class="op">*</span> <span class="va">distance_earth_sun</span></span></span>
+<span class="r-in"><span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fl">1.2</span></span></span>
+<span class="r-in"><span><span class="va">system</span> <span class="op">&lt;-</span> <span class="va">system</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">add_body_keplerian</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"Visitor"</span>, mass <span class="op">=</span> <span class="fl">1e10</span>,</span></span>
+<span class="r-in"><span>    a <span class="op">=</span> <span class="op">-</span><span class="va">q</span> <span class="op">/</span> <span class="op">(</span><span class="va">e</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>, e <span class="op">=</span> <span class="va">e</span>, i <span class="op">=</span> <span class="fl">122.7</span>, nu <span class="op">=</span> <span class="op">-</span><span class="fl">140</span>,</span></span>
 <span class="r-in"><span>    parent <span class="op">=</span> <span class="st">"Sun"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

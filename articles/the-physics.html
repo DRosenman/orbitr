@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">orbitr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Understanding the Simulation</h6></li>
     <li><a class="dropdown-item" href="../articles/the-physics.html">The Physics</a></li>
     <li><a class="dropdown-item" href="../articles/reference-frames.html">Reference Frames</a></li>
+    <li><a class="dropdown-item" href="../articles/checking-a-simulation.html">Checking a Simulation</a></li>
     <li><a class="dropdown-item" href="../articles/unstable-orbits.html">Unstable Orbits and the Three-Body Problem</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Roadmap</h6></li>
@@ -232,7 +233,10 @@ spiral outward over time. Included primarily for educational comparison
 <p><img src="the-physics_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="672"></p>
 <p>Verlet traces a clean closed ellipse, Euler-Cromer stays close but
 drifts slightly, and standard Euler spirals outward as it pumps energy
-into the orbit.</p>
+into the orbit. To put numbers on that, <code><a href="../reference/get_energy.html">get_energy()</a></code>
+computes the total energy at every step of a run and
+<code><a href="../reference/conserved_quantities.html">conserved_quantities()</a></code> reports how well energy, momentum,
+and angular momentum were conserved; see <a href="checking-a-simulation.html">Checking a Simulation</a>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -368,7 +372,9 @@ Relativity.</p>
 <code><a href="../reference/load_solar_system.html">load_solar_system()</a></code> define the <em>initial conditions</em>
 at the start of the simulation. Once <code><a href="../reference/simulate_system.html">simulate_system()</a></code>
 takes over, the full N-body dynamics handles all the perturbations
-automatically.</p>
+automatically. You can watch them happen:
+<code><a href="../reference/get_orbital_elements.html">get_orbital_elements()</a></code> recovers the osculating elements of
+any body at every time step of a run.</p>
 <p>For a thorough walkthrough of each element with visual examples, see
 the <a href="keplerian-elements.html">Keplerian Orbital Elements</a>
 vignette.</p>

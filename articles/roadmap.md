@@ -94,13 +94,29 @@ A simple progress indicator on
 for runs that take more than a few seconds, with an option to disable it
 for scripted use.
 
-### Built-in conservation diagnostics
+### Built-in conservation diagnostics ✅ Added in v1.0.0
 
-Helpers to compute total energy, total linear momentum, and total
-angular momentum at every time step, so you can sanity-check an
-integrator’s behavior over the course of a run. Useful for confirming
-Velocity Verlet is doing its job, and for spotting cases where the time
-step is too large.
+Implemented as
+[`get_energy()`](https://orbit-r.com/reference/get_energy.md),
+[`get_momentum()`](https://orbit-r.com/reference/get_momentum.md), and
+[`get_angular_momentum()`](https://orbit-r.com/reference/get_momentum.md),
+which compute the system totals at every time step, and
+[`conserved_quantities()`](https://orbit-r.com/reference/conserved_quantities.md),
+which joins them with relative errors against the initial values. See
+[Checking a
+Simulation](https://orbit-r.com/articles/checking-a-simulation.md).
+
+### Variable time steps ✅ Partly addressed in v1.0.0
+
+[`simulate_system()`](https://orbit-r.com/reference/simulate_system.md)
+still integrates with a fixed step, but
+[`continue_simulation()`](https://orbit-r.com/reference/continue_simulation.md)
+lets you run in segments with different steps — large steps where
+nothing is happening, small ones through a close approach — and
+[`system_from_simulation()`](https://orbit-r.com/reference/system_from_simulation.md)
+rebuilds a system from any snapshot of a run. A true adaptive-step
+integrator that keeps Verlet’s energy behavior is a harder problem and
+remains on the list.
 
 ## Suggestions Welcome
 
